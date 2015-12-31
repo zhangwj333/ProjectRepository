@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task" 
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/task  
+		http://www.springframework.org/schema/task/spring-task-3.1.xsd  
+        ">
+
+	<context:component-scan base-package="junstech">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 加载资源文件 其中包含变量信息，必须在Spring配置文件的最前面加载，即第一个加载 -->
+	<!-- 不加密 -->
+	<!-- <context:property-placeholder location="classpath:config.properties" /> -->
+
+	<!-- 加密 -->
+ 	<bean id="propertyConfig" class="junstech.util.PropertyPlaceholderConfigurerExt"> 
+                <property name="location"> 
+                                <value>classpath:config.properties</value> 
+                </property> 
+        </bean>
+	<!-- 数据库映射 -->
+	<!-- class="org.apache.tomcat.dbcp.dbcp.BasicDataSource" -->
+	<!-- class="org.springframework.jdbc.datasource.DriverManagerDataSource" -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.pass}" />
+
+		<property name="initialSize" value="0"></property>
+		<property name="maxActive" value="20"></property>
+		<property name="maxIdle" value="20"></property>
+		<property name="maxWait" value="60000"></property>
+
+		<property name="defaultAutoCommit" value="false"></property>
+		<property name="validationQuery" value="${validationQuery}"></property>
+		<property name="testOnBorrow" value="false"></property>
+		<property name="testOnReturn" value="false"></property>
+		<property name="testWhileIdle" value="True"></property>
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath*:junstech/mapping/*.xml" />
+		<property name="transactionFactory">
+			<bean
+				class="org.mybatis.spring.transaction.SpringManagedTransactionFactory" />
+		</property>
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="junstech.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+	<!-- 配置事务异常封装 -->
+	<bean id="persistenceExceptionTranslationPostProcessor"
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	
+	<task:annotation-driven/>
+</beans>
