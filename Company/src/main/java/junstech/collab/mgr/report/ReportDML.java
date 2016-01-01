@@ -11,7 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -88,7 +88,13 @@ public class ReportDML {
 			System.out.println("开始生成上月报表.........");
 			String date = df.format(new Date());
 			String[] dateInfo = date.split("-");
-			String month = StringUtils.leftPad(String.valueOf(Integer.parseInt(dateInfo[1]) - 1), 2, "0");
+			String month;
+			if ((Integer.parseInt(dateInfo[1]) - 1) == 0) {
+				dateInfo[0] = String.valueOf(Integer.parseInt(dateInfo[0]) - 1);
+				month = "12";
+			} else {
+				month = StringUtils.leftPad(String.valueOf(Integer.parseInt(dateInfo[1]) - 1), 2, "0");
+			}
 			String endOfMonth = null;
 			if (month.matches("01|03|05|07|08|10|12")) {
 				endOfMonth = "31";

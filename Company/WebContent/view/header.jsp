@@ -19,11 +19,20 @@
 <script type="text/javascript">
 	function genLatestReportLink() {
 		var today = new Date();
+		var year = today.getFullYear();
+		var month = today.getMonth();
+		if(month == 0){
+			year = year - 1 ;
+			month = 12;
+		}
+		if(month < 10){
+			month = "0" + month;
+		}
 		document.getElementById("latestReport").innerHTML = "<a href='${path}/queryReportProcess.htm?time="
-				+ today.getFullYear()
-				+ today.getMonth()
+				+ year
+				+ month
 				+ "' target='contentFrame' onclick='foldMenu()'>查看最新报表"
-				+ today.getFullYear() + today.getMonth() + "</a>";
+				+ year + month + "</a>";
 	}
 </script>
 </head>

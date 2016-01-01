@@ -193,7 +193,13 @@ public class PDFReport {
 		cell.setBorder(Rectangle.NO_BORDER);
 		String date = dftime.format(new Date());
 		String[] dateInfo = date.split("-");
-		String month = StringUtils.leftPad(String.valueOf(Integer.parseInt(dateInfo[1]) - 1), 2, "0");
+		String month;
+		if ((Integer.parseInt(dateInfo[1]) - 1) == 0) {
+			dateInfo[0] = String.valueOf(Integer.parseInt(dateInfo[0]) - 1);
+			month = "12";
+		} else {
+			month = StringUtils.leftPad(String.valueOf(Integer.parseInt(dateInfo[1]) - 1), 2, "0");
+		}
 		document.add(new Phrase(dateInfo[0] + month + "报表\r\n制表日期:" + dftime.format(new Date()) + "\r\n", fontChinese));
 		cell.setPhrase(new Phrase("项目", fontChinese));
 		table.addCell(cell);

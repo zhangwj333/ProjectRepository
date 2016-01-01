@@ -59,7 +59,7 @@ public class LogInOut {
 				return mv;
 			}
 		}
-		mv.addObject("message", String.format("鐢ㄦ埛鍚嶆垨瀵嗙爜閿欒!"));
+		mv.addObject("message", String.format("登录成功"));
 		mv.setViewName("login");
 		return mv;
 	}
@@ -68,7 +68,7 @@ public class LogInOut {
 	public ModelAndView logoutUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();		
 		session.invalidate();
-		mv.addObject("message", String.format("鎴愬姛娉ㄩ攢"));
+		mv.addObject("message", String.format("成功注销用户"));
 		mv.setViewName("login");
 		return mv;
 	}
