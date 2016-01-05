@@ -1,6 +1,8 @@
 package junstech.basic;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,13 +16,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import junstech.model.User;
 import junstech.service.UserService;
 import junstech.service.imp.UserServiceImp;
 import junstech.util.AESEncryption;
 import junstech.util.ENVConfig;
+import junstech.util.JacksonUtil;
+import junstech.util.MetaData;
 
 @Controller
 public class LogInOut {
@@ -36,6 +45,37 @@ public class LogInOut {
 		this.userService = userService;
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "/androidTest")
+	public String androidTest(HttpServletRequest request, HttpSession session) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();  
+		ObjectNode node = mapper.createObjectNode();  
+		node.put("status", "good");
+		
+		return  mapper.writeValueAsString(node);  
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/androidUserLogin")
+	public String androidUserLogin(@ModelAttribute User user,HttpServletRequest request, HttpSession session) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();  
+		ObjectMapper mapper = new ObjectMapper();  
+		User dbuser = userService.getUserWithPrivilege(user.getUsername());
+		if (dbuser != null) {
+			if (AESEncryption.decrypt(dbuser.getPassword(), ENVConfig.encryptKey).equals(user.getPassword())) {
+				dbuser.setLastlogintime(new Date());
+				dbuser.setPassword(user.getPassword());
+				userService.updateUser(dbuser);
+				session.setAttribute("user", dbuser);
+				map.put(MetaData.ProcessResult, MetaData.ProcessSuccess);
+				map.put("user", dbuser);
+				return JacksonUtil.obj2json(map);
+			}
+		}
+		map.put(MetaData.ProcessResult, MetaData.ProcessFail);
+		return JacksonUtil.obj2json(map);
+	}
+	
 	@RequestMapping(value = "/userLogin", method = RequestMethod.POST)
 	public ModelAndView loginUser(@ModelAttribute User user,HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -116,4 +156,5 @@ public class LogInOut {
 		}
 		return isMoblie;
 	}
+	
 }
