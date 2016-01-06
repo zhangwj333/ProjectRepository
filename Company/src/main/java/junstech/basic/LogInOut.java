@@ -58,8 +58,7 @@ public class LogInOut {
 	@ResponseBody
 	@RequestMapping(value = "/androidUserLogin")
 	public String androidUserLogin(@ModelAttribute User user,HttpServletRequest request, HttpSession session) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();  
-		ObjectMapper mapper = new ObjectMapper();  
+		Map<String, Object> map = new HashMap<String, Object>();   
 		User dbuser = userService.getUserWithPrivilege(user.getUsername());
 		if (dbuser != null) {
 			if (AESEncryption.decrypt(dbuser.getPassword(), ENVConfig.encryptKey).equals(user.getPassword())) {
@@ -67,8 +66,9 @@ public class LogInOut {
 				dbuser.setPassword(user.getPassword());
 				userService.updateUser(dbuser);
 				session.setAttribute("user", dbuser);
-				map.put(MetaData.ProcessResult, MetaData.ProcessSuccess);
 				map.put("user", dbuser);
+				map.put("sessionid", session.getId());
+				map.put(MetaData.ProcessResult, MetaData.ProcessSuccess);
 				return JacksonUtil.obj2json(map);
 			}
 		}

@@ -20,6 +20,7 @@ import junstech.exception.LoginException;
 import junstech.exception.PrivilegeException;
 import junstech.model.Privilege;
 import junstech.model.User;
+import junstech.util.CommonMethod;
 import junstech.util.MetaData;
 
 @Aspect
@@ -38,50 +39,7 @@ public class SaleMgrPrivilegeCheck {
 		//System.out.println("AOP: before collab 2");
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 		HttpSession session = attr.getRequest().getSession(true);
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			String logMsg = new Date() + " 用户没有登录: Invaild break in for " + attr.getRequest().getRequestURI()
-					+ "\r\nHacker info: " + attr.getRequest().getRemoteAddr() + "\r\n"
-					+ attr.getRequest().getRemoteHost() + "\r\n" + attr.getRequest().getRemoteUser();
-			System.out.println(logMsg);
-			throw new LoginException();
-		}
-
-		String url = attr.getRequest().getRequestURI();
-		boolean accessRight = false;
-		if (url.contains("query") || url.contains("summary")) {
-			for (Privilege privilege : user.getPrivileges()) {
-				if (privilege.getProgramid() == MetaData.SaleMgrModule) {
-					if (privilege.getPrivilege().contains("R")) {
-						accessRight = true;
-					}
-				}
-			}
-		}
-
-		if (url.contains("create") || url.contains("edit") || url.contains("submit")) {
-			for (Privilege privilege : user.getPrivileges()) {
-				if (privilege.getProgramid() == MetaData.SaleMgrModule) {
-					if (privilege.getPrivilege().contains("W")) {
-						accessRight = true;
-					}
-				}
-			}
-		}
-
-		if (url.contains("delete")) {
-			for (Privilege privilege : user.getPrivileges()) {
-				if (privilege.getProgramid() == MetaData.SaleMgrModule) {
-					if (privilege.getPrivilege().contains("D")) {
-						accessRight = true;
-					}
-				}
-			}
-		}
-
-		if (!accessRight) {
-			throw new PrivilegeException();
-		}
+		CommonMethod.checkPrivilege(attr, session, MetaData.SaleMgrModule);	
 	}
 
 	@AfterReturning("aopAspect()")
