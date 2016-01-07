@@ -58,12 +58,8 @@ public class CommonMethod {
 				}
 			}
 		}
-		if ((!accessRight) && attr.getRequest().getRequestURI().contains("android")) {
-			attr.getRequest().setAttribute("privilegeFail", "noprivilege");
-		}else if(!accessRight){
+		if(!accessRight){
 			throw new PrivilegeException();
-		}else if(attr.getRequest().getRequestURI().contains("android")){
-			attr.getRequest().setAttribute("privilegeFail", "pass");
 		}
 	}
 }

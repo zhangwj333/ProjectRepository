@@ -89,7 +89,7 @@ public class UserDML extends BaseController{
 	}
 	
 	@RequestMapping(value = "/queryUsers")
-	public ModelAndView queryUsers(@RequestParam("id") String id, @RequestParam("username") String username,
+	public ModelAndView queryUsers(@RequestParam("id") String id, @RequestParam("key") String key,
 			@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate,
 			@RequestParam("page") int page, @RequestParam("size") int size, HttpServletRequest request,
 			HttpSession session) throws Exception {
@@ -100,7 +100,7 @@ public class UserDML extends BaseController{
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", uid);
-		map.put("username", username);
+		map.put("key", key);
 		map.put("startdate", startdate);
 		map.put("enddate", enddate);
 		map.put("prev",  (page - 1) * size);
@@ -121,7 +121,7 @@ public class UserDML extends BaseController{
 		mv.addObject("size", size);
 		mv.addObject("title", "”√ªß");
 		searchFactors.add(new TableProperty("id", id));
-		searchFactors.add(new TableProperty("username", username));
+		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));
 		searchFactors.add(new TableProperty("enddate", enddate));
 		searchFactors.add(new TableProperty("page", page));

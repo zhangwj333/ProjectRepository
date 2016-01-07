@@ -52,9 +52,9 @@
 								<input type="text" class="form-control" id="id" name="id"/>
 							</div>
 
-							<label class="col-md-2 control-label">用户名</label>
+							<label class="col-md-2 control-label">关键字</label>
 							<div class="col-md-4">
-								<input type="text" class="form-control" id="username" name="username" />
+								<input type="text" class="form-control" id="key" name="key" />
 							</div>
 						</div>
 					</div>
