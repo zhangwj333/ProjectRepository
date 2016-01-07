@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import junstech.collab.BaseController;
 import junstech.model.Criteria;
 import junstech.model.Privilege;
 import junstech.model.TableProperty;
@@ -41,7 +43,7 @@ import junstech.util.ENVConfig;
 import junstech.util.MetaData;
 
 @Controller
-public class UserDML {
+public class UserDML extends BaseController{
 
 	public UserDML() {
 	}
@@ -131,7 +133,7 @@ public class UserDML {
 		mv.addObject("pagelink", "queryUsers");
 		mv.setViewName("query");
 
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/queryUser", method = RequestMethod.GET)
@@ -149,7 +151,7 @@ public class UserDML {
 		mv.addObject("tableline", user);
 		mv.setViewName("criteriaShow");
 
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editUser", method = RequestMethod.GET)
@@ -191,7 +193,7 @@ public class UserDML {
 		mv.addObject("subtablepropertys", subtablepropertys);
 		mv.setViewName("userEdit");
 
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editUserProcess", method = RequestMethod.POST)
@@ -212,7 +214,7 @@ public class UserDML {
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/createUser")
@@ -237,7 +239,7 @@ public class UserDML {
 		mv.addObject("modelAttribute", "user");
 		mv.setViewName("userCreate");
 
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/createUserProcess", method = RequestMethod.POST)
@@ -258,10 +260,10 @@ public class UserDML {
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteUser")
 	public ModelAndView deleteUserProcess(@RequestParam("id") long id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -279,6 +281,6 @@ public class UserDML {
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 }

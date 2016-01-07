@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import junstech.collab.BaseController;
 import junstech.model.User;
 import junstech.service.UserService;
 import junstech.service.imp.UserServiceImp;
@@ -32,7 +33,7 @@ import junstech.util.JacksonUtil;
 import junstech.util.MetaData;
 
 @Controller
-public class LogInOut {
+public class LogInOut extends BaseController{
 
 	UserService userService;
 
@@ -44,36 +45,12 @@ public class LogInOut {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-
-	@ResponseBody
-	@RequestMapping(value = "/androidTest")
-	public String androidTest(HttpServletRequest request, HttpSession session) throws Exception {
-		ObjectMapper mapper = new ObjectMapper();  
-		ObjectNode node = mapper.createObjectNode();  
-		node.put("status", "good");
-		
-		return  mapper.writeValueAsString(node);  
-	}
 	
-	@ResponseBody
 	@RequestMapping(value = "/androidUserLogin")
-	public String androidUserLogin(@ModelAttribute User user,HttpServletRequest request, HttpSession session) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();   
-		User dbuser = userService.getUserWithPrivilege(user.getUsername());
-		if (dbuser != null) {
-			if (AESEncryption.decrypt(dbuser.getPassword(), ENVConfig.encryptKey).equals(user.getPassword())) {
-				dbuser.setLastlogintime(new Date());
-				dbuser.setPassword(user.getPassword());
-				userService.updateUser(dbuser);
-				session.setAttribute("user", dbuser);
-				map.put("user", dbuser);
-				map.put("sessionid", session.getId());
-				map.put(MetaData.ProcessResult, MetaData.ProcessSuccess);
-				return JacksonUtil.obj2json(map);
-			}
-		}
-		map.put(MetaData.ProcessResult, MetaData.ProcessFail);
-		return JacksonUtil.obj2json(map);
+	public ModelAndView androidUserLogin(@ModelAttribute User user,HttpServletRequest request, HttpSession session) throws Exception {
+		ModelAndView mv = loginUser(user, request, session);
+		session.setAttribute("logintype", "android");
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/userLogin", method = RequestMethod.POST)
@@ -87,6 +64,7 @@ public class LogInOut {
 				dbuser.setPassword(user.getPassword());
 				userService.updateUser(dbuser);
 				session.setAttribute("user", dbuser);
+				session.setAttribute("logintype", "web");
 				if(JudgeIsMoblie(request)){
 					session.setAttribute("screen", "sm");
 				}
@@ -95,8 +73,12 @@ public class LogInOut {
 				}
 				mv.addObject("user", dbuser);
 				mv.addObject("theme", "default");
+				mv.addObject("sessionid", session.getId());
+				mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 				mv.setViewName("main");
 				return mv;
+			}else{
+				mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 			}
 		}
 		mv.addObject("message", String.format("µÇÂ¼³É¹¦"));

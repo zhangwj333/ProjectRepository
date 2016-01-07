@@ -2,8 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:task="http://www.springframework.org/schema/task" 
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans     
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -21,17 +20,17 @@
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-
 	<!-- 加载资源文件 其中包含变量信息，必须在Spring配置文件的最前面加载，即第一个加载 -->
 	<!-- 不加密 -->
-	<!-- <context:property-placeholder location="classpath:config.properties" /> -->
+	<!-- <context:property-placeholder location="classpath:config.properties" 
+		/> -->
 
 	<!-- 加密 -->
- 	<bean id="propertyConfig" class="junstech.util.PropertyPlaceholderConfigurerExt"> 
-                <property name="location"> 
-                                <value>classpath:config.properties</value> 
-                </property> 
-        </bean>
+	<bean id="propertyConfig" class="junstech.util.PropertyPlaceholderConfigurerExt">
+		<property name="location">
+			<value>classpath:config.properties</value>
+		</property>
+	</bean>
 	<!-- 数据库映射 -->
 	<!-- class="org.apache.tomcat.dbcp.dbcp.BasicDataSource" -->
 	<!-- class="org.springframework.jdbc.datasource.DriverManagerDataSource" -->
@@ -78,6 +77,6 @@
 	<!-- 配置事务异常封装 -->
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-	
-	<task:annotation-driven/>
+
+	<task:annotation-driven />
 </beans>
