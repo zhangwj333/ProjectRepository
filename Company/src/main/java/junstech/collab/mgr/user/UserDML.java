@@ -132,23 +132,24 @@ public class UserDML extends BaseController{
 		}
 		mv.addObject("pagelink", "queryUsers");
 		mv.setViewName("query");
-
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/queryUser", method = RequestMethod.GET)
+	@RequestMapping(value = "/queryUser")
 	public ModelAndView queryUser(@RequestParam("id") long id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
-		User user = userService.getUser(id);
+		User user = userService.getUserWithPrivilege(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
 		tablepropertys.add(new TableProperty("username", "用户名"));
 		tablepropertys.add(new TableProperty("nickname", "昵称"));
 		tablepropertys.add(new TableProperty("lastlogintime", "上次登录时间"));
-		tablepropertys.add(new TableProperty("superuser", "是否管理员"));
+		tablepropertys.add(new TableProperty("superuser", "用户类型"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", user);
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		mv.setViewName("criteriaShow");
 
 		return this.outputView(session, mv);
@@ -192,7 +193,7 @@ public class UserDML extends BaseController{
 		subtablepropertys.add(new TableProperty("privilege", "权限"));
 		mv.addObject("subtablepropertys", subtablepropertys);
 		mv.setViewName("userEdit");
-
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		return this.outputView(session, mv);
 	}
 
@@ -205,9 +206,11 @@ public class UserDML extends BaseController{
 			userService.updateUser(user);
 			mv.addObject("message", "更新用户成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "更新失败，请重试!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
@@ -238,7 +241,7 @@ public class UserDML extends BaseController{
 		mv.addObject("action", "createUserProcess");
 		mv.addObject("modelAttribute", "user");
 		mv.setViewName("userCreate");
-
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		return this.outputView(session, mv);
 	}
 
@@ -251,9 +254,11 @@ public class UserDML extends BaseController{
 			userService.createUser(user);
 			mv.addObject("message", "新建用户成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "创建失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
@@ -272,9 +277,11 @@ public class UserDML extends BaseController{
 			userService.deleteUser(id);
 			mv.addObject("message", "删除用户成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "删除失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");

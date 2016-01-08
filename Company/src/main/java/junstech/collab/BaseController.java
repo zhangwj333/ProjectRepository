@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.google.gson.Gson;
+
 import junstech.exception.BusinessException;
 import junstech.util.JacksonUtil;
 
@@ -22,7 +24,8 @@ public class BaseController {
 			return mv;
 		} else if (session.getAttribute("logintype").equals("android")) {
 			MappingJackson2JsonView json = new MappingJackson2JsonView();
-			String output = JacksonUtil.obj2json(mv.getModel());
+			Gson gson = new Gson();
+			String output = gson.toJson(mv.getModel());
 			json.addStaticAttribute("output", output);
 			return new ModelAndView(json);
 		} else {

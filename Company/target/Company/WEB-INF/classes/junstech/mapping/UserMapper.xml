@@ -156,9 +156,9 @@
 			MyBatis Generator, do not modify. -->
 		<include refid="selectUserAll" />
 		WHERE
-		(username LIKE CONCAT(CONCAT('%', #{username}),'%') OR nickname
+		(username LIKE CONCAT(CONCAT('%', #{key}),'%') OR nickname
 		LIKE
-		CONCAT(CONCAT('%', #{username}),'%'))
+		CONCAT(CONCAT('%', #{key}),'%'))
 		<if test="id != 0">
 			AND ID = #{id}
 		</if>
