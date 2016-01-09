@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import junstech.collab.BaseController;
 import junstech.model.Good;
 import junstech.model.Product;
 import junstech.model.TableProperty;
@@ -36,7 +36,7 @@ import junstech.service.SupplierService;
 import junstech.util.MetaData;
 
 @Controller
-public class GoodDML {
+public class GoodDML extends BaseController{
 
 	public GoodDML() {
 	}
@@ -110,8 +110,8 @@ public class GoodDML {
 		}
 		mv.addObject("pagelink", "queryGoods");
 		mv.setViewName("query");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/queryGood", method = RequestMethod.GET)
@@ -126,8 +126,8 @@ public class GoodDML {
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", good);
 		mv.setViewName("criteriaShow");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editGood", method = RequestMethod.GET)
@@ -146,8 +146,8 @@ public class GoodDML {
 		mv.addObject("action", "editGoodProcess");
 		mv.addObject("modelAttribute", "Good");
 		mv.setViewName("genEdit");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editGoodProcess", method = RequestMethod.POST)
@@ -159,16 +159,18 @@ public class GoodDML {
 			goodService.editGood(good);
 			mv.addObject("message", "更新商品成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "更新失败，请重试!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/createGood")
@@ -185,8 +187,8 @@ public class GoodDML {
 		mv.addObject("action", "createGoodProcess");
 		mv.addObject("modelAttribute", "good");
 		mv.setViewName("goodCreate");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/createGoodProcess", method = RequestMethod.POST)
@@ -198,16 +200,18 @@ public class GoodDML {
 			goodService.createGood(Good);
 			mv.addObject("message", "新建商品成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "创建失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/deleteGood", method = RequestMethod.GET)
@@ -219,15 +223,17 @@ public class GoodDML {
 			goodService.deleteGood(id);
 			mv.addObject("message", "删除商品成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "删除失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 }

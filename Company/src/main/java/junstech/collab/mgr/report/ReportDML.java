@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.itextpdf.text.DocumentException;
 
+import junstech.collab.BaseController;
 import junstech.model.Financereceivable;
 import junstech.model.Financetype;
 import junstech.model.Ledger;
@@ -35,7 +36,7 @@ import junstech.util.MetaData;
 import junstech.util.PDFReport;
 
 @Controller
-public class ReportDML {
+public class ReportDML extends BaseController {
 
 	FinancereceivableService financereceivableService;
 
@@ -82,7 +83,8 @@ public class ReportDML {
 	}
 
 	@RequestMapping(value = "/createReportProcess")
-	public ModelAndView GenerateLastMonthReport() throws Exception {
+	public ModelAndView GenerateLastMonthReport(HttpServletRequest request,
+			HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		try {
 			System.out.println("开始生成上月报表.........");
@@ -154,15 +156,17 @@ public class ReportDML {
 			System.out.println("完成生成上月报表.........");
 			mv.addObject("message", "新建报表成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "创建失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 
 	}
 
@@ -173,8 +177,8 @@ public class ReportDML {
 		Report report = reportService.selectReport(time);
 		mv.addObject("reportPath", report.getPath());
 		mv.setViewName("report");
-		return mv;
-
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/queryHistoryReportProcess")

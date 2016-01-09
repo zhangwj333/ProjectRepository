@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import junstech.collab.BaseController;
 import junstech.exception.BusinessException;
 import junstech.model.Purchase;
 import junstech.model.Sale;
@@ -42,7 +43,7 @@ import junstech.service.SupplierService;
 import junstech.util.MetaData;
 
 @Controller
-public class SaleDML {
+public class SaleDML extends BaseController{
 
 	public SaleDML() {
 	}
@@ -93,7 +94,7 @@ public class SaleDML {
 			@RequestParam("page") int page, @RequestParam("size") int size, HttpServletRequest request,
 			HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		return prepareView(mv, id, key, startdate, enddate, page, size);
+		return prepareView(mv, id, key, startdate, enddate, page, size, session);
 	}
 
 	@RequestMapping(value = "/querySale", method = RequestMethod.GET)
@@ -124,8 +125,8 @@ public class SaleDML {
 		mv.addObject("tableline", sale);
 		mv.addObject("tablesublines", sale.getSalesubs());
 		mv.setViewName("saleShow");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editSale", method = RequestMethod.GET)
@@ -155,8 +156,8 @@ public class SaleDML {
 		mv.addObject("action", "editSaleProcess");
 		mv.addObject("modelAttribute", "Sale");
 		mv.setViewName("saleEdit");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editSaleProcess", method = RequestMethod.POST)
@@ -175,16 +176,18 @@ public class SaleDML {
 			saleService.editSale(sale);
 			mv.addObject("message", "更新订单成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "更新失败." + errorMsg);
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/createSale")
@@ -208,7 +211,7 @@ public class SaleDML {
 		mv.addObject("modelAttribute", "sale");
 		mv.setViewName("saleCreate");
 
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/createSaleProcess", method = RequestMethod.POST)
@@ -234,6 +237,7 @@ public class SaleDML {
 			saleService.createSale(sale);
 			mv.addObject("message", "新建采购订单成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			if (errorMsg == null) {
 				mv.addObject("message", "更新失败.");
@@ -241,6 +245,7 @@ public class SaleDML {
 			} else {
 				mv.addObject("message", "更新失败." + errorMsg);
 			}
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 		}
 
@@ -248,7 +253,7 @@ public class SaleDML {
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/deleteSale")
@@ -261,7 +266,8 @@ public class SaleDML {
 		try {
 			String tempid = id.split(",", 2)[0];
 			saleService.deleteSale(Long.parseLong(tempid));
-			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			mv.addObject("message", "删除失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
@@ -269,7 +275,8 @@ public class SaleDML {
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
-			return mv;
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
+			return this.outputView(session, mv);
 		}
 	}
 
@@ -288,7 +295,8 @@ public class SaleDML {
 			sale.setStatus("待确认");
 			sale.setNote(sale.getNote().replaceAll("\r\n", "<br/>"));
 			saleService.editSale(sale);
-			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			e.printStackTrace();
 			mv.addObject("message", "更新失败，请重试!");
@@ -297,7 +305,8 @@ public class SaleDML {
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
-			return mv;
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
+			return this.outputView(session, mv);
 		}
 	}
 
@@ -305,7 +314,7 @@ public class SaleDML {
 			ModelAndView mv, //
 			String id, String key, //
 			String startdate, String enddate, //
-			int page, int size) throws Exception {
+			int page, int size, HttpSession session) throws Exception {
 		long uid = 0;
 		if (!id.isEmpty()) {
 			uid = Long.parseLong(id);
@@ -346,7 +355,8 @@ public class SaleDML {
 		}
 		mv.addObject("pagelink", "querySales");
 		mv.setViewName("query");
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 }

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import junstech.collab.BaseController;
 import junstech.model.Purchase;
 import junstech.model.TableProperty;
 import junstech.model.User;
@@ -35,7 +36,7 @@ import junstech.service.SupplierService;
 import junstech.util.MetaData;
 
 @Controller
-public class PurchaseDML {
+public class PurchaseDML extends BaseController{
 
 	public PurchaseDML() {
 	}
@@ -79,7 +80,7 @@ public class PurchaseDML {
 			@RequestParam("page") int page, @RequestParam("size") int size, HttpServletRequest request,
 			HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		return prepareView(mv, id, key, startdate, enddate, page, size);
+		return prepareView(mv, id, key, startdate, enddate, page, size, session);
 	}
 
 	@RequestMapping(value = "/queryPurchase", method = RequestMethod.GET)
@@ -99,8 +100,8 @@ public class PurchaseDML {
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", purchase);
 		mv.setViewName("criteriaShow");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editPurchase", method = RequestMethod.GET)
@@ -126,8 +127,8 @@ public class PurchaseDML {
 		mv.addObject("action", "editPurchaseProcess");
 		mv.addObject("modelAttribute", "Purchase");
 		mv.setViewName("genEdit");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editPurchaseProcess", method = RequestMethod.POST)
@@ -142,16 +143,18 @@ public class PurchaseDML {
 			purchaseService.editPurchase(purchase);
 			mv.addObject("message", "更新订单成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "更新失败，请重试!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/createPurchase")
@@ -173,8 +176,8 @@ public class PurchaseDML {
 		mv.addObject("action", "createPurchaseProcess");
 		mv.addObject("modelAttribute", "purchase");
 		mv.setViewName("genCreate");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/createPurchaseProcess", method = RequestMethod.POST)
@@ -197,16 +200,18 @@ public class PurchaseDML {
 			purchaseService.createPurchase(purchase);
 			mv.addObject("message", "新建采购订单成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "创建失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/deletePurchase")
@@ -219,7 +224,7 @@ public class PurchaseDML {
 		try {
 			String tempid = id.split(",", 2)[0];
 			purchaseService.deletePurchase(Long.parseLong(tempid));
-			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size);
+			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			mv.addObject("message", "删除失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
@@ -227,7 +232,8 @@ public class PurchaseDML {
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
-			return mv;
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
+			return this.outputView(session, mv);
 		}
 	}
 
@@ -246,7 +252,7 @@ public class PurchaseDML {
 			purchase.setStatus("待确认");
 			purchase.setNote(purchase.getNote().replaceAll("\r\n", "<br/>"));
 			purchaseService.editPurchase(purchase);
-			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size);
+			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			e.printStackTrace();
 			mv.addObject("message", "更新失败，请重试!");
@@ -255,7 +261,8 @@ public class PurchaseDML {
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
-			return mv;
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
+			return this.outputView(session, mv);
 		}
 	}
 
@@ -263,7 +270,7 @@ public class PurchaseDML {
 			ModelAndView mv, //
 			String id, String key, //
 			String startdate, String enddate, //
-			int page, int size) throws Exception {
+			int page, int size, HttpSession session) throws Exception {
 		long uid = 0;
 		if (!id.isEmpty()) {
 			uid = Long.parseLong(id);
@@ -305,7 +312,8 @@ public class PurchaseDML {
 		}
 		mv.addObject("pagelink", "queryPurchases");
 		mv.setViewName("query");
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	private SimpleDateFormat orderName = new SimpleDateFormat("yyyyMMddHHmmss");

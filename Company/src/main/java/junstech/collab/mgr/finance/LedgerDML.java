@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import junstech.model.Ledger;
+import junstech.collab.BaseController;
 import junstech.model.Customer;
 import junstech.model.Financereceivable;
 import junstech.model.Financetype;
@@ -48,7 +49,7 @@ import junstech.util.FileUtil;
 import junstech.util.MetaData;
 
 @Controller
-public class LedgerDML {
+public class LedgerDML extends BaseController{
 
 	public LedgerDML() {
 	}
@@ -156,8 +157,8 @@ public class LedgerDML {
 		}
 		mv.addObject("pagelink", "querySummaryCurrentFinanceReceivables");
 		mv.setViewName("query");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/queryLedgers")
@@ -166,7 +167,7 @@ public class LedgerDML {
 			@RequestParam("page") int page, @RequestParam("size") int size, HttpServletRequest request,
 			HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		return prepareView(mv, id, key, startdate, enddate, page, size);
+		return prepareView(mv, id, key, startdate, enddate, page, size, session);
 	}
 	
 	@RequestMapping(value = "/queryLedger", method = RequestMethod.GET)
@@ -186,8 +187,8 @@ public class LedgerDML {
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", ledger);
 		mv.setViewName("criteriaShow");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/queryLedgerProof", method = RequestMethod.GET)
@@ -197,8 +198,8 @@ public class LedgerDML {
 		mv.addObject("proofPath", ledger.getProof());
 		mv.addObject("title", "财务凭证");
 		mv.setViewName("proof");
-		return mv;
-
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/editLedgerProof", method = RequestMethod.GET)
@@ -213,8 +214,8 @@ public class LedgerDML {
 		mv.addObject("action", "editLedgerProofProcess");
 		mv.addObject("modelAttribute", "Ledger");
 		mv.setViewName("proofEdit");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/editLedgerProofProcess", method = RequestMethod.POST)
@@ -233,17 +234,19 @@ public class LedgerDML {
 			ledgerService.editLedger(ledger);
 			mv.addObject("message", "更新账目记录成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			e.printStackTrace();
 			mv.addObject("message", "更新失败，请重试!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/editLedger", method = RequestMethod.GET)
@@ -271,8 +274,8 @@ public class LedgerDML {
 		mv.addObject("action", "editLedgerProcess");
 		mv.addObject("modelAttribute", "Ledger");
 		mv.setViewName("genEdit");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editLedgerProcess", method = RequestMethod.POST)
@@ -284,16 +287,18 @@ public class LedgerDML {
 			ledgerService.editLedger(ledger);
 			mv.addObject("message", "更新账目记录成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "更新失败，请重试!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/createLedger")
@@ -320,7 +325,7 @@ public class LedgerDML {
 		mv.addObject("modelAttribute", "ledger");
 		mv.setViewName("genCreate");
 
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/createLedgerProcess", method = RequestMethod.POST)
@@ -332,16 +337,18 @@ public class LedgerDML {
 			ledgerService.createLedger(Ledger);
 			mv.addObject("message", "新建账目记录成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "创建失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/deleteLedger")
@@ -354,7 +361,8 @@ public class LedgerDML {
 		try {
 			String tempid = id.split(",", 2)[0];
 			ledgerService.deleteLedger(Long.parseLong(tempid));
-			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			mv.addObject("message", "删除失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
@@ -362,7 +370,8 @@ public class LedgerDML {
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
-			return mv;
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
+			return this.outputView(session, mv);
 		}
 	}
 	
@@ -370,7 +379,7 @@ public class LedgerDML {
 			ModelAndView mv, //
 			String id, String key, //
 			String startdate, String enddate, //
-			int page, int size) throws Exception {
+			int page, int size, HttpSession session) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("key", key);
@@ -405,8 +414,8 @@ public class LedgerDML {
 		}
 		mv.addObject("pagelink", "queryLedgers");
 		mv.setViewName("query");
-		
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 	
 	private static SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");

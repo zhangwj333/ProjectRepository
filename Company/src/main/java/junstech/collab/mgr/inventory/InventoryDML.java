@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import junstech.collab.BaseController;
 import junstech.model.Inventory;
 import junstech.model.Ledger;
 import junstech.model.Product;
@@ -45,7 +45,7 @@ import junstech.util.FileUtil;
 import junstech.util.MetaData;
 
 @Controller
-public class InventoryDML {
+public class InventoryDML extends BaseController{
 
 	public InventoryDML() {
 	}
@@ -117,8 +117,8 @@ public class InventoryDML {
 		}
 		mv.addObject("pagelink", "querySummaryInventorys");
 		mv.setViewName("query");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/queryInventorys")
@@ -127,7 +127,7 @@ public class InventoryDML {
 			@RequestParam("page") int page, @RequestParam("size") int size, HttpServletRequest request,
 			HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		return prepareView(mv, id, key, startdate, enddate, page, size);
+		return prepareView(mv, id, key, startdate, enddate, page, size, session);
 	}
 	
 	@RequestMapping(value = "/queryInventory", method = RequestMethod.GET)
@@ -147,8 +147,8 @@ public class InventoryDML {
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", inventory);
 		mv.setViewName("criteriaShow");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/queryInventoryProof", method = RequestMethod.GET)
@@ -158,8 +158,8 @@ public class InventoryDML {
 		mv.addObject("proofPath", inventory.getProof());
 		mv.addObject("title", "物流单据");
 		mv.setViewName("proof");
-		return mv;
-
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/editInventoryProof", method = RequestMethod.GET)
@@ -174,8 +174,8 @@ public class InventoryDML {
 		mv.addObject("action", "editInventoryProofProcess");
 		mv.addObject("modelAttribute", "Inventory");
 		mv.setViewName("proofEdit");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/editInventoryProofProcess", method = RequestMethod.POST)
@@ -194,17 +194,19 @@ public class InventoryDML {
 	        inventoryService.editInventory(inventory);
 			mv.addObject("message", "更新账目记录成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			e.printStackTrace();
 			mv.addObject("message", "更新失败，请重试!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/editInventory", method = RequestMethod.GET)
@@ -227,8 +229,8 @@ public class InventoryDML {
 		mv.addObject("action", "editInventoryProcess");
 		mv.addObject("modelAttribute", "Inventory");
 		mv.setViewName("genEdit");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editInventoryProcess", method = RequestMethod.POST)
@@ -240,16 +242,18 @@ public class InventoryDML {
 			inventoryService.editInventory(inventory);
 			mv.addObject("message", "更新商品成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "更新失败，请重试!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/createInventory")
@@ -270,8 +274,8 @@ public class InventoryDML {
 		mv.addObject("action", "createInventoryProcess");
 		mv.addObject("modelAttribute", "inventory");
 		mv.setViewName("genCreate");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/createInventoryProcess", method = RequestMethod.POST)
@@ -283,16 +287,18 @@ public class InventoryDML {
 			inventoryService.createInventory(Inventory);
 			mv.addObject("message", "新建商品成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "创建失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/deleteInventory", method = RequestMethod.GET)
@@ -304,16 +310,18 @@ public class InventoryDML {
 			inventoryService.deleteInventory(id);
 			mv.addObject("message", "删除商品成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "删除失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/submitInventory")
@@ -334,7 +342,8 @@ public class InventoryDML {
 				inventory.setStatus("已出货");				
 			}
 			inventoryService.editInventory(inventory);
-			return prepareView(mv, id.split("," , 2)[1], key, startdate, enddate, page, size);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+			return prepareView(mv, id.split("," , 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			e.printStackTrace();
 			mv.addObject("message", "更新失败，请重试!");
@@ -343,7 +352,8 @@ public class InventoryDML {
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
-			return mv;
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
+			return this.outputView(session, mv);
 		}
 	}
 	
@@ -351,7 +361,7 @@ public class InventoryDML {
 			ModelAndView mv, //
 			String id, String key, //
 			String startdate, String enddate, //
-			int page, int size) throws Exception {
+			int page, int size, HttpSession session) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("key", key);
@@ -387,7 +397,7 @@ public class InventoryDML {
 		mv.addObject("pagelink", "queryInventorys");
 		mv.setViewName("query");
 		
-		return mv;
+		return this.outputView(session, mv);
 	}
 	
 	private static SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");

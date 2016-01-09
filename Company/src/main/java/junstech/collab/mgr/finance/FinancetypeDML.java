@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import junstech.collab.BaseController;
 import junstech.model.Criteria;
 import junstech.model.Privilege;
 import junstech.model.Financetype;
@@ -41,7 +42,7 @@ import junstech.util.ENVConfig;
 import junstech.util.MetaData;
 
 @Controller
-public class FinancetypeDML {
+public class FinancetypeDML extends BaseController{
 
 	public FinancetypeDML() {
 	}
@@ -92,8 +93,8 @@ public class FinancetypeDML {
 		}
 		mv.addObject("pagelink", "queryFinancetypes");
 		mv.setViewName("query");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/queryFinancetype", method = RequestMethod.GET)
@@ -107,8 +108,8 @@ public class FinancetypeDML {
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", financetype);
 		mv.setViewName("criteriaShow");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editFinancetype", method = RequestMethod.GET)
@@ -124,8 +125,8 @@ public class FinancetypeDML {
 		mv.addObject("action", "editFinancetypeProcess");
 		mv.addObject("modelAttribute", "financetype");
 		mv.setViewName("genEdit");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/editFinancetypeProcess", method = RequestMethod.POST)
@@ -137,16 +138,18 @@ public class FinancetypeDML {
 			financetypeService.editFinancetype(financetype);
 			mv.addObject("message", "更新商品类别成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "更新失败，请重试!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 	
 	@RequestMapping(value = "/createFinancetype")
@@ -161,8 +164,8 @@ public class FinancetypeDML {
 		mv.addObject("action", "createFinancetypeProcess");
 		mv.addObject("modelAttribute", "financetype");
 		mv.setViewName("genCreate");
-
-		return mv;
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/createFinancetypeProcess", method = RequestMethod.POST)
@@ -174,16 +177,18 @@ public class FinancetypeDML {
 			financetypeService.createFinancetype(financetype);
 			mv.addObject("message", "新建商品类别成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "创建失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 
 	@RequestMapping(value = "/deleteFinancetype")
@@ -196,15 +201,17 @@ public class FinancetypeDML {
 			financetypeService.deleteFinancetype(Integer.valueOf(tempid));
 			mv.addObject("message", "删除供应商成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			mv.addObject("message", "删除失败，请重新操作!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
+			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
 		mv.addObject(MetaData.setNoteTitle, "结果");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
-		return mv;
+		return this.outputView(session, mv);
 	}
 }
