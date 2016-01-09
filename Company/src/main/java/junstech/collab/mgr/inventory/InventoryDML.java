@@ -130,7 +130,7 @@ public class InventoryDML extends BaseController{
 		return prepareView(mv, id, key, startdate, enddate, page, size, session);
 	}
 	
-	@RequestMapping(value = "/queryInventory", method = RequestMethod.GET)
+	@RequestMapping(value = "/queryInventory")
 	public ModelAndView queryInventory(@RequestParam("id") Long id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -151,7 +151,7 @@ public class InventoryDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/queryInventoryProof", method = RequestMethod.GET)
+	@RequestMapping(value = "/queryInventoryProof")
 	public ModelAndView queryInventoryProof(@RequestParam("id") Long id, HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		Inventory inventory = inventoryService.selectInventory(id);
@@ -162,7 +162,7 @@ public class InventoryDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 	
-	@RequestMapping(value = "/editInventoryProof", method = RequestMethod.GET)
+	@RequestMapping(value = "/editInventoryProof")
 	public ModelAndView editInventoryProof(@RequestParam("id") Long id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -178,7 +178,7 @@ public class InventoryDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 	
-	@RequestMapping(value = "/editInventoryProofProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/editInventoryProofProcess")
 	public ModelAndView editInventoryProofProcess(@RequestParam("id") Long id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -209,7 +209,7 @@ public class InventoryDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 	
-	@RequestMapping(value = "/editInventory", method = RequestMethod.GET)
+	@RequestMapping(value = "/editInventory")
 	public ModelAndView editInventory(@RequestParam("id") int id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -233,7 +233,7 @@ public class InventoryDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editInventoryProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/editInventoryProcess")
 	public ModelAndView editInventoryProcess(@ModelAttribute Inventory inventory, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -278,7 +278,7 @@ public class InventoryDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/createInventoryProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/createInventoryProcess")
 	public ModelAndView createInventoryProcess(@ModelAttribute Inventory Inventory, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -301,7 +301,7 @@ public class InventoryDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/deleteInventory", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteInventory")
 	public ModelAndView deleteInventoryProcess(@RequestParam("id") int id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();

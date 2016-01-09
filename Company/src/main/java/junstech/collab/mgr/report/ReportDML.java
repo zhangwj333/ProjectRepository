@@ -170,7 +170,7 @@ public class ReportDML extends BaseController {
 
 	}
 
-	@RequestMapping(value = "/queryReportProcess", method = RequestMethod.GET)
+	@RequestMapping(value = "/queryReportProcess")
 	public ModelAndView queryLastMonthReport(@RequestParam("time") String time, HttpServletRequest request,
 			HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();

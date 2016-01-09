@@ -197,10 +197,6 @@ $(function ()
 											<a
 												onClick="submitForNextStep('submit${criteria}.htm?id=${tableline.id}');"
 												target="contentFrame" class="btn btn-primary">提交</a>
-											<a
-												onclick="showQueryModel('dialog', '${title}', '${path}/edit${criteria}.htm?id=${tableline.id}');"
-												data-toggle="modal" data-target="#myModal"
-												class="btn btn-warning">修改</a>
 										</c:if>
 									</c:if> <c:if test="${user.superuser ne 'R' and criteria eq 'Inventory'}">
 										<c:if test="${tableline.status eq '运送中'}">
@@ -220,7 +216,7 @@ $(function ()
 											data-toggle="modal" data-target="#myModal"
 											class="btn btn-success">查看单据</a>
 									</c:if> <c:if
-										test="${user.superuser ne 'R' and criteria ne 'Inventory' and criteria ne 'Sale'}">
+										test="${user.superuser eq 'M' and criteria ne 'Inventory'}">
 										<a
 											onclick="showQueryModel('dialog','${title}', '${path}/edit${criteria}.htm?id=${tableline.id}');"
 											data-toggle="modal" data-target="#myModal"

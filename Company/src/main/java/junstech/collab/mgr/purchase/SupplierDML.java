@@ -100,7 +100,7 @@ public class SupplierDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 	
-	@RequestMapping(value = "/querySupplier", method = RequestMethod.GET)
+	@RequestMapping(value = "/querySupplier")
 	public ModelAndView queryUser(@RequestParam("id") int id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -118,7 +118,7 @@ public class SupplierDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editSupplier", method = RequestMethod.GET)
+	@RequestMapping(value = "/editSupplier")
 	public ModelAndView editUser(@RequestParam("id") int id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -138,7 +138,7 @@ public class SupplierDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editSupplierProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/editSupplierProcess")
 	public ModelAndView editUserProcess(@ModelAttribute Supplier supplier, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -180,7 +180,7 @@ public class SupplierDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/createSupplierProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/createSupplierProcess")
 	public ModelAndView createUserProcess(@ModelAttribute Supplier supplier, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -203,13 +203,14 @@ public class SupplierDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/deleteSupplier", method = RequestMethod.GET)
-	public ModelAndView deleteUserProcess(@RequestParam("id") int id, HttpServletRequest request, HttpSession session)
+	@RequestMapping(value = "/deleteSupplier")
+	public ModelAndView deleteUserProcess(@RequestParam("id") String id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
 
 		try {
-			supplierService.deleteSupplier(id);
+			String tempid = id.split(",", 2)[0];
+			supplierService.deleteSupplier(Integer.parseInt(tempid));
 			mv.addObject("message", "删除供应商成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);

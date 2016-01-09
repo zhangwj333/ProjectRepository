@@ -83,7 +83,7 @@ public class PurchaseDML extends BaseController{
 		return prepareView(mv, id, key, startdate, enddate, page, size, session);
 	}
 
-	@RequestMapping(value = "/queryPurchase", method = RequestMethod.GET)
+	@RequestMapping(value = "/queryPurchase")
 	public ModelAndView query(@RequestParam("id") long id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -104,7 +104,7 @@ public class PurchaseDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editPurchase", method = RequestMethod.GET)
+	@RequestMapping(value = "/editPurchase")
 	public ModelAndView edit(@RequestParam("id") long id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -131,7 +131,7 @@ public class PurchaseDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editPurchaseProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/editPurchaseProcess")
 	public ModelAndView editProcess(@ModelAttribute Purchase purchase, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -180,7 +180,7 @@ public class PurchaseDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/createPurchaseProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/createPurchaseProcess")
 	public ModelAndView createProcess(@ModelAttribute Purchase purchase, HttpServletRequest request,
 			HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();

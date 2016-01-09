@@ -160,7 +160,7 @@ public class SaleDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editSaleProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/editSaleProcess")
 	public ModelAndView editProcess(@ModelAttribute Sale sale, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -214,7 +214,7 @@ public class SaleDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/createSaleProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/createSaleProcess")
 	public ModelAndView createProcess(@ModelAttribute Sale sale, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();

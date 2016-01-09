@@ -97,7 +97,7 @@ public class ProductDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 	
-	@RequestMapping(value = "/queryProduct", method = RequestMethod.GET)
+	@RequestMapping(value = "/queryProduct")
 	public ModelAndView queryUser(@RequestParam("id") int id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -112,7 +112,7 @@ public class ProductDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editProduct", method = RequestMethod.GET)
+	@RequestMapping(value = "/editProduct")
 	public ModelAndView editUser(@RequestParam("id") int id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -129,7 +129,7 @@ public class ProductDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editProductProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/editProductProcess")
 	public ModelAndView editUserProcess(@ModelAttribute Product product, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -168,7 +168,7 @@ public class ProductDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/createProductProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/createProductProcess")
 	public ModelAndView createUserProcess(@ModelAttribute Product product, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -191,13 +191,14 @@ public class ProductDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/deleteProduct", method = RequestMethod.GET)
-	public ModelAndView deleteUserProcess(@RequestParam("id") int id, HttpServletRequest request, HttpSession session)
+	@RequestMapping(value = "/deleteProduct")
+	public ModelAndView deleteUserProcess(@RequestParam("id") String id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
 
 		try {
-			productService.deleteProduct(id);
+			String tempid = id.split(",", 2)[0];
+			productService.deleteProduct(Integer.parseInt(tempid));
 			mv.addObject("message", "删除供应商成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);

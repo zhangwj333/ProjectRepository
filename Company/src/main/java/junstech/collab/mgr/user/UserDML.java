@@ -155,7 +155,7 @@ public class UserDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editUser", method = RequestMethod.GET)
+	@RequestMapping(value = "/editUser")
 	public ModelAndView editUser(@RequestParam("id") long id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -197,7 +197,7 @@ public class UserDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editUserProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/editUserProcess")
 	public ModelAndView editUserProcess(@ModelAttribute User user, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -245,7 +245,7 @@ public class UserDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/createUserProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/createUserProcess")
 	public ModelAndView createUserProcess(@ModelAttribute User user, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();

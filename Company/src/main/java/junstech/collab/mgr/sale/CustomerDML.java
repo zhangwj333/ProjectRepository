@@ -102,7 +102,7 @@ public class CustomerDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 	
-	@RequestMapping(value = "/queryCustomer", method = RequestMethod.GET)
+	@RequestMapping(value = "/queryCustomer")
 	public ModelAndView queryUser(@RequestParam("id") long id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -122,7 +122,7 @@ public class CustomerDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editCustomer", method = RequestMethod.GET)
+	@RequestMapping(value = "/editCustomer")
 	public ModelAndView editUser(@RequestParam("id") long id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -144,7 +144,7 @@ public class CustomerDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editCustomerProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/editCustomerProcess")
 	public ModelAndView editUserProcess(@ModelAttribute Customer customer, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -188,7 +188,7 @@ public class CustomerDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/createCustomerProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/createCustomerProcess")
 	public ModelAndView createUserProcess(@ModelAttribute Customer customer, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -211,13 +211,14 @@ public class CustomerDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/deleteCustomer", method = RequestMethod.GET)
-	public ModelAndView deleteUserProcess(@RequestParam("id") long id, HttpServletRequest request, HttpSession session)
+	@RequestMapping(value = "/deleteCustomer")
+	public ModelAndView deleteUserProcess(@RequestParam("id") String id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
 
 		try {
-			customerService.deleteCustomer(id);
+			String tempid = id.split(",", 2)[0];
+			customerService.deleteCustomer(Long.parseLong(tempid));
 			mv.addObject("message", "删除供应商成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);

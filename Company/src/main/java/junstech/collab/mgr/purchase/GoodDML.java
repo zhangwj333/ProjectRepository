@@ -114,7 +114,7 @@ public class GoodDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 	
-	@RequestMapping(value = "/queryGood", method = RequestMethod.GET)
+	@RequestMapping(value = "/queryGood")
 	public ModelAndView queryUser(@RequestParam("id") int id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -130,7 +130,7 @@ public class GoodDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editGood", method = RequestMethod.GET)
+	@RequestMapping(value = "/editGood")
 	public ModelAndView editUser(@RequestParam("id") int id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -150,7 +150,7 @@ public class GoodDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/editGoodProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/editGoodProcess")
 	public ModelAndView editUserProcess(@ModelAttribute Good good, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -191,7 +191,7 @@ public class GoodDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/createGoodProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/createGoodProcess")
 	public ModelAndView createUserProcess(@ModelAttribute Good Good, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -214,13 +214,14 @@ public class GoodDML extends BaseController{
 		return this.outputView(session, mv);
 	}
 
-	@RequestMapping(value = "/deleteGood", method = RequestMethod.GET)
-	public ModelAndView deleteUserProcess(@RequestParam("id") int id, HttpServletRequest request, HttpSession session)
+	@RequestMapping(value = "/deleteGood")
+	public ModelAndView deleteUserProcess(@RequestParam("id") String id, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
 
 		try {
-			goodService.deleteGood(id);
+			String tempid = id.split(",", 2)[0];
+			goodService.deleteGood(Integer.parseInt(tempid));
 			mv.addObject("message", "删除商品成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
