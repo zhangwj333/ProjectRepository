@@ -62,7 +62,6 @@ public class ReportGenerator {
 
 	@Scheduled(cron = "0 0 0 5 * ?") // execute every month on 5th
 	public void GenerateLastMonthReport() throws Exception {
-		System.out.println("开始生成上月报表.........");
 		String date = df.format(new Date());
 		String[] dateInfo = date.split("-");
 		String month;
@@ -113,7 +112,6 @@ public class ReportGenerator {
 		conditionOfFinancereceivable.put("type", "未结清");
 		List<Financereceivable> financereceivables = financereceivableService.selectSummary(conditionOfFinancereceivable);
 		PDFReport.generateReport(financeSumMonth, financeSumYear, financereceivables);
-		System.out.println("完成生成上月报表.........");
 
 	}
 
