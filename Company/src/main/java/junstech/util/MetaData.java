@@ -54,4 +54,6 @@ public class MetaData {
 	public final static String ProcessSuccess = "SUCCESS";
 	public final static String ProcessFail = "FAIL";
 	public final static String ProcessTimeout = "TIMEOUT";
+	
+	public final static double initfund = 5000000;
 }

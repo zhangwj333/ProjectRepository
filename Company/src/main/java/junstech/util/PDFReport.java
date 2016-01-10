@@ -112,15 +112,25 @@ public class PDFReport {
 		PdfWriter.getInstance(document, new FileOutputStream(path));
 		document.open();
 
-		createProfitReport(document, financeSumMonth, financeSumYear);
+		double yearEndProfit =  createProfitReport(document, financeSumMonth, financeSumYear);
+		double financeReceivableTotal = 0;
 		if ((!financereceivables.isEmpty()) || financereceivables.get(0) != null
 				|| financereceivables.get(0).getId() != null) {
-			createPendingReport(document, financereceivables);
+			financeReceivableTotal = createPendingReport(document, financereceivables); 
 		}
+		createBalanceReport(document, yearEndProfit, financeReceivableTotal);
 		document.close();
 	}
 
-	public void createPendingReport(Document document, List<Financereceivable> financereceivables)
+	public void createBalanceReport(Document document, double yearEndProfit, double financeReceivableTotal)
+			throws IOException, DocumentException {
+		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", false);
+		Font fontChinese = new Font(bfChinese, 12, Font.NORMAL, BaseColor.BLACK);
+		double balance = MetaData.initfund + yearEndProfit - financeReceivableTotal;
+		document.add(new Phrase("\r\n\r\n公司剩余资金: " + balance, fontChinese));
+	}
+	
+	public double createPendingReport(Document document, List<Financereceivable> financereceivables)
 			throws IOException, DocumentException {
 		PdfPTable table = new PdfPTable(3);
 		table.setTotalWidth(500);
@@ -144,6 +154,7 @@ public class PDFReport {
 		table.addCell(cell);
 		cell.setPhrase(new Phrase("剩余应收", fontChinese));
 		table.addCell(cell);
+		double financeReceivableTotal= 0;
 		for (int i = 0; i < financereceivables.size(); i++) {
 			cell.setPhrase(new Phrase(financereceivables.get(i).getCustomer().getName(), fontChinese));
 			table.addCell(cell);
@@ -153,12 +164,14 @@ public class PDFReport {
 					String.valueOf(financereceivables.get(i).getTotalamount() - financereceivables.get(i).getNowpay()),
 					fontChinese));
 			table.addCell(cell);
+			financeReceivableTotal = financeReceivableTotal +  financereceivables.get(i).getTotalamount() - financereceivables.get(i).getNowpay();
 		}
 		event.setRowCount(table.getRows().size());
 		document.add(table);
+		return Double.valueOf(financeReceivableTotal);
 	}
 
-	public void createProfitReport(Document document, List<String> financeSumMonth, List<String> financeSumYear)
+	public double createProfitReport(Document document, List<String> financeSumMonth, List<String> financeSumYear)
 			throws IOException, DocumentException {
 		List<String> list = new ArrayList<String>();
 		list.add("一、主营业务收入");
@@ -219,7 +232,7 @@ public class PDFReport {
 		}
 		event.setRowCount(table.getRows().size());
 		document.add(table);
-
+		return Double.valueOf(financeSumYear.get(financeSumYear.size()-1));
 	}
 
 	class BorderEvent implements PdfPTableEventAfterSplit {
