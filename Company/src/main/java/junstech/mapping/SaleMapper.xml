@@ -136,6 +136,7 @@
 		<if test="id != 0">
 			AND sale.ID = #{id}
 		</if>
+		group by sale.ID
 		order by sale.saletime desc
 		limit #{prev} , #{next}
 	</select>

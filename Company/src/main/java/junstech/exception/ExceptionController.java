@@ -51,13 +51,12 @@ public class ExceptionController extends BaseController implements HandlerExcept
 		
 		mv.addObject(MetaData.setNoteTitle, "³ö´íÀ²!");
 		mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		mv.setViewName("complete");
 		try {
 			return this.outputView((HttpSession) request.getSession(), mv);
 		} catch (Exception e) {
-			e.printStackTrace();
-			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
+			e.printStackTrace();		
 			MappingJackson2JsonView json = new MappingJackson2JsonView();
 			String output = JacksonUtil.obj2json(mv.getModel());
 			json.addStaticAttribute("output", output);
