@@ -108,7 +108,7 @@
 				email = #{email,jdbcType=VARCHAR},
 			</if>
 			<if test="createTime != null ">
-				create_time = #{createTime,jdbcType=VARCHAR},
+				create_time = #{createTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="lastlogintime != null">
 				lastlogintime = #{lastlogintime,jdbcType=TIMESTAMP},

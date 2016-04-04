@@ -65,6 +65,7 @@
 		(supplier LIKE
 		CONCAT(CONCAT('%', #{key}),'%') OR address LIKE
 		CONCAT(CONCAT('%', #{key}),'%'))
+		AND ID > 0 
 		<if test="id != 0">
 			AND ID = #{id}
 		</if>

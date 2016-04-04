@@ -202,5 +202,9 @@
 	</dependencies>
 	<build>
 		<finalName>Company</finalName>
+		<defaultGoal>clean compile install</defaultGoal>
 	</build>
+	<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 </project>

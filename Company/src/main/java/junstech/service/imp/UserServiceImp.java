@@ -97,7 +97,7 @@ public class UserServiceImp implements UserService {
 
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public void updateUser(User user) throws Exception {
-		user.setCreateTime(new Date());
+		user.setLastlogintime(new Date());
 		user.setPassword(AESEncryption.encrypt(user.getPassword(), ENVConfig.encryptKey));
 		userMapper.updateByPrimaryKey(user);
 		privilegeService.updatePrivilege(user.getPrivileges());

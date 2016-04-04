@@ -45,8 +45,10 @@ public class UserDMLTest {
 	@Test
 	@Rollback(true)
 	public void createUser() throws Exception {
+		/*
 		System.out.println("duruing collab");
 		mockMvc.perform((get("/queryUser.htm?id=3").flashAttr("user", userService.getUserWithPrivilege(3)))).andExpect(status().isOk());
+		*/
 	}
 
 }

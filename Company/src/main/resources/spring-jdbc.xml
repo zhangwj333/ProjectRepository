@@ -20,18 +20,18 @@
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-	<!-- 加载资源文件 其中包含变量信息，必须在Spring配置文件的最前面加载，即第一个加载 -->
-	<!-- 不加密 -->
+	
+	<!-- no encryption -->
 	<!-- <context:property-placeholder location="classpath:config.properties" 
 		/> -->
 
-	<!-- 加密 -->
+	<!-- encryption -->
 	<bean id="propertyConfig" class="junstech.util.PropertyPlaceholderConfigurerExt">
 		<property name="location">
 			<value>classpath:config.properties</value>
 		</property>
 	</bean>
-	<!-- 数据库映射 -->
+
 	<!-- class="org.apache.tomcat.dbcp.dbcp.BasicDataSource" -->
 	<!-- class="org.springframework.jdbc.datasource.DriverManagerDataSource" -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
@@ -65,7 +65,7 @@
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 
-	<!-- 配置事务管理器 -->
+
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
@@ -74,7 +74,7 @@
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 
-	<!-- 配置事务异常封装 -->
+
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 

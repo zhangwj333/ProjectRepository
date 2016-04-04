@@ -28,8 +28,10 @@ public class LoginOutTest{
 
 	@Test
 	public void MybatisTest() throws Exception{
+		/*
 		User user = userService.getUser(588884563);
 		System.out.println(user.getNickname());
+		*/
 	}
 
 }
