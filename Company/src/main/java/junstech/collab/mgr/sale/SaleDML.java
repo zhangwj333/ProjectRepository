@@ -235,7 +235,7 @@ public class SaleDML extends BaseController{
 			}
 			sale.setNote(sale.getNote().concat(df.format(new Date()) + ": 新开单"));
 			saleService.createSale(sale);
-			mv.addObject("message", "新建采购订单成功");
+			mv.addObject("message", "新建销售订单成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {

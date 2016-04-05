@@ -177,7 +177,7 @@ public class GoodDML extends BaseController{
 	public ModelAndView createUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		ablepropertys.add(new TableProperty("goodname", "采购商品"));
+		tablepropertys.add(new TableProperty("goodname", "采购商品"));
 		Good good = new Good();
 		List<Product> types = productService.selectAllProducts();
 		mv.addObject("tablepropertys", tablepropertys);

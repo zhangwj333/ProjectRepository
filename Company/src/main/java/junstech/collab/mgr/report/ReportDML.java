@@ -87,7 +87,7 @@ public class ReportDML extends BaseController {
 			HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		try {
-			System.out.println("¿ªÊ¼Éú³ÉÉÏÔÂ±¨±í.........");
+			System.out.println("å¼€å§‹ç”Ÿæˆä¸ŠæœˆæŠ¥è¡¨.........");
 			String date = df.format(new Date());
 			String[] dateInfo = date.split("-");
 			String month;
@@ -135,7 +135,7 @@ public class ReportDML extends BaseController {
 			}
 			Map<String, Object> conditionOfFinancereceivable = new HashMap<String, Object>();
 			conditionOfFinancereceivable.put("key", "");
-			conditionOfFinancereceivable.put("type", "Î´½áÇå");
+			conditionOfFinancereceivable.put("type", "æœªç»“æ¸…");
 			List<Financereceivable> financereceivables = financereceivableService
 					.selectSummary(conditionOfFinancereceivable);
 			String fileName = PDFReport.generateReport(financeSumMonth, financeSumYear, financereceivables);
@@ -153,16 +153,16 @@ public class ReportDML extends BaseController {
 				report.setPath("/report" + fileName);
 				reportService.editReport(report);
 			}
-			System.out.println("Íê³ÉÉú³ÉÉÏÔÂ±¨±í.........");
-			mv.addObject("message", "ĞÂ½¨±¨±í³É¹¦");
+			System.out.println("å®Œæˆç”Ÿæˆä¸ŠæœˆæŠ¥è¡¨.........");
+			mv.addObject("message", "æ–°å»ºæŠ¥è¡¨æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "´´½¨Ê§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ›å»ºå¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

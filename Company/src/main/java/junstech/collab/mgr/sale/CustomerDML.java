@@ -151,7 +151,7 @@ public class CustomerDML extends BaseController{
 
 		try {
 			customerService.editCustomer(customer);
-			mv.addObject("message", "更新供应商成功");
+			mv.addObject("message", "更新客户成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
@@ -195,7 +195,7 @@ public class CustomerDML extends BaseController{
 
 		try {
 			customerService.createCustomer(customer);
-			mv.addObject("message", "新建供应商成功");
+			mv.addObject("message", "新建客户成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
@@ -219,7 +219,7 @@ public class CustomerDML extends BaseController{
 		try {
 			String tempid = id.split(",", 2)[0];
 			customerService.deleteCustomer(Long.parseLong(tempid));
-			mv.addObject("message", "删除供应商成功");
+			mv.addObject("message", "删除客户成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {

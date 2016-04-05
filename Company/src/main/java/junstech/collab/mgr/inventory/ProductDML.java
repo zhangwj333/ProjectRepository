@@ -136,7 +136,7 @@ public class ProductDML extends BaseController{
 
 		try {
 			productService.editProduct(product);
-			mv.addObject("message", "更新商品类别成功");
+			mv.addObject("message", "更新产品成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
@@ -175,7 +175,7 @@ public class ProductDML extends BaseController{
 
 		try {
 			productService.createProduct(product);
-			mv.addObject("message", "新建商品类别成功");
+			mv.addObject("message", "新建产品成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
@@ -199,7 +199,7 @@ public class ProductDML extends BaseController{
 		try {
 			String tempid = id.split(",", 2)[0];
 			productService.deleteProduct(Integer.parseInt(tempid));
-			mv.addObject("message", "删除供应商成功");
+			mv.addObject("message", "删除产品成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {

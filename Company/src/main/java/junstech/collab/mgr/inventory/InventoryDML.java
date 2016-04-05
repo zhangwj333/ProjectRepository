@@ -192,7 +192,7 @@ public class InventoryDML extends BaseController{
 	        Inventory inventory = inventoryService.selectInventory(id);
 	        inventory.setProof("/cargo" + path);
 	        inventoryService.editInventory(inventory);
-	        mv.addObject("message", "更新账目记录成功");
+	        mv.addObject("message", "更新库存记录成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
@@ -240,7 +240,7 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.editInventory(inventory);
-			mv.addObject("message", "更新商品成功");
+			mv.addObject("message", "更新库存成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
@@ -285,7 +285,7 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.createInventory(Inventory);
-			mv.addObject("message", "新建商品成功");
+			mv.addObject("message", "新建库存成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
@@ -308,7 +308,7 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.deleteInventory(id);
-			mv.addObject("message", "删除商品成功");
+			mv.addObject("message", "删除库存成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {

@@ -232,7 +232,7 @@ public class LedgerDML extends BaseController{
 			Ledger ledger = ledgerService.selectLedger(Long.valueOf(id));
 			ledger.setProof("/transaction" + path);
 			ledgerService.editLedger(ledger);
-			mv.addObject("message", "更新账目记录成功");
+			mv.addObject("message", "更新财务条目成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
@@ -285,7 +285,7 @@ public class LedgerDML extends BaseController{
 
 		try {
 			ledgerService.editLedger(ledger);
-			mv.addObject("message", "更新账目记录成功");
+			mv.addObject("message", "更新财务条目成功");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
