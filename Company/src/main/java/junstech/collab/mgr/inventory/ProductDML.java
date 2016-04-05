@@ -76,13 +76,13 @@ public class ProductDML extends BaseController{
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodname", "¹©Ó¦ÉÌ"));
+		tablepropertys.add(new TableProperty("goodname", "ä¾›åº”å•†"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", products);
 		mv.addObject("criteria", "Product");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "ÉÌÆ·");
+		mv.addObject("title", "å•†å“");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("page", page));
@@ -104,7 +104,7 @@ public class ProductDML extends BaseController{
 		Product product = productService.selectProduct(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodname", "¹©Ó¦ÉÌ"));
+		tablepropertys.add(new TableProperty("goodname", "ä¾›åº”å•†"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", product);
 		mv.setViewName("criteriaShow");
@@ -119,7 +119,7 @@ public class ProductDML extends BaseController{
 		Product product = productService.selectProduct(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodname", "¹©Ó¦ÉÌ"));
+		tablepropertys.add(new TableProperty("goodname", "ä¾›åº”å•†"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", product);
 		mv.addObject("action", "editProductProcess");
@@ -136,16 +136,16 @@ public class ProductDML extends BaseController{
 
 		try {
 			productService.editProduct(product);
-			mv.addObject("message", "¸üĞÂÉÌÆ·Àà±ğ³É¹¦");
+			mv.addObject("message", "æ›´æ–°å•†å“ç±»åˆ«æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "¸üĞÂÊ§°Ü£¬ÇëÖØÊÔ!");
+			mv.addObject("message", "æ›´æ–°å¤±è´¥ï¼Œè¯·é‡è¯•!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -156,7 +156,7 @@ public class ProductDML extends BaseController{
 	public ModelAndView createUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("goodname", "¹©Ó¦ÉÌ"));
+		tablepropertys.add(new TableProperty("goodname", "ä¾›åº”å•†"));
 		
 		Product product = new Product();
 		mv.addObject("tablepropertys", tablepropertys);
@@ -175,16 +175,16 @@ public class ProductDML extends BaseController{
 
 		try {
 			productService.createProduct(product);
-			mv.addObject("message", "ĞÂ½¨ÉÌÆ·Àà±ğ³É¹¦");
+			mv.addObject("message", "æ–°å»ºå•†å“ç±»åˆ«æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "´´½¨Ê§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ›å»ºå¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -199,16 +199,16 @@ public class ProductDML extends BaseController{
 		try {
 			String tempid = id.split(",", 2)[0];
 			productService.deleteProduct(Integer.parseInt(tempid));
-			mv.addObject("message", "É¾³ı¹©Ó¦ÉÌ³É¹¦");
+			mv.addObject("message", "åˆ é™¤ä¾›åº”å•†æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "É¾³ıÊ§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ é™¤å¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

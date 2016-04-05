@@ -7,7 +7,7 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import java.util.Properties; 
 
 /** 
-* ÖØĞ´PropertyPlaceholderConfigurerµÄprocessProperties·½·¨ÊµÏÖ 
+* ï¿½ï¿½Ğ´PropertyPlaceholderConfigurerï¿½ï¿½processPropertiesï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ 
 * 
 * @author zhangwj333 2015-12-18 16:47 
 */ 
@@ -18,7 +18,7 @@ public class PropertyPlaceholderConfigurerExt extends PropertyPlaceholderConfigu
                         throws BeansException { 
                 String password = props.getProperty("jdbc.pass"); 
                 if (password != null) { 
-                        //½âÃÜjdbc.passwordÊôĞÔÖµ£¬²¢ÖØĞÂÉèÖÃ 
+                		//è§£å¯†jdbc.passwordå±æ€§å€¼ï¼Œå¹¶é‡æ–°è®¾ç½® 
                         props.setProperty("jdbc.pass", AESEncryption.encrypt(password, ENVConfig.encryptKey)); 
                 }
                 

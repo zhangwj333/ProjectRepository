@@ -43,10 +43,10 @@ public class SalePendingToVerifyHandler {
 	@Scheduled(cron = "0/10 * *  * * ? ") // execute every 5 second
 	public void NewSaleOrderHandling() {
 		try {
-			List<Sale> sales = saleService.selectSalesByStatus("´ıÈ·ÈÏ");
+			List<Sale> sales = saleService.selectSalesByStatus("å¾…ç¡®è®¤");
 			if (sales.size() > 0) {
 				for (Sale sale : sales) {
-					LogUtil.logger.info("Ö´ĞĞÏúÊÛ¶©µ¥:" + sale.getId());
+					LogUtil.logger.info("æ‰§è¡Œé”€å”®è®¢å•:" + sale.getId());
 					List<Salesub> salesubs = sale.getSalesubs();
 					if (sale.getSalesubs().size() <= 0) {
 						sale.setStatus("InvalidOrder");
@@ -57,16 +57,16 @@ public class SalePendingToVerifyHandler {
 						Inventory inventory = new Inventory();
 						inventory.setGoodid(-1);
 						inventory.setGoodsortid(salesub.getGoodid());
-						inventory.setStatus("´ı³ö»õ");
-						inventory.setType("ÏÖ»õ");
+						inventory.setStatus("å¾…å‡ºè´§");
+						inventory.setType("ç°è´§");
 						inventory.setPrice(salesub.getPrice());
 						inventory.setInventoryqty(-salesub.getGoodqty());
 						inventory.setExecutedate(salesub.getOpertime());
 						inventory.setActionid("sale" + sale.getId());
 						inventoryService.createInventory(inventory);
 					}
-					sale.setStatus("´ı³ö»õ");
-					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": ´ı³ö¿â-¿â´æÒÑ½áËã"));
+					sale.setStatus("å¾…å‡ºè´§");
+					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": å¾…å‡ºåº“-åº“å­˜å·²ç»“ç®—"));
 					saleService.editSale(sale);
 				}
 			}

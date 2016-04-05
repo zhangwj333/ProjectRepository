@@ -109,7 +109,7 @@ public class ReportGenerator {
 		}
 		Map<String, Object> conditionOfFinancereceivable = new HashMap<String, Object>();
 		conditionOfFinancereceivable.put("key", "");
-		conditionOfFinancereceivable.put("type", "Î´½áÇå");
+		conditionOfFinancereceivable.put("type", "æœªç»“æ¸…");
 		List<Financereceivable> financereceivables = financereceivableService.selectSummary(conditionOfFinancereceivable);
 		PDFReport.generateReport(financeSumMonth, financeSumYear, financereceivables);
 

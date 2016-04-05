@@ -76,13 +76,13 @@ public class FinancetypeDML extends BaseController{
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("name", "科目类型"));
+		tablepropertys.add(new TableProperty("name", "绉戠洰绫诲瀷"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", financetypes);
 		mv.addObject("criteria", "Financetype");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "商品");
+		mv.addObject("title", "璐㈠姟鏉＄洰");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("page", page));
@@ -104,7 +104,7 @@ public class FinancetypeDML extends BaseController{
 		Financetype financetype = financetypeService.selectFinancetype(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("name", "科目类型"));
+		tablepropertys.add(new TableProperty("name", "绉戠洰绫诲瀷"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", financetype);
 		mv.setViewName("criteriaShow");
@@ -119,7 +119,7 @@ public class FinancetypeDML extends BaseController{
 		Financetype financetype = financetypeService.selectFinancetype(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("name", "科目类型"));
+		tablepropertys.add(new TableProperty("name", "绉戠洰绫诲瀷"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", financetype);
 		mv.addObject("action", "editFinancetypeProcess");
@@ -136,16 +136,16 @@ public class FinancetypeDML extends BaseController{
 
 		try {
 			financetypeService.editFinancetype(financetype);
-			mv.addObject("message", "更新商品类别成功");
+			mv.addObject("message", "鏇存柊绉戠洰绫诲瀷鎴愬姛");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", "鏇存柊澶辫触锛岃閲嶈瘯!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, "缁撴灉");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -156,7 +156,7 @@ public class FinancetypeDML extends BaseController{
 	public ModelAndView create(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("name", "科目类型"));
+		tablepropertys.add(new TableProperty("name", "绉戠洰绫诲瀷"));
 		
 		Financetype financetype = new Financetype();
 		mv.addObject("tablepropertys", tablepropertys);
@@ -175,16 +175,16 @@ public class FinancetypeDML extends BaseController{
 
 		try {
 			financetypeService.createFinancetype(financetype);
-			mv.addObject("message", "新建商品类别成功");
+			mv.addObject("message", "鏂板缓绉戠洰绫诲瀷鎴愬姛");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "创建失败，请重新操作!");
+			mv.addObject("message", "鍒涘缓澶辫触锛岃閲嶆柊鎿嶄綔!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, "缁撴灉");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -199,16 +199,16 @@ public class FinancetypeDML extends BaseController{
 		try {
 			String tempid = id.split(",", 2)[0];
 			financetypeService.deleteFinancetype(Integer.valueOf(tempid));
-			mv.addObject("message", "删除供应商成功");
+			mv.addObject("message", "鍒犻櫎绉戠洰绫诲瀷鎴愬姛");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "删除失败，请重新操作!");
+			mv.addObject("message", "鍒涘缓澶辫触锛岃閲嶆柊鎿嶄綔!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, "缁撴灉");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

@@ -184,7 +184,7 @@ public class ReportDML extends BaseController {
 	@RequestMapping(value = "/queryHistoryReportProcess")
 	public ModelAndView queryHistoryReport(@RequestParam("year") String year, @RequestParam("month") String month,
 			HttpServletRequest request, HttpSession session) throws Exception {
-		return queryLastMonthReport(year + month, request, session);
+		return queryLastMonthReport(year.trim() + StringUtils.leftPad(month.trim(), 2, "0"), request, session);
 
 	}
 

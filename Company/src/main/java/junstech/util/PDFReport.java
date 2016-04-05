@@ -73,20 +73,20 @@ public class PDFReport {
 
 	public static List<String> getReportData(Map<String, Double> financeSum) {
 		List<String> list = new ArrayList<String>();
-		double mainIncome = financeSum.containsKey("Ö÷ÓªÒµÎñÊÕÈë") ? financeSum.get("Ö÷ÓªÒµÎñÊÕÈë") : Double.valueOf(0);
-		double mainCost = financeSum.containsKey("Ö÷ÓªÒµÎñ³É±¾") ? financeSum.get("Ö÷ÓªÒµÎñ³É±¾") : Double.valueOf(0);
-		double taxOrOthers = financeSum.containsKey("Ö÷ÓªÒµÎñË°½ğ¼°¸½¼Ó") ? financeSum.get("Ö÷ÓªÒµÎñË°½ğ¼°¸½¼Ó") : Double.valueOf(0);
+		double mainIncome = financeSum.containsKey("ä¸»è¥ä¸šåŠ¡æ”¶å…¥") ? financeSum.get("ä¸»è¥ä¸šåŠ¡æ”¶å…¥") : Double.valueOf(0);
+		double mainCost = financeSum.containsKey("ä¸»è¥ä¸šåŠ¡æˆæœ¬") ? financeSum.get("ä¸»è¥ä¸šåŠ¡æˆæœ¬") : Double.valueOf(0);
+		double taxOrOthers = financeSum.containsKey("ä¸»è¥ä¸šåŠ¡ç¨é‡‘åŠé™„åŠ ") ? financeSum.get("ä¸»è¥ä¸šåŠ¡ç¨é‡‘åŠé™„åŠ ") : Double.valueOf(0);
 		double mainProfit = mainIncome + mainCost + taxOrOthers;
-		double otherIncome = financeSum.containsKey("ÆäËûÒµÎñÀûÈó") ? financeSum.get("ÆäËûÒµÎñÀûÈó") : Double.valueOf(0);
-		double operCost = financeSum.containsKey("ÓªÒµ·ÑÓÃ") ? financeSum.get("ÓªÒµ·ÑÓÃ") : Double.valueOf(0);
-		double adminCost = financeSum.containsKey("¹ÜÀí·ÑÓÃ") ? financeSum.get("¹ÜÀí·ÑÓÃ") : Double.valueOf(0);
-		double financeCost = financeSum.containsKey("²ÆÎñ·ÑÓÃ") ? financeSum.get("²ÆÎñ·ÑÓÃ") : Double.valueOf(0);
+		double otherIncome = financeSum.containsKey("å…¶ä»–ä¸šåŠ¡åˆ©æ¶¦") ? financeSum.get("å…¶ä»–ä¸šåŠ¡åˆ©æ¶¦") : Double.valueOf(0);
+		double operCost = financeSum.containsKey("è¥ä¸šè´¹ç”¨") ? financeSum.get("è¥ä¸šè´¹ç”¨") : Double.valueOf(0);
+		double adminCost = financeSum.containsKey("ç®¡ç†è´¹ç”¨") ? financeSum.get("ç®¡ç†è´¹ç”¨") : Double.valueOf(0);
+		double financeCost = financeSum.containsKey("è´¢åŠ¡è´¹ç”¨") ? financeSum.get("è´¢åŠ¡è´¹ç”¨") : Double.valueOf(0);
 		double operProfit = mainProfit + otherIncome + operCost + adminCost + financeCost;
-		double investIncome = financeSum.containsKey("Í¶×ÊÊÕÒæ") ? financeSum.get("Í¶×ÊÊÕÒæ") : Double.valueOf(0);
-		double operExcludeIncome = financeSum.containsKey("ÓªÒµÍâÊÕÈë") ? financeSum.get("ÓªÒµÍâÊÕÈë") : Double.valueOf(0);
-		double operExcludeCost = financeSum.containsKey("ÓªÒµÍâÖ§³ö") ? financeSum.get("ÓªÒµÍâÖ§³ö") : Double.valueOf(0);
+		double investIncome = financeSum.containsKey("æŠ•èµ„æ”¶ç›Š") ? financeSum.get("æŠ•èµ„æ”¶ç›Š") : Double.valueOf(0);
+		double operExcludeIncome = financeSum.containsKey("è¥ä¸šå¤–æ”¶å…¥") ? financeSum.get("è¥ä¸šå¤–æ”¶å…¥") : Double.valueOf(0);
+		double operExcludeCost = financeSum.containsKey("è¥ä¸šå¤–æ”¯å‡º") ? financeSum.get("è¥ä¸šå¤–æ”¯å‡º") : Double.valueOf(0);
 		double totalProfit = operProfit + investIncome + operExcludeIncome + operExcludeCost;
-		double incomeTax = financeSum.containsKey("ËùµÃË°") ? financeSum.get("ËùµÃË°") : Double.valueOf(0);
+		double incomeTax = financeSum.containsKey("æ‰€å¾—ç¨") ? financeSum.get("æ‰€å¾—ç¨") : Double.valueOf(0);
 		double retainedProfit = totalProfit - incomeTax;
 		list.add(String.valueOf(mainIncome));
 		list.add(String.valueOf(mainCost));
@@ -127,7 +127,7 @@ public class PDFReport {
 		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", false);
 		Font fontChinese = new Font(bfChinese, 12, Font.NORMAL, BaseColor.BLACK);
 		double balance = MetaData.initfund + yearEndProfit - financeReceivableTotal;
-		document.add(new Phrase("\r\n\r\n¹«Ë¾Ê£Óà×Ê½ğ: " + balance, fontChinese));
+		document.add(new Phrase("\r\n\r\nï¿½ï¿½Ë¾Ê£ï¿½ï¿½ï¿½Ê½ï¿½: " + balance, fontChinese));
 	}
 	
 	public double createPendingReport(Document document, List<Financereceivable> financereceivables)
@@ -147,12 +147,12 @@ public class PDFReport {
 		PdfPCell cell = new PdfPCell(new Phrase(TEXT, fontChinese));
 		cell.setBorder(Rectangle.NO_BORDER);
 
-		document.add(new Phrase("\r\n\r\nÊ£ÓàÓ¦ÊÕÕË\r\n¼ÇÕËÈÕÆÚ:" + dftime.format(new Date()) + "\r\n", fontChinese));
-		cell.setPhrase(new Phrase("¹«Ë¾", fontChinese));
+		document.add(new Phrase("\r\n\r\nå‰©ä½™åº”æ”¶è´¦\r\nè®°è´¦æ—¥æœŸ:" + dftime.format(new Date()) + "\r\n", fontChinese));
+		cell.setPhrase(new Phrase("å…¬å¸", fontChinese));
 		table.addCell(cell);
-		cell.setPhrase(new Phrase("¶©µ¥×ÜÊı", fontChinese));
+		cell.setPhrase(new Phrase("è®¢å•æ€»æ•°", fontChinese));
 		table.addCell(cell);
-		cell.setPhrase(new Phrase("Ê£ÓàÓ¦ÊÕ", fontChinese));
+		cell.setPhrase(new Phrase("å‰©ä½™åº”æ”¶", fontChinese));
 		table.addCell(cell);
 		double financeReceivableTotal= 0;
 		for (int i = 0; i < financereceivables.size(); i++) {
@@ -174,21 +174,21 @@ public class PDFReport {
 	public double createProfitReport(Document document, List<String> financeSumMonth, List<String> financeSumYear)
 			throws IOException, DocumentException {
 		List<String> list = new ArrayList<String>();
-		list.add("Ò»¡¢Ö÷ÓªÒµÎñÊÕÈë");
-		list.add("   ¼õ: Ö÷ÓªÒµÎñ³É±¾");
-		list.add("          Ö÷ÓªÒµÎñË°½ğ¼°¸½¼Ó");
-		list.add("¶ş¡¢Ö÷ÓªÒµÎñÀûÈó");
-		list.add("   ¼Ó: ÆäËûÒµÎñÀûÈó");
-		list.add("   ¼õ: ÓªÒµ·ÑÓÃ");
-		list.add("          ¹ÜÀí·ÑÓÃ");
-		list.add("          ²ÆÎñ·ÑÓÃ");
-		list.add("Èı¡¢ÓªÒµÀûÈó");
-		list.add("   ¼Ó: Í¶×ÊÊÕÒæ");
-		list.add("          ÓªÒµÍâÊÕÈë");
-		list.add("   ¼õ: ÓªÒµÍâÖ§³ö");
-		list.add("ËÄ¡¢ÀûÈó×Ü¶î");
-		list.add("   ¼õ: ËùµÃË°");
-		list.add("Îå¡¢¾»ÀûÈó");
+		list.add("ä¸€ã€ä¸»è¥ä¸šåŠ¡æ”¶å…¥");
+		list.add("   å‡: ä¸»è¥ä¸šåŠ¡æˆæœ¬");
+		list.add("          ä¸»è¥ä¸šåŠ¡ç¨é‡‘åŠé™„åŠ ");
+		list.add("äºŒã€ä¸»è¥ä¸šåŠ¡åˆ©æ¶¦");
+		list.add("   åŠ : å…¶ä»–ä¸šåŠ¡åˆ©æ¶¦");
+		list.add("   å‡: è¥ä¸šè´¹ç”¨");
+		list.add("          ç®¡ç†è´¹ç”¨");
+		list.add("          è´¢åŠ¡è´¹ç”¨");
+		list.add("ä¸‰ã€è¥ä¸šåˆ©æ¶¦");
+		list.add("   åŠ : æŠ•èµ„æ”¶ç›Š");
+		list.add("          è¥ä¸šå¤–æ”¶å…¥");
+		list.add("   å‡: è¥ä¸šå¤–æ”¯å‡º");
+		list.add("å››ã€åˆ©æ¶¦æ€»é¢");
+		list.add("   å‡: æ‰€å¾—ç¨");
+		list.add("äº”ã€å‡€åˆ©æ¶¦");
 
 		PdfPTable table = new PdfPTable(3);
 		table.setTotalWidth(500);
@@ -213,12 +213,12 @@ public class PDFReport {
 		} else {
 			month = StringUtils.leftPad(String.valueOf(Integer.parseInt(dateInfo[1]) - 1), 2, "0");
 		}
-		document.add(new Phrase(dateInfo[0] + month + "±¨±í\r\nÖÆ±íÈÕÆÚ:" + dftime.format(new Date()) + "\r\n", fontChinese));
-		cell.setPhrase(new Phrase("ÏîÄ¿", fontChinese));
+		document.add(new Phrase(dateInfo[0] + month + "æŠ¥è¡¨\r\nåˆ¶è¡¨æ—¥æœŸ:" + dftime.format(new Date()) + "\r\n", fontChinese));
+		cell.setPhrase(new Phrase("é¡¹ç›®", fontChinese));
 		table.addCell(cell);
-		cell.setPhrase(new Phrase("±¾ÔÂÊı", fontChinese));
+		cell.setPhrase(new Phrase("æœ¬æœˆæ•°", fontChinese));
 		table.addCell(cell);
-		cell.setPhrase(new Phrase("±¾ÄêÀÛ¼ÆÊı", fontChinese));
+		cell.setPhrase(new Phrase("æœ¬å¹´ç´¯è®¡æ•°", fontChinese));
 		table.addCell(cell);
 		for (int i = 0; i < list.size(); i++) {
 			cell.setPhrase(new Phrase(list.get(i), fontChinese));
@@ -315,9 +315,9 @@ public class PDFReport {
 		Properties prop = new Properties();
 		System.out.println(PDFReport.class.getClassLoader().getResource("config.properties").getPath());
 		try {
-			// ¶ÁÈ¡ÊôĞÔÎÄ¼şa.properties
+			// è¯»å–å±æ€§æ–‡ä»¶a.properties
 			InputStream in = PDFReport.class.getClassLoader().getResourceAsStream("config.properties");
-			prop.load(in); /// ¼ÓÔØÊôĞÔÁĞ±í
+			prop.load(in); /// åŠ è½½å±æ€§åˆ—è¡¨
 			DEST = prop.getProperty("report");
 			in.close();
 		} catch (Exception e) {

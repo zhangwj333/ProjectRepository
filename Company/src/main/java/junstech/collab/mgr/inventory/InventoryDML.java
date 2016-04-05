@@ -76,7 +76,7 @@ public class InventoryDML extends BaseController{
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// true:ÔÊĞíÊäÈë¿ÕÖµ£¬false:²»ÄÜÎª¿ÕÖµ
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½false:ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Öµ
 	}
 	
 	@RequestMapping(value = "/querySummaryInventorys")
@@ -97,15 +97,15 @@ public class InventoryDML extends BaseController{
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodsortid", "¹«Ë¾ÉÌÆ·"));
-		tablepropertys.add(new TableProperty("type", "ÖÖÀà"));
-		tablepropertys.add(new TableProperty("inventoryqty", "´æ»õÊıÁ¿"));
+		tablepropertys.add(new TableProperty("goodsortid", "å…¬å¸å•†å“"));
+		tablepropertys.add(new TableProperty("type", "ç§ç±»"));
+		tablepropertys.add(new TableProperty("inventoryqty", "å­˜è´§æ•°é‡"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", inventorys);
 		mv.addObject("criteria", "SummaryInventory");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "´æ»õµ¥");
+		mv.addObject("title", "å­˜è´§å•");
 		mv.addObject("showoper", "no");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
@@ -137,13 +137,13 @@ public class InventoryDML extends BaseController{
 		Inventory inventory = inventoryService.selectInventory(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("actionid", "¿â´æºÅ"));
-		tablepropertys.add(new TableProperty("goodid", "½ø»õÉÌÆ·±àºÅ"));
-		tablepropertys.add(new TableProperty("goodsortid", "¹«Ë¾ÉÌÆ·±àºÅ"));
-		tablepropertys.add(new TableProperty("type", "ÖÖÀà"));
-		tablepropertys.add(new TableProperty("status", "×´Ì¬"));
-		tablepropertys.add(new TableProperty("price", "³É±¾¼Û"));
-		tablepropertys.add(new TableProperty("inventoryqty", "´æ»õÊıÁ¿"));
+		tablepropertys.add(new TableProperty("actionid", "åº“å­˜å·"));
+		tablepropertys.add(new TableProperty("goodid", "è¿›è´§å•†å“ç¼–å·"));
+		tablepropertys.add(new TableProperty("goodsortid", "å…¬å¸å•†å“ç¼–å·"));
+		tablepropertys.add(new TableProperty("type", "ç§ç±»"));
+		tablepropertys.add(new TableProperty("status", "çŠ¶æ€"));
+		tablepropertys.add(new TableProperty("price", "æˆæœ¬ä»·"));
+		tablepropertys.add(new TableProperty("inventoryqty", "å­˜è´§æ•°é‡"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", inventory);
 		mv.setViewName("criteriaShow");
@@ -156,7 +156,7 @@ public class InventoryDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Inventory inventory = inventoryService.selectInventory(id);
 		mv.addObject("proofPath", inventory.getProof());
-		mv.addObject("title", "ÎïÁ÷µ¥¾İ");
+		mv.addObject("title", "ç‰©æµå•æ®");
 		mv.setViewName("proof");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		return this.outputView(session, mv);
@@ -185,24 +185,24 @@ public class InventoryDML extends BaseController{
 
 		try {
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;      
-	        // »ñµÃÎÄ¼ş£º      
+	        // ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½      
 	        MultipartFile file = multipartRequest.getFile("img");  
 	        String path = "/" + df.format(new Date()) + FileUtil.getFileExtension(file.getOriginalFilename());
 	        FileUtil.save(file, MetaData.cargoPath + path);
 	        Inventory inventory = inventoryService.selectInventory(id);
 	        inventory.setProof("/cargo" + path);
 	        inventoryService.editInventory(inventory);
-			mv.addObject("message", "¸üĞÂÕËÄ¿¼ÇÂ¼³É¹¦");
+	        mv.addObject("message", "æ›´æ–°è´¦ç›®è®°å½•æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", "¸üĞÂÊ§°Ü£¬ÇëÖØÊÔ!");
+			mv.addObject("message", "æ›´æ–°å¤±è´¥ï¼Œè¯·é‡è¯•!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -217,12 +217,12 @@ public class InventoryDML extends BaseController{
 		List<Product> types = productService.selectAllProducts();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodid", "½ø»õÉÌÆ·±àºÅ"));
-		tablepropertys.add(new TableProperty("goodsortid", "¹«Ë¾ÉÌÆ·±àºÅ"));
-		tablepropertys.add(new TableProperty("status", "×´Ì¬"));
-		tablepropertys.add(new TableProperty("price", "³É±¾¼Û"));
-		tablepropertys.add(new TableProperty("inventoryqty", "´æ»õÊıÁ¿"));
-		tablepropertys.add(new TableProperty("actionid", "¿â´æºÅ"));
+		tablepropertys.add(new TableProperty("goodid", "è¿›è´§å•†å“ç¼–å·"));
+		tablepropertys.add(new TableProperty("goodsortid", "å…¬å¸å•†å“ç¼–å·"));
+		tablepropertys.add(new TableProperty("status", "çŠ¶æ€"));
+		tablepropertys.add(new TableProperty("price", "æˆæœ¬ä»·"));
+		tablepropertys.add(new TableProperty("inventoryqty", "å­˜è´§æ•°é‡"));
+		tablepropertys.add(new TableProperty("actionid", "åº“å­˜å·"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", inventory);
 		mv.addObject("types", types);
@@ -240,16 +240,16 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.editInventory(inventory);
-			mv.addObject("message", "¸üĞÂÉÌÆ·³É¹¦");
+			mv.addObject("message", "æ›´æ–°å•†å“æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "¸üĞÂÊ§°Ü£¬ÇëÖØÊÔ!");
+			mv.addObject("message", "æ›´æ–°å¤±è´¥ï¼Œè¯·é‡è¯•!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -260,12 +260,12 @@ public class InventoryDML extends BaseController{
 	public ModelAndView createInventory(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("actionid", "¿â´æºÅ"));
-		tablepropertys.add(new TableProperty("goodid", "½ø»õÉÌÆ·±àºÅ"));
-		tablepropertys.add(new TableProperty("goodsortid", "¹«Ë¾ÉÌÆ·±àºÅ"));
-		tablepropertys.add(new TableProperty("status", "×´Ì¬"));
-		tablepropertys.add(new TableProperty("price", "³É±¾¼Û"));
-		tablepropertys.add(new TableProperty("inventoryqty", "´æ»õÊıÁ¿"));
+		tablepropertys.add(new TableProperty("actionid", "åº“å­˜å·"));
+		tablepropertys.add(new TableProperty("goodid", "è¿›è´§å•†å“ç¼–å·"));
+		tablepropertys.add(new TableProperty("goodsortid", "å…¬å¸å•†å“ç¼–å·"));
+		tablepropertys.add(new TableProperty("status", "çŠ¶æ€"));
+		tablepropertys.add(new TableProperty("price", "æˆæœ¬ä»·"));
+		tablepropertys.add(new TableProperty("inventoryqty", "å­˜è´§æ•°é‡"));
 		Inventory inventory = new Inventory();
 		List<Product> types = productService.selectAllProducts();
 		mv.addObject("tablepropertys", tablepropertys);
@@ -285,16 +285,16 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.createInventory(Inventory);
-			mv.addObject("message", "ĞÂ½¨ÉÌÆ·³É¹¦");
+			mv.addObject("message", "æ–°å»ºå•†å“æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "´´½¨Ê§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ›å»ºå¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -308,16 +308,16 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.deleteInventory(id);
-			mv.addObject("message", "É¾³ıÉÌÆ·³É¹¦");
+			mv.addObject("message", "åˆ é™¤å•†å“æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "É¾³ıÊ§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ é™¤å¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -335,20 +335,20 @@ public class InventoryDML extends BaseController{
 			String tempid = id.split("," , 2)[0];
 			Inventory inventory = inventoryService.selectInventory(Long.parseLong(tempid));
 			if(inventory.getActionid().contains("purchase")){
-				inventory.setStatus("ÒÑÈë¿â");
-				inventory.setType("ÏÖ»õ");
+				inventory.setStatus("å·²å…¥åº“");
+				inventory.setType("ç°è´§");
 				inventory.setExecutedate(new Date());
 			}else if (inventory.getActionid().contains("sale")){
-				inventory.setStatus("ÒÑ³ö»õ");				
+				inventory.setStatus("å·²å‡ºè´§");			
 			}
 			inventoryService.editInventory(inventory);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 			return prepareView(mv, id.split("," , 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", "¸üĞÂÊ§°Ü£¬ÇëÖØÊÔ!");
+			mv.addObject("message", "æ›´æ–°å¤±è´¥ï¼Œè¯·é‡è¯•!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, "½á¹û");
+			mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -371,19 +371,19 @@ public class InventoryDML extends BaseController{
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("actionid", "ID"));
-		tablepropertys.add(new TableProperty("goodid", "½ø»õÉÌÆ·±àºÅ"));
-		tablepropertys.add(new TableProperty("goodsortid", "¹«Ë¾ÉÌÆ·±àºÅ"));
-		tablepropertys.add(new TableProperty("type", "ÖÖÀà"));
-		tablepropertys.add(new TableProperty("status", "×´Ì¬"));
-		tablepropertys.add(new TableProperty("executedate", "Èë¿â/ËÍ»õÊ±¼ä"));
-		tablepropertys.add(new TableProperty("price", "³É±¾¼Û"));
-		tablepropertys.add(new TableProperty("inventoryqty", "´æ»õÊıÁ¿"));
+		tablepropertys.add(new TableProperty("goodid", "è¿›è´§å•†å“ç¼–å·"));
+		tablepropertys.add(new TableProperty("goodsortid", "å…¬å¸å•†å“ç¼–å·"));
+		tablepropertys.add(new TableProperty("type", "ç§ç±»"));
+		tablepropertys.add(new TableProperty("status", "çŠ¶æ€"));
+		tablepropertys.add(new TableProperty("executedate", "å…¥åº“/é€è´§æ—¶é—´"));
+		tablepropertys.add(new TableProperty("price", "æˆæœ¬ä»·"));
+		tablepropertys.add(new TableProperty("inventoryqty", "å­˜è´§æ•°é‡"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", inventorys);
 		mv.addObject("criteria", "Inventory");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "ÎïÁ÷µ¥¾İ");
+		mv.addObject("title", "ç‰©æµå•æ®");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));

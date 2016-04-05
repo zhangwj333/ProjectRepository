@@ -77,7 +77,6 @@ public class FinanceReceviableVerifyHandler {
 	public void FinanceReceviableVerifyHandling() throws Exception {
 		try {
 			List<Customer> customers = customerService.selectAllCustomers();
-			LogUtil.logger.info("÷¥––”¶ ’’À’˚¿Ì.........");
 			for (Customer customer : customers) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("companyid", customer.getId());
@@ -96,24 +95,24 @@ public class FinanceReceviableVerifyHandler {
 					if (total == 0) {
 						break;
 					} else if (total >= financereceivable.getTotalamount()) {
-						if (financereceivable.getType().equals("Œ¥Ω·«Â")) {
+						if (financereceivable.getType().equals("Êú™ÁªìÊ∏Ö")) {
 							financereceivable.setNowpay(financereceivable.getTotalamount());
-							financereceivable.setType("“—Ω·«Â");
+							financereceivable.setType("Â∑≤ÁªìÊ∏Ö");
 							financereceivable
-									.setNote(financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": “—Ω·«Â");
+									.setNote(financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": Â∑≤ÁªìÊ∏Ö");
 							financereceivableService.editFinancereceivable(financereceivable);
 							Sale sale = saleService.selectSale(financereceivable.getSaleid());
-							sale.setStatus("“—ÕÍ≥…");
-							sale.setNote(sale.getNote() + "<br/>" + df.format(new Date()) + ": “—ÕÍ≥… ’øÓ");
+							sale.setStatus("Â∑≤ÂÆåÊàê");
+							sale.setNote(sale.getNote() + "<br/>" + df.format(new Date()) + ": Â∑≤ÂÆåÊàêÊî∂Ê¨æ");
 							saleService.editSale(sale);
 						}
 						total = total - financereceivable.getTotalamount();
 					} else {
 						if (total != financereceivable.getNowpay()) {
-							financereceivable.setType("Œ¥Ω·«Â");
+							financereceivable.setType("Êú™ÁªìÊ∏Ö");
 							financereceivable.setNowpay(total);
 							financereceivable.setNote(
-									financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": “—Ω·" + total);
+									financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": Â∑≤Áªì" + total);
 							financereceivableService.editFinancereceivable(financereceivable);
 						}
 						total = 0;
@@ -124,7 +123,6 @@ public class FinanceReceviableVerifyHandler {
 		} catch (Exception e) {
 			LogUtil.logger.error(e.getStackTrace().toString());
 		}
-		LogUtil.logger.info("ÕÍ≥…”¶ ’’À’˚¿Ì.........");
 	}
 
 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");

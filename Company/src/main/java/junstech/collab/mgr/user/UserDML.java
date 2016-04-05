@@ -85,7 +85,7 @@ public class UserDML extends BaseController{
 	public void initBinder(WebDataBinder binder) {
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	    dateFormat.setLenient(false);
-	    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));//true:ÔÊĞíÊäÈë¿ÕÖµ£¬false:²»ÄÜÎª¿ÕÖµ
+	    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));//true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½false:ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Öµ
 	}
 	
 	@RequestMapping(value = "/queryUsers")
@@ -109,17 +109,17 @@ public class UserDML extends BaseController{
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("username", "ÓÃ»§Ãû"));
-		tablepropertys.add(new TableProperty("nickname", "êÇ³Æ"));
-		tablepropertys.add(new TableProperty("createTime", "´´½¨Ê±¼ä"));
-		tablepropertys.add(new TableProperty("lastlogintime", "ÉÏ´ÎµÇÂ¼Ê±¼ä"));
-		tablepropertys.add(new TableProperty("superuser", "ÓÃ»§ÀàĞÍ"));
+		tablepropertys.add(new TableProperty("username", "ç”¨æˆ·å"));
+		tablepropertys.add(new TableProperty("nickname", "æ˜µç§°"));
+		tablepropertys.add(new TableProperty("createTime", "åˆ›å»ºæ—¶é—´"));
+		tablepropertys.add(new TableProperty("lastlogintime", "ä¸Šæ¬¡ç™»å½•æ—¶é—´"));
+		tablepropertys.add(new TableProperty("superuser", "ç”¨æˆ·ç±»å‹"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", users);
 		mv.addObject("criteria", "User");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "ÓÃ»§");
+		mv.addObject("title", "ç”¨æˆ·");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));
@@ -143,10 +143,10 @@ public class UserDML extends BaseController{
 		User user = userService.getUserWithPrivilege(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("username", "ÓÃ»§Ãû"));
-		tablepropertys.add(new TableProperty("nickname", "êÇ³Æ"));
-		tablepropertys.add(new TableProperty("lastlogintime", "ÉÏ´ÎµÇÂ¼Ê±¼ä"));
-		tablepropertys.add(new TableProperty("superuser", "ÓÃ»§ÀàĞÍ"));
+		tablepropertys.add(new TableProperty("username", "ç”¨æˆ·å"));
+		tablepropertys.add(new TableProperty("nickname", "æ˜µç§°"));
+		tablepropertys.add(new TableProperty("lastlogintime", "ä¸Šæ¬¡ç™»å½•æ—¶é—´"));
+		tablepropertys.add(new TableProperty("superuser", "æ˜¯å¦ç®¡ç†å‘˜"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", user);
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
@@ -178,19 +178,19 @@ public class UserDML extends BaseController{
 		user.setPassword(AESEncryption.decrypt(user.getPassword(), ENVConfig.encryptKey));
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("username", "ÓÃ»§Ãû"));
-		tablepropertys.add(new TableProperty("password", "ÃÜÂë"));
-		tablepropertys.add(new TableProperty("nickname", "êÇ³Æ"));
-		tablepropertys.add(new TableProperty("phone", "µç»°"));
+		tablepropertys.add(new TableProperty("username", "ç”¨æˆ·å"));
+		tablepropertys.add(new TableProperty("password", "å¯†ç "));
+		tablepropertys.add(new TableProperty("nickname", "æ˜µç§°"));
+		tablepropertys.add(new TableProperty("phone", "ç”µè¯"));
 		tablepropertys.add(new TableProperty("email", "E-mail"));
-		tablepropertys.add(new TableProperty("superuser", "ÊÇ·ñ¹ÜÀíÔ±"));
+		tablepropertys.add(new TableProperty("superuser", "æ˜¯å¦ç®¡ç†å‘˜"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", user);
 		mv.addObject("action", "editUserProcess");
 		mv.addObject("modelAttribute", "user");
 		List<TableProperty> subtablepropertys = new ArrayList<TableProperty>();
-		subtablepropertys.add(new TableProperty("programname", "Ä£¿é"));
-		subtablepropertys.add(new TableProperty("privilege", "È¨ÏŞ"));
+		subtablepropertys.add(new TableProperty("programname", "æ¨¡å—"));
+		subtablepropertys.add(new TableProperty("privilege", "æƒé™"));
 		mv.addObject("subtablepropertys", subtablepropertys);
 		mv.setViewName("userEdit");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
@@ -204,16 +204,16 @@ public class UserDML extends BaseController{
 
 		try {
 			userService.updateUser(user);
-			mv.addObject("message", "¸üĞÂÓÃ»§³É¹¦");
+			mv.addObject("message", "æ›´æ–°ç”¨æˆ·æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "¸üĞÂÊ§°Ü£¬ÇëÖØÊÔ!");
+			mv.addObject("message", "æ›´æ–°å¤±è´¥ï¼Œè¯·é‡è¯•!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -224,11 +224,11 @@ public class UserDML extends BaseController{
 	public ModelAndView createUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("username", "ÓÃ»§Ãû"));
-		tablepropertys.add(new TableProperty("password", "ÃÜÂë"));
-		tablepropertys.add(new TableProperty("nickname", "êÇ³Æ"));
-		tablepropertys.add(new TableProperty("phone", "µç»°"));
-		tablepropertys.add(new TableProperty("superuser", "ÊÇ·ñ¹ÜÀíÔ±"));
+		tablepropertys.add(new TableProperty("username", "ç”¨æˆ·å"));
+		tablepropertys.add(new TableProperty("password", "å¯†ç "));
+		tablepropertys.add(new TableProperty("nickname", "æ˜µç§°"));
+		tablepropertys.add(new TableProperty("phone", "ç”µè¯"));
+		tablepropertys.add(new TableProperty("superuser", "æ˜¯å¦ç®¡ç†å‘˜"));
 		List<Privilege> privileges = new ArrayList<Privilege>();
 		List<Criteria> criterias = criteriaService.getAllCriteria();
 		for (Criteria criteria : criterias) {
@@ -252,16 +252,16 @@ public class UserDML extends BaseController{
 
 		try {
 			userService.createUser(user);
-			mv.addObject("message", "ĞÂ½¨ÓÃ»§³É¹¦");
+			mv.addObject("message", "æ–°å»ºç”¨æˆ·æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "´´½¨Ê§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ›å»ºå¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -275,16 +275,16 @@ public class UserDML extends BaseController{
 
 		try {
 			userService.deleteUser(id);
-			mv.addObject("message", "É¾³ıÓÃ»§³É¹¦");
+			mv.addObject("message", "åˆ é™¤ç”¨æˆ·æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "É¾³ıÊ§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ é™¤å¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

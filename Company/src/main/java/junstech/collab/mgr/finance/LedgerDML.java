@@ -113,7 +113,7 @@ public class LedgerDML extends BaseController{
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// true:ÔÊĞíÊäÈë¿ÕÖµ£¬false:²»ÄÜÎª¿ÕÖµ
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½false:ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Öµ
 	}
 	
 	
@@ -128,24 +128,24 @@ public class LedgerDML extends BaseController{
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("key", key);
-		map.put("type", "Î´½áÇå");
+		map.put("type", "æœªç»“æ¸…");
 		map.put("prev",  (page - 1) * size);
 		map.put("next",  size);
 		List<Financereceivable> financereceivables = financetypereceivableService.selectSummary(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("companyid", "¿Í»§"));
-		tablepropertys.add(new TableProperty("type", "×´Ì¬"));
-		tablepropertys.add(new TableProperty("totalamount", "Î´½á×Ü½ğ¶î"));
-		tablepropertys.add(new TableProperty("nowpay", "ÒÑÊÕ½ğ¶î"));
-		tablepropertys.add(new TableProperty("needpay", "Ê£Óà½ğ¶î"));
-		tablepropertys.add(new TableProperty("note", "×¢Ã÷"));
+		tablepropertys.add(new TableProperty("companyid", "å®¢æˆ·"));
+		tablepropertys.add(new TableProperty("type", "çŠ¶æ€"));
+		tablepropertys.add(new TableProperty("totalamount", "æœªç»“æ€»é‡‘é¢"));
+		tablepropertys.add(new TableProperty("nowpay", "å·²æ”¶é‡‘é¢"));
+		tablepropertys.add(new TableProperty("needpay", "å‰©ä½™é‡‘é¢"));
+		tablepropertys.add(new TableProperty("note", "æ³¨æ˜"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", financereceivables);
 		mv.addObject("criteria", "SummaryCurrentFinanceReceivable");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "´æ»õµ¥");
+		mv.addObject("title", "å­˜è´§å•");
 		mv.addObject("showoper", "no");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
@@ -177,13 +177,13 @@ public class LedgerDML extends BaseController{
 		Ledger ledger = ledgerService.selectLedger(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("receiveid", "ÈëÕË±àºÅ"));
-		tablepropertys.add(new TableProperty("financetype", "²ÆÎñÌõÄ¿"));
-		tablepropertys.add(new TableProperty("companytype", "¹«Ë¾ÀàĞÍ"));
-		tablepropertys.add(new TableProperty("companyid", "¹©Ó¦ÉÌ/¿Í»§"));
-		tablepropertys.add(new TableProperty("paydate", "ÈëÕËÈÕÆÚ"));
-		tablepropertys.add(new TableProperty("amount", "½ğ¶î"));
-		tablepropertys.add(new TableProperty("note", "×¢Ã÷"));
+		tablepropertys.add(new TableProperty("receiveid", "å…¥è´¦ç¼–å·"));
+		tablepropertys.add(new TableProperty("financetype", "è´¢åŠ¡æ¡ç›®"));
+		tablepropertys.add(new TableProperty("companytype", "å…¬å¸ç±»å‹"));
+		tablepropertys.add(new TableProperty("companyid", "ä¾›åº”å•†/å®¢æˆ·"));
+		tablepropertys.add(new TableProperty("paydate", "å…¥è´¦æ—¥æœŸ"));
+		tablepropertys.add(new TableProperty("amount", "é‡‘é¢"));
+		tablepropertys.add(new TableProperty("note", "æ³¨æ˜"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", ledger);
 		mv.setViewName("criteriaShow");
@@ -196,7 +196,7 @@ public class LedgerDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Ledger ledger = ledgerService.selectLedger(id);
 		mv.addObject("proofPath", ledger.getProof());
-		mv.addObject("title", "²ÆÎñÆ¾Ö¤");
+		mv.addObject("title", "è´¢åŠ¡å‡­è¯");
 		mv.setViewName("proof");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		return this.outputView(session, mv);
@@ -225,24 +225,24 @@ public class LedgerDML extends BaseController{
 
 		try {
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;      
-	        // »ñµÃÎÄ¼ş£º      
+	        // ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½      
 	        MultipartFile file = multipartRequest.getFile("img");  
 	        String path = "/" + df.format(new Date()) + FileUtil.getFileExtension(file.getOriginalFilename());
 	        FileUtil.save(file, MetaData.transactionPath + path);
 			Ledger ledger = ledgerService.selectLedger(Long.valueOf(id));
 			ledger.setProof("/transaction" + path);
 			ledgerService.editLedger(ledger);
-			mv.addObject("message", "¸üĞÂÕËÄ¿¼ÇÂ¼³É¹¦");
+			mv.addObject("message", "æ›´æ–°è´¦ç›®è®°å½•æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", "¸üĞÂÊ§°Ü£¬ÇëÖØÊÔ!");
+			mv.addObject("message", "æ›´æ–°å¤±è´¥ï¼Œè¯·é‡è¯•!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -259,13 +259,13 @@ public class LedgerDML extends BaseController{
 		List<Supplier> suppliers = supplierService.selectAllSuppliers();
 		List<Customer> customers = customerService.selectAllCustomers();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("receiveid", "ÈëÕË±àºÅ"));
-		tablepropertys.add(new TableProperty("financetype", "²ÆÎñÌõÄ¿"));
-		tablepropertys.add(new TableProperty("companytype", "¹«Ë¾ÀàĞÍ"));
-		tablepropertys.add(new TableProperty("companyid", "¹©Ó¦ÉÌ/¿Í»§"));
-		tablepropertys.add(new TableProperty("paydate", "ÈëÕËÈÕÆÚ"));
-		tablepropertys.add(new TableProperty("amount", "½ğ¶î"));
-		tablepropertys.add(new TableProperty("note", "×¢Ã÷"));
+		tablepropertys.add(new TableProperty("receiveid", "å…¥è´¦ç¼–å·"));
+		tablepropertys.add(new TableProperty("financetype", "è´¢åŠ¡æ¡ç›®"));
+		tablepropertys.add(new TableProperty("companytype", "å…¬å¸ç±»å‹"));
+		tablepropertys.add(new TableProperty("companyid", "ä¾›åº”å•†/å®¢æˆ·"));
+		tablepropertys.add(new TableProperty("paydate", "å…¥è´¦æ—¥æœŸ"));
+		tablepropertys.add(new TableProperty("amount", "é‡‘é¢"));
+		tablepropertys.add(new TableProperty("note", "æ³¨æ˜"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", ledger);
 		mv.addObject("types", types);
@@ -285,16 +285,16 @@ public class LedgerDML extends BaseController{
 
 		try {
 			ledgerService.editLedger(ledger);
-			mv.addObject("message", "¸üĞÂÕËÄ¿¼ÇÂ¼³É¹¦");
+			mv.addObject("message", "æ›´æ–°è´¦ç›®è®°å½•æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "¸üĞÂÊ§°Ü£¬ÇëÖØÊÔ!");
+			mv.addObject("message", "æ›´æ–°å¤±è´¥ï¼Œè¯·é‡è¯•!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -305,13 +305,13 @@ public class LedgerDML extends BaseController{
 	public ModelAndView createLedger(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("receiveid", "ÈëÕË±àºÅ"));
-		tablepropertys.add(new TableProperty("financetype", "²ÆÎñÌõÄ¿"));
-		tablepropertys.add(new TableProperty("companytype", "¹«Ë¾ÀàĞÍ"));
-		tablepropertys.add(new TableProperty("companyid", "¹©Ó¦ÉÌ/¿Í»§"));
-		tablepropertys.add(new TableProperty("paydate", "ÈëÕËÈÕÆÚ"));
-		tablepropertys.add(new TableProperty("amount", "½ğ¶î"));
-		tablepropertys.add(new TableProperty("note", "×¢Ã÷"));
+		tablepropertys.add(new TableProperty("receiveid", "å…¥è´¦ç¼–å·"));
+		tablepropertys.add(new TableProperty("financetype", "è´¢åŠ¡æ¡ç›®"));
+		tablepropertys.add(new TableProperty("companytype", "å…¬å¸ç±»å‹"));
+		tablepropertys.add(new TableProperty("companyid", "ä¾›åº”å•†/å®¢æˆ·"));
+		tablepropertys.add(new TableProperty("paydate", "å…¥è´¦æ—¥æœŸ"));
+		tablepropertys.add(new TableProperty("amount", "é‡‘é¢"));
+		tablepropertys.add(new TableProperty("note", "æ³¨æ˜"));
 		Ledger ledger = new Ledger();
 		List<Financetype> types = financetypeService.selectAllFinancetypes();
 		List<Supplier> suppliers = supplierService.selectAllSuppliers();
@@ -335,16 +335,16 @@ public class LedgerDML extends BaseController{
 
 		try {
 			ledgerService.createLedger(Ledger);
-			mv.addObject("message", "ĞÂ½¨ÕËÄ¿¼ÇÂ¼³É¹¦");
+			mv.addObject("message", "æ–°å»ºè´¦ç›®è®°å½•æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "´´½¨Ê§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ›å»ºå¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -364,9 +364,9 @@ public class LedgerDML extends BaseController{
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
-			mv.addObject("message", "É¾³ıÊ§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ é™¤å¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, "½á¹û");
+			mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -390,18 +390,18 @@ public class LedgerDML extends BaseController{
 		List<Ledger> ledgers = ledgerService.selectLedgers(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("receiveid", "ÈëÕË±àºÅ"));
-		tablepropertys.add(new TableProperty("financetype", "²ÆÎñÌõÄ¿"));
-		tablepropertys.add(new TableProperty("companyid", "¹©Ó¦ÉÌ/¿Í»§"));
-		tablepropertys.add(new TableProperty("paydate", "ÈëÕËÈÕÆÚ"));
-		tablepropertys.add(new TableProperty("amount", "½ğ¶î"));
-		tablepropertys.add(new TableProperty("note", "×¢Ã÷"));
+		tablepropertys.add(new TableProperty("receiveid", "å…¥è´¦ç¼–å·"));
+		tablepropertys.add(new TableProperty("financetype", "è´¢åŠ¡æ¡ç›®"));
+		tablepropertys.add(new TableProperty("companyid", "ä¾›åº”å•†/å®¢æˆ·"));
+		tablepropertys.add(new TableProperty("paydate", "å…¥è´¦æ—¥æœŸ"));
+		tablepropertys.add(new TableProperty("amount", "é‡‘é¢"));
+		tablepropertys.add(new TableProperty("note", "æ³¨æ˜"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", ledgers);
 		mv.addObject("criteria", "Ledger");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "²ÆÎñÆ¾Ö¤");
+		mv.addObject("title", "è´¢åŠ¡å‡­è¯");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));

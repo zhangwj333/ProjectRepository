@@ -26,16 +26,16 @@ public class JacksonUtil {
 	}
 	
 	/**
-	 * javaBean、list、map convert to json string
+	 * javaBean锟斤拷list锟斤拷map convert to json string
 	 */
 	public static String obj2json(Object obj){
-//		return JSON.toJSONString(obj,SerializerFeature.UseSingleQuotes);//使用单引号
-//		return JSON.toJSONString(obj,true);//格式化数据，方便阅读
+//		return JSON.toJSONString(obj,SerializerFeature.UseSingleQuotes);//
+//		return JSON.toJSONString(obj,true);//
 		return JSON.toJSONString(obj,mapping);
 	}
 	
 	/**
-	 * json string convert to javaBean、map
+	 * json string convert to javaBean
 	 */
 	public static <T> T json2obj(String jsonStr,Class<T> clazz){
 		return JSON.parseObject(jsonStr,clazz);

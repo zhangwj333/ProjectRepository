@@ -76,16 +76,16 @@ public class SupplierDML extends BaseController{
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("supplier", "¹©Ó¦ÉÌ"));
-		tablepropertys.add(new TableProperty("phone", "ÁªÏµµç»°"));
-		tablepropertys.add(new TableProperty("address", "µØÖ·"));
-		tablepropertys.add(new TableProperty("note", "±¸×¢"));
+		tablepropertys.add(new TableProperty("supplier", "ä¾›åº”å•†"));
+		tablepropertys.add(new TableProperty("phone", "è”ç³»ç”µè¯"));
+		tablepropertys.add(new TableProperty("address", "åœ°å€"));
+		tablepropertys.add(new TableProperty("note", "å¤‡æ³¨"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", suppliers);
 		mv.addObject("criteria", "Supplier");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "¹©Ó¦ÉÌ");
+		mv.addObject("title", "ä¾›åº”å•†");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("page", page));
@@ -107,10 +107,10 @@ public class SupplierDML extends BaseController{
 		Supplier supplier = supplierService.selectSupplier(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("supplier", "¹©Ó¦ÉÌ"));
-		tablepropertys.add(new TableProperty("phone", "ÁªÏµµç»°"));
-		tablepropertys.add(new TableProperty("address", "µØÖ·"));
-		tablepropertys.add(new TableProperty("note", "±¸×¢"));
+		tablepropertys.add(new TableProperty("supplier", "ä¾›åº”å•†"));
+		tablepropertys.add(new TableProperty("phone", "è”ç³»ç”µè¯"));
+		tablepropertys.add(new TableProperty("address", "åœ°å€"));
+		tablepropertys.add(new TableProperty("note", "å¤‡æ³¨"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", supplier);
 		mv.setViewName("criteriaShow");
@@ -125,10 +125,10 @@ public class SupplierDML extends BaseController{
 		Supplier supplier = supplierService.selectSupplier(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("supplier", "¹©Ó¦ÉÌ"));
-		tablepropertys.add(new TableProperty("phone", "ÁªÏµµç»°"));
-		tablepropertys.add(new TableProperty("address", "µØÖ·"));
-		tablepropertys.add(new TableProperty("note", "±¸×¢"));
+		tablepropertys.add(new TableProperty("supplier", "ä¾›åº”å•†"));
+		tablepropertys.add(new TableProperty("phone", "è”ç³»ç”µè¯"));
+		tablepropertys.add(new TableProperty("address", "åœ°å€"));
+		tablepropertys.add(new TableProperty("note", "å¤‡æ³¨"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", supplier);
 		mv.addObject("action", "editSupplierProcess");
@@ -145,16 +145,16 @@ public class SupplierDML extends BaseController{
 
 		try {
 			supplierService.editSupplier(supplier);
-			mv.addObject("message", "¸üĞÂ¹©Ó¦ÉÌ³É¹¦");
+			mv.addObject("message", "æ›´æ–°ä¾›åº”å•†æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "¸üĞÂÊ§°Ü£¬ÇëÖØÊÔ!");
+			mv.addObject("message", "æ›´æ–°å¤±è´¥ï¼Œè¯·é‡è¯•!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -165,10 +165,10 @@ public class SupplierDML extends BaseController{
 	public ModelAndView createUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("supplier", "¹©Ó¦ÉÌ"));
-		tablepropertys.add(new TableProperty("phone", "ÁªÏµµç»°"));
-		tablepropertys.add(new TableProperty("address", "µØÖ·"));
-		tablepropertys.add(new TableProperty("note", "±¸×¢"));
+		tablepropertys.add(new TableProperty("supplier", "ä¾›åº”å•†"));
+		tablepropertys.add(new TableProperty("phone", "è”ç³»ç”µè¯"));
+		tablepropertys.add(new TableProperty("address", "åœ°å€"));
+		tablepropertys.add(new TableProperty("note", "å¤‡æ³¨"));
 		
 		Supplier supplier = new Supplier();
 		mv.addObject("tablepropertys", tablepropertys);
@@ -187,16 +187,16 @@ public class SupplierDML extends BaseController{
 
 		try {
 			supplierService.createSupplier(supplier);
-			mv.addObject("message", "ĞÂ½¨¹©Ó¦ÉÌ³É¹¦");
+			mv.addObject("message", "æ–°å»ºä¾›åº”å•†æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "´´½¨Ê§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ›å»ºå¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -211,16 +211,16 @@ public class SupplierDML extends BaseController{
 		try {
 			String tempid = id.split(",", 2)[0];
 			supplierService.deleteSupplier(Integer.parseInt(tempid));
-			mv.addObject("message", "É¾³ı¹©Ó¦ÉÌ³É¹¦");
+			mv.addObject("message", "åˆ é™¤ä¾›åº”å•†æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "É¾³ıÊ§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ é™¤å¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

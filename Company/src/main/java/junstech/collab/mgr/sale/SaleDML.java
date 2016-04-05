@@ -85,7 +85,7 @@ public class SaleDML extends BaseController{
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// true:ÔÊĞíÊäÈë¿ÕÖµ£¬false:²»ÄÜÎª¿ÕÖµ
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// true:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½false:ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Öµ
 	}
 
 	@RequestMapping(value = "/querySales")
@@ -107,20 +107,20 @@ public class SaleDML extends BaseController{
 		}
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("salemanid", "ÏúÊÛÔ±"));
-		tablepropertys.add(new TableProperty("customerid", "¿Í»§"));
-		tablepropertys.add(new TableProperty("saletime", "¿ªµ¥Ê±¼ä"));
-		tablepropertys.add(new TableProperty("operman", "²Ù×÷ÈË"));
-		tablepropertys.add(new TableProperty("total", "ÏúÊÛ×Ü¼Û"));
-		tablepropertys.add(new TableProperty("status", "×´Ì¬"));
-		tablepropertys.add(new TableProperty("note", "ËµÃ÷"));
+		tablepropertys.add(new TableProperty("salemanid", "é”€å”®å‘˜"));
+		tablepropertys.add(new TableProperty("customerid", "å®¢æˆ·"));
+		tablepropertys.add(new TableProperty("saletime", "å¼€å•æ—¶é—´"));
+		tablepropertys.add(new TableProperty("operman", "æ“ä½œäºº"));
+		tablepropertys.add(new TableProperty("total", "é”€å”®æ€»ä»·"));
+		tablepropertys.add(new TableProperty("status", "çŠ¶æ€"));
+		tablepropertys.add(new TableProperty("note", "è¯´æ˜"));
 		mv.addObject("tablepropertys", tablepropertys);
 		List<TableProperty> tablesubpropertys = new ArrayList<TableProperty>();
-		tablesubpropertys.add(new TableProperty("goodid", "ÉÌÆ·"));
-		tablesubpropertys.add(new TableProperty("price", "¼Û¸ñ"));
-		tablesubpropertys.add(new TableProperty("goodqty", "ÊıÁ¿(¶Ö)"));
-		tablesubpropertys.add(new TableProperty("opertime", "ËÍ»õÊ±¼ä"));
-		tablesubpropertys.add(new TableProperty("verification", "ÊÇ·ñºËÏú"));
+		tablesubpropertys.add(new TableProperty("goodid", "å•†å“"));
+		tablesubpropertys.add(new TableProperty("price", "ä»·æ ¼"));
+		tablesubpropertys.add(new TableProperty("goodqty", "æ•°é‡(å¨)"));
+		tablesubpropertys.add(new TableProperty("opertime", "é€è´§æ—¶é—´"));
+		tablesubpropertys.add(new TableProperty("verification", "æ˜¯å¦æ ¸é”€"));
 		mv.addObject("tablesubpropertys", tablesubpropertys);
 		mv.addObject("tableline", sale);
 		mv.addObject("tablesublines", sale.getSalesubs());
@@ -139,14 +139,14 @@ public class SaleDML extends BaseController{
 		}
 		sale.setNote(sale.getNote().replaceAll("<br/>", "\r\n"));
 		List<String> statusOptions = new ArrayList<String>();
-		statusOptions.add("ĞÂ¿ªµ¥");
+		statusOptions.add("ï¿½Â¿ï¿½ï¿½ï¿½");
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("salemanid", "ÏúÊÛÔ±"));
-		tablepropertys.add(new TableProperty("customerid", "¿Í»§"));
-		tablepropertys.add(new TableProperty("total", "ÏúÊÛ×Ü¼Û"));
-		tablepropertys.add(new TableProperty("status", "×´Ì¬"));
-		tablepropertys.add(new TableProperty("note", "ËµÃ÷"));
+		tablepropertys.add(new TableProperty("salemanid", "é”€å”®å‘˜"));
+		tablepropertys.add(new TableProperty("customerid", "å®¢æˆ·"));
+		tablepropertys.add(new TableProperty("total", "é”€å”®æ€»ä»·"));
+		tablepropertys.add(new TableProperty("status", "çŠ¶æ€"));
+		tablepropertys.add(new TableProperty("note", "è¯´æ˜"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("customers", customerService.selectAllCustomers());
 		mv.addObject("products", productService.selectAllProducts());
@@ -167,23 +167,23 @@ public class SaleDML extends BaseController{
 		String errorMsg = null;
 		try {
 			if (sale.getSalesubs() == null) {
-				errorMsg = "ÏúÊÛµ¥Ã»ÓĞÉÌÆ·£¬ÇëÖØĞÂ´´½¨¶©µ¥.";
+				errorMsg = "é”€å”®å•æ²¡æœ‰å•†å“ï¼Œè¯·é‡æ–°åˆ›å»ºè®¢å•.";
 				throw new BusinessException();
 			}
 			User user = (User) session.getAttribute("user");
 			sale.setOperman(user.getId());
 			sale.setNote(sale.getNote().replaceAll("\r\n", "<br/>"));
 			saleService.editSale(sale);
-			mv.addObject("message", "¸üĞÂ¶©µ¥³É¹¦");
+			mv.addObject("message", "æ›´æ–°è®¢å•æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "¸üĞÂÊ§°Ü." + errorMsg);
+			mv.addObject("message", "æ›´æ–°å¤±è´¥." + errorMsg);
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -194,14 +194,14 @@ public class SaleDML extends BaseController{
 	public ModelAndView create(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("salemanid", "ÏúÊÛÔ±"));
-		tablepropertys.add(new TableProperty("customerid", "¿Í»§"));
-		tablepropertys.add(new TableProperty("total", "ÏúÊÛ×Ü¼Û"));
-		tablepropertys.add(new TableProperty("status", "×´Ì¬"));
-		tablepropertys.add(new TableProperty("note", "ËµÃ÷"));
+		tablepropertys.add(new TableProperty("salemanid", "é”€å”®å‘˜"));
+		tablepropertys.add(new TableProperty("customerid", "å®¢æˆ·"));
+		tablepropertys.add(new TableProperty("total", "é”€å”®æ€»ä»·"));
+		tablepropertys.add(new TableProperty("status", "çŠ¶æ€"));
+		tablepropertys.add(new TableProperty("note", "è¯´æ˜"));
 		Sale sale = new Sale();
 		List<String> statusOptions = new ArrayList<String>();
-		statusOptions.add("ĞÂ¿ªµ¥");
+		statusOptions.add("æ–°å¼€å•");
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", sale);
 		mv.addObject("customers", customerService.selectAllCustomers());
@@ -221,7 +221,7 @@ public class SaleDML extends BaseController{
 		String errorMsg = null;
 		try {
 			if (sale.getSalesubs() == null) {
-				errorMsg = "ÏúÊÛµ¥Ã»ÓĞÉÌÆ·£¬ÇëÖØĞÂ´´½¨¶©µ¥.";
+				errorMsg = "é”€å”®å•æ²¡æœ‰å•†å“ï¼Œè¯·é‡æ–°åˆ›å»ºè®¢å•.";
 				throw new BusinessException();
 			}
 			User user = (User) session.getAttribute("user");
@@ -233,23 +233,23 @@ public class SaleDML extends BaseController{
 			else{
 				sale.setNote("");
 			}
-			sale.setNote(sale.getNote().concat(df.format(new Date()) + ": ĞÂ¿ªµ¥"));
+			sale.setNote(sale.getNote().concat(df.format(new Date()) + ": æ–°å¼€å•"));
 			saleService.createSale(sale);
-			mv.addObject("message", "ĞÂ½¨²É¹º¶©µ¥³É¹¦");
+			mv.addObject("message", "æ–°å»ºé‡‡è´­è®¢å•æˆåŠŸ");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			if (errorMsg == null) {
-				mv.addObject("message", "¸üĞÂÊ§°Ü.");
+				mv.addObject("message", "æ›´æ–°å¤±è´¥.");
 				e.printStackTrace();
 			} else {
-				mv.addObject("message", "¸üĞÂÊ§°Ü." + errorMsg);
+				mv.addObject("message", "æ›´æ–°å¤±è´¥." + errorMsg);
 			}
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "½á¹û");
+		mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -269,9 +269,9 @@ public class SaleDML extends BaseController{
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
-			mv.addObject("message", "É¾³ıÊ§°Ü£¬ÇëÖØĞÂ²Ù×÷!");
+			mv.addObject("message", "åˆ é™¤å¤±è´¥ï¼Œè¯·é‡æ–°æ“ä½œ!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, "½á¹û");
+			mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -292,16 +292,16 @@ public class SaleDML extends BaseController{
 			Sale sale = saleService.selectSale(Long.parseLong(tempid));
 			User user = (User) session.getAttribute("user");
 			sale.setOperman(user.getId());
-			sale.setStatus("´ıÈ·ÈÏ");
+			sale.setStatus("å¾…ç¡®è®¤");
 			sale.setNote(sale.getNote().replaceAll("\r\n", "<br/>"));
 			saleService.editSale(sale);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", "¸üĞÂÊ§°Ü£¬ÇëÖØÊÔ!");
+			mv.addObject("message", "æ›´æ–°å¤±è´¥ï¼Œè¯·é‡è¯•!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, "½á¹û");
+			mv.addObject(MetaData.setNoteTitle, "ç»“æœ");
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -330,19 +330,19 @@ public class SaleDML extends BaseController{
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("salemanid", "ÏúÊÛÔ±"));
-		tablepropertys.add(new TableProperty("customerid", "¿Í»§"));
-		tablepropertys.add(new TableProperty("saletime", "¿ªµ¥Ê±¼ä"));
-		tablepropertys.add(new TableProperty("operman", "²Ù×÷ÈË"));
-		tablepropertys.add(new TableProperty("total", "ÏúÊÛ×Ü¼Û"));
-		tablepropertys.add(new TableProperty("status", "×´Ì¬"));
-		tablepropertys.add(new TableProperty("note", "ËµÃ÷"));
+		tablepropertys.add(new TableProperty("salemanid", "é”€å”®å‘˜"));
+		tablepropertys.add(new TableProperty("customerid", "å®¢æˆ·"));
+		tablepropertys.add(new TableProperty("saletime", "å¼€å•æ—¶é—´"));
+		tablepropertys.add(new TableProperty("operman", "æ“ä½œäºº"));
+		tablepropertys.add(new TableProperty("total", "é”€å”®æ€»ä»·"));
+		tablepropertys.add(new TableProperty("status", "çŠ¶æ€"));
+		tablepropertys.add(new TableProperty("note", "è¯´æ˜"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", sales);
 		mv.addObject("criteria", "Sale");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "ÏúÊÛ¶©µ¥");
+		mv.addObject("title", "é”€å”®è®¢å•");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));

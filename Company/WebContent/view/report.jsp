@@ -19,15 +19,23 @@
 <script src="${path}/js/jquery-1.10.2.min.js"></script>
 <script src="${path}/js/bootstrap.min.js"></script>
 <script src="${path}/js/bootswatch.js"></script>
+<script type="text/javascript" src="${path}/js/pdfobject.js"></script>
 <script type="text/javascript">
 function getReport() {
 		var today = new Date();
 		document.getElementById("report").innerHTML="<a id='reportlink' href='${reportPath}' target='contentFrame' >查看最新报表"+today.getFullYear() + today.getMonth()+"</a>";
 		document.getElementById("reportlink").click();
 }
+
+function getReportTemp(){
+    var success = new PDFObject({ url: "${reportPath}", width: "800px",
+    	  height: "1000px"}).embed();
+  };
 </script>
 </head>
-<body style="background-color: #eeeeee" onload="getReport()">
+<body style="background-color: #eeeeee" onload="getReportTemp()">
 		<div id="report"></div>
+    <p>It appears you don't have Adobe Reader or PDF support in this web
+    browser. <a href="sample.pdf">Click here to download the PDF</a></p>
 </body>
 </html>

@@ -83,41 +83,40 @@ public class InventoryVerifyHandler {
 	public void NewSaleOrderHandling() {
 		try {
 			List<Inventory> inventorys = inventoryService.selectInventorysForBatch();
-			LogUtil.logger.info("Ö´ĞĞ¿â´æÕûÀí.........");
 			for (Inventory inventory : inventorys) {
 				if (inventory.getActionid().contains("purchase")) {
-					if ((!inventory.getStatus().equals("ÒÑÈë¿â")) || (!checkFullyComplete(inventory, inventorys))) {
+					if ((!inventory.getStatus().equals("å·²å…¥åº“")) || (!checkFullyComplete(inventory, inventorys))) {
 						continue;
 					}
 					Purchase purchase = purchaseService
 							.selectPurchase(Long.parseLong(inventory.getActionid().replace("purchase", "").trim()));
-					if (purchase.getStatus().equals("ÒÑÍê³É")) {
+					if (purchase.getStatus().equals("å·²å®Œæˆ")) {
 						continue;
 					}
-					purchase.setStatus("ÒÑÍê³É");
-					purchase.setNote(purchase.getNote().concat("<br/>" + df.format(new Date()) + ": ÒÑÈë¿â-²É¹ºµ¥½áÊø"));
+					purchase.setStatus("å·²å®Œæˆ");
+					purchase.setNote(purchase.getNote().concat("<br/>" + df.format(new Date()) + ": å·²å…¥åº“-é‡‡è´­å•ç»“æŸ"));
 					purchaseService.editPurchase(purchase);
 				} else if (inventory.getActionid().contains("sale")) {
-					if ((!inventory.getStatus().equals("ÒÑ³ö»õ")) || (!checkFullyComplete(inventory, inventorys))) {
+					if ((!inventory.getStatus().equals("å·²å‡ºè´§")) || (!checkFullyComplete(inventory, inventorys))) {
 						continue;
 					}
 					Sale sale = saleService
 							.selectSale(Long.parseLong(inventory.getActionid().replace("sale", "").trim()));
-					if (sale.getStatus().equals("´ıÊÕ¿î") || sale.getStatus().equals("ÒÑÍê³É")) {
+					if (sale.getStatus().equals("å¾…æ”¶æ¬¾") || sale.getStatus().equals("å·²å®Œæˆ")) {
 						continue;
 					}
-					sale.setStatus("´ıÊÕ¿î");
-					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": ÒÑ³ö»õ"));
-					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": ´ıÊÕ¿î"));
+					sale.setStatus("å¾…æ”¶æ¬¾");
+					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": å·²å‡ºè´§"));
+					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": å¾…æ”¶æ¬¾"));
 					saleService.editSale(sale);
-					// Â¼ÈëÓ¦ÊÕÕË
+					// å½•å…¥åº”æ”¶è´¦
 					Financereceivable financereceivable = new Financereceivable();
 					financereceivable.setSaleid(sale.getId());
 					financereceivable.setCompanyid(sale.getCustomerid());
 					financereceivable.setTotalamount(sale.getTotal());
 					financereceivable.setNowpay(Double.valueOf("0"));
-					financereceivable.setType("Î´½áÇå");
-					financereceivable.setNote(df.format(new Date()) + ": Éú³ÉÓ¦ÊÕÕË");
+					financereceivable.setType("æœªç»“æ¸…");
+					financereceivable.setNote(df.format(new Date()) + ": ç”Ÿæˆåº”æ”¶è´¦");
 					financereceivableService.createFinancereceivable(financereceivable);
 				} else {
 					continue;

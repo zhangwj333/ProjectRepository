@@ -92,14 +92,14 @@ public class GoodDML extends BaseController{
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodname", "采购商品"));
-		tablepropertys.add(new TableProperty("goodsortid", "对应公司商品"));
+		tablepropertys.add(new TableProperty("goodname", "閲囪喘鍟嗗搧"));
+		tablepropertys.add(new TableProperty("goodsortid", "瀵瑰簲鍏徃鍟嗗搧"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", goods);
 		mv.addObject("criteria", "Good");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "货物");
+		mv.addObject("title", "璐х墿");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("page", page));
@@ -121,8 +121,8 @@ public class GoodDML extends BaseController{
 		Good good = goodService.selectGood(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodname", "采购商品"));
-		tablepropertys.add(new TableProperty("goodsortid", "对应公司商品"));
+		tablepropertys.add(new TableProperty("goodname", "閲囪喘鍟嗗搧"));
+		tablepropertys.add(new TableProperty("goodsortid", "瀵瑰簲鍏徃鍟嗗搧"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", good);
 		mv.setViewName("criteriaShow");
@@ -138,8 +138,8 @@ public class GoodDML extends BaseController{
 		List<Product> types = productService.selectAllProducts();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodname", "采购商品"));
-		tablepropertys.add(new TableProperty("goodsortid", "对应公司商品"));
+		tablepropertys.add(new TableProperty("goodname", "閲囪喘鍟嗗搧"));
+		tablepropertys.add(new TableProperty("goodsortid", "瀵瑰簲鍏徃鍟嗗搧"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", good);
 		mv.addObject("types", types);
@@ -157,16 +157,16 @@ public class GoodDML extends BaseController{
 
 		try {
 			goodService.editGood(good);
-			mv.addObject("message", "更新商品成功");
+			mv.addObject("message", "鏇存柊鍟嗗搧鎴愬姛");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", "鏇存柊澶辫触锛岃閲嶈瘯!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, "缁撴灉");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -177,7 +177,7 @@ public class GoodDML extends BaseController{
 	public ModelAndView createUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("goodname", "采购商品"));
+		ablepropertys.add(new TableProperty("goodname", "閲囪喘鍟嗗搧"));
 		Good good = new Good();
 		List<Product> types = productService.selectAllProducts();
 		mv.addObject("tablepropertys", tablepropertys);
@@ -198,16 +198,16 @@ public class GoodDML extends BaseController{
 
 		try {
 			goodService.createGood(Good);
-			mv.addObject("message", "新建商品成功");
+			mv.addObject("message", "鏂板缓鍟嗗搧鎴愬姛");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "创建失败，请重新操作!");
+			mv.addObject("message", "鍒涘缓澶辫触锛岃閲嶆柊鎿嶄綔!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, "缁撴灉");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -222,16 +222,16 @@ public class GoodDML extends BaseController{
 		try {
 			String tempid = id.split(",", 2)[0];
 			goodService.deleteGood(Integer.parseInt(tempid));
-			mv.addObject("message", "删除商品成功");
+			mv.addObject("message", "鍒犻櫎鍟嗗搧鎴愬姛");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "删除失败，请重新操作!");
+			mv.addObject("message", "鍒犻櫎澶辫触锛岃閲嶆柊鎿嶄綔!");
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, "缁撴灉");
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

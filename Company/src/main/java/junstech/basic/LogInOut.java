@@ -81,7 +81,7 @@ public class LogInOut extends BaseController{
 				mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 			}
 		}
-		mv.addObject("message", String.format("µÇÂ¼³É¹¦"));
+		mv.addObject("message", String.format("æ¬¢è¿ä½ ,"));
 		mv.setViewName("login");
 		return mv;
 	}
@@ -90,7 +90,7 @@ public class LogInOut extends BaseController{
 	public ModelAndView logoutUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();		
 		session.invalidate();
-		mv.addObject("message", String.format("³É¹¦×¢ÏúÓÃ»§"));
+		mv.addObject("message", String.format("æ³¨é”€æˆåŠŸï¼"));
 		mv.setViewName("login");
 		return mv;
 	}

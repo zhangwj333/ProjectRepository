@@ -42,22 +42,22 @@ public class PurchasePendingToVerifyHandler {
 	@Scheduled(cron = "0/10 * *  * * ? ") // execute every 5 second
 	public void NewPurchaseOrderHandling() {
 		try {
-			List<Purchase> purchases = purchaseService.selectPurchasesByStatus("´ıÈ·ÈÏ");
+			List<Purchase> purchases = purchaseService.selectPurchasesByStatus("å¾…ç¡®è®¤");
 			if (purchases.size() > 0) {
 				for (Purchase purchase : purchases) {
-					LogUtil.logger.info("Ö´ĞĞÏúÊÛ¶©µ¥:" + purchase.getId());
+					LogUtil.logger.info("æ‰§è¡Œé”€å”®è®¢å•:" + purchase.getId());
 
 					Inventory inventory = new Inventory();
 					inventory.setGoodid(purchase.getGoodid());
 					inventory.setGoodsortid(purchase.getGood().getGoodsortid());
-					inventory.setStatus("ÔËËÍÖĞ");
-					inventory.setType("ÆÚ»õ");
+					inventory.setStatus("è¿é€ä¸­");
+					inventory.setType("æœŸè´§");
 					inventory.setPrice(purchase.getPrice());
 					inventory.setInventoryqty(purchase.getGoodqty());
 					inventory.setActionid("purchase" + purchase.getId());
 					inventoryService.createInventory(inventory);
-					purchase.setStatus("ÔËËÍÖĞ");
-					purchase.setNote(purchase.getNote().concat("<br/>" + df.format(new Date()) + ": ´ı³ö¿â-¿â´æÒÑ½áËã"));
+					purchase.setStatus("è¿é€ä¸­");
+					purchase.setNote(purchase.getNote().concat("<br/>" + df.format(new Date()) + ": å¾…å‡ºåº“-åº“å­˜å·²ç»“ç®—"));
 					purchaseService.editPurchase(purchase);
 				}
 			}

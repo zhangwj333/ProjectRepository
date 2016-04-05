@@ -13,21 +13,21 @@ public class MetaData {
 	public final static Integer FinanceMainIncome = 1;
 	
 	public final static String[] saleStatuses = { //
-			"ÒÑ¾Ü¾ø", //
-			"ĞÂ¿ªµ¥", //
-			"´ıÈ·ÈÏ", //			
-			"´ı³ö¿â", //
-			"ÒÑ³ö¿â", //
-			"ÒÑµ½»õ", //
-			"ÒÑºËÏú"  //
+			"å·²æ‹’ç»", //
+			"æ–°å¼€å•", //
+			"å¾…ç¡®è®¤", //			
+			"å¾…å‡ºåº“", //
+			"å·²å‡ºåº“", //
+			"å·²åˆ°è´§", //
+			"å·²æ ¸é”€"  //
 	};
 
 	public final static String[] purchaseStatuses = { //
-			"ĞÂ¿ªµ¥", //
-			"´ıÈ·ÈÏ", //
-			"´ı³ö¿â", //
-			"ÔËÊäÖĞ", //
-			"ÒÑÈë¿â"  //
+			"æ–°å¼€å•", //
+			"å¾…ç¡®è®¤", //
+			"å¾…å‡ºåº“", //
+			"è¿è¾“ä¸­", //
+			"å·²å…¥åº“"  //
 	};
 	
 	public final static String completeReturnPage = "page";
