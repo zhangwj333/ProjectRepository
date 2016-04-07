@@ -25,31 +25,31 @@ public class ExceptionController extends BaseController implements HandlerExcept
 		
 		if (ex.getCause() instanceof BusinessException){
 			mv.addObject("failcause", "business");
-			mv.addObject("message", "ÏµÍ³´íÎó£¬ÇëÁªÏµÎ¬»¤ÈËÔ±£¡");
+			mv.addObject("message", "ç³»ç»Ÿé”™è¯¯ï¼Œè¯·è”ç³»ç»´æŠ¤äººå‘˜ï¼");
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		}
 		else if (ex.getCause() instanceof LoginException){
 			mv.addObject("failcause", "login");
-			mv.addObject("message", "ÄãÎ´µÇÂ¼»òÎ´²Ù×÷Ê±¼ä¹ı³¤£¬ÇëÖØĞÂµÇÂ¼£¡");
+			mv.addObject("message", "ä½ æœªç™»å½•æˆ–æœªæ“ä½œæ—¶é—´è¿‡é•¿ï¼Œè¯·é‡æ–°ç™»å½•ï¼");
 			mv.addObject(MetaData.completeReturnPage, "userLogout.htm");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsFullWindow);
 		}
 		else if (ex.getCause() instanceof PrivilegeException){
 			mv.addObject("failcause", "privilege");
-			mv.addObject("message", "ÄãÃ»ÓĞÈ¨ÏŞ½øĞĞ¸Ã²Ù×÷£¡");
+			mv.addObject("message", "ä½ æ²¡æœ‰æƒé™è¿›è¡Œè¯¥æ“ä½œï¼");
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		}
 		else {
 			ex.printStackTrace();
 			LogUtil.logger.error(ex.getMessage());
-			mv.addObject("message", "Î´ÖªÏµÍ³´íÎó£¬ÇëÁªÏµÎ¬»¤ÈËÔ±£¡");
+			mv.addObject("message", "æœªçŸ¥ç³»ç»Ÿé”™è¯¯ï¼Œè¯·è”ç³»ç»´æŠ¤äººå‘˜ï¼");
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		}
 		
-		mv.addObject(MetaData.setNoteTitle, "³ö´íÀ²!");
+		mv.addObject(MetaData.setNoteTitle, "å‡ºé”™å•¦!");
 		mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		mv.setViewName("complete");

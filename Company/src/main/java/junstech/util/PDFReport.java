@@ -62,6 +62,7 @@ public class PDFReport {
 
 	public static String generateReport(Map<String, Double> financeSumMonth, Map<String, Double> financeSumYear,
 			List<Financereceivable> financereceivables) throws IOException, DocumentException {
+		
 		String relativeName = "/baobiao" + df.format(new Date()) + ".pdf";
 		String fileName = MetaData.reportPath + relativeName;
 		File file = new File(fileName);
@@ -111,7 +112,10 @@ public class PDFReport {
 		Document document = new Document();
 		PdfWriter.getInstance(document, new FileOutputStream(path));
 		document.open();
-
+		
+		fontBlack = new Font(BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED), 12, Font.NORMAL, BaseColor.BLACK);
+		fontRed = new Font(BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED), 12, Font.NORMAL, BaseColor.RED);
+		
 		double yearEndProfit =  createProfitReport(document, financeSumMonth, financeSumYear);
 		double financeReceivableTotal = 0;
 		if ((!financereceivables.isEmpty()) || financereceivables.get(0) != null
@@ -124,10 +128,8 @@ public class PDFReport {
 
 	public void createBalanceReport(Document document, double yearEndProfit, double financeReceivableTotal)
 			throws IOException, DocumentException {
-		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", false);
-		Font fontChinese = new Font(bfChinese, 12, Font.NORMAL, BaseColor.BLACK);
 		double balance = MetaData.initfund + yearEndProfit - financeReceivableTotal;
-		document.add(new Phrase("\r\n\r\n��˾ʣ���ʽ�: " + balance, fontChinese));
+		document.add(new Phrase("\r\n\r\n公司剩余资金: " + balance, fontBlack));
 	}
 	
 	public double createPendingReport(Document document, List<Financereceivable> financereceivables)
@@ -140,29 +142,26 @@ public class PDFReport {
 		table.setWidthPercentage(100);
 		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 		table.setSplitLate(false);
-		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", false);
-		// Font fontChinese = new Font(bfChinese,12,Font.NORMAL,Color.GREEN);
-		Font fontChinese = new Font(bfChinese, 12, Font.NORMAL, BaseColor.BLACK);
-		Font fontRed = new Font(bfChinese, 12, Font.NORMAL, BaseColor.RED);
-		PdfPCell cell = new PdfPCell(new Phrase(TEXT, fontChinese));
+
+		PdfPCell cell = new PdfPCell(new Phrase(TEXT, fontBlack));
 		cell.setBorder(Rectangle.NO_BORDER);
 
-		document.add(new Phrase("\r\n\r\n剩余应收账\r\n记账日期:" + dftime.format(new Date()) + "\r\n", fontChinese));
-		cell.setPhrase(new Phrase("公司", fontChinese));
+		document.add(new Phrase("\r\n\r\n剩余应收账\r\n记账日期:" + dftime.format(new Date()) + "\r\n", fontBlack));
+		cell.setPhrase(new Phrase("公司", fontBlack));
 		table.addCell(cell);
-		cell.setPhrase(new Phrase("订单总数", fontChinese));
+		cell.setPhrase(new Phrase("订单总数", fontBlack));
 		table.addCell(cell);
-		cell.setPhrase(new Phrase("剩余应收", fontChinese));
+		cell.setPhrase(new Phrase("剩余应收", fontBlack));
 		table.addCell(cell);
 		double financeReceivableTotal= 0;
 		for (int i = 0; i < financereceivables.size(); i++) {
-			cell.setPhrase(new Phrase(financereceivables.get(i).getCustomer().getName(), fontChinese));
+			cell.setPhrase(new Phrase(financereceivables.get(i).getCustomer().getName(), fontBlack));
 			table.addCell(cell);
-			cell.setPhrase(new Phrase(String.valueOf(financereceivables.get(i).getTotalamount()), fontChinese));
+			cell.setPhrase(new Phrase(String.valueOf(financereceivables.get(i).getTotalamount()), fontBlack));
 			table.addCell(cell);
 			cell.setPhrase(new Phrase(
 					String.valueOf(financereceivables.get(i).getTotalamount() - financereceivables.get(i).getNowpay()),
-					fontChinese));
+					fontBlack));
 			table.addCell(cell);
 			financeReceivableTotal = financeReceivableTotal +  financereceivables.get(i).getTotalamount() - financereceivables.get(i).getNowpay();
 		}
@@ -198,11 +197,8 @@ public class PDFReport {
 		table.setWidthPercentage(100);
 		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 		table.setSplitLate(false);
-		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", false);
-		// Font fontChinese = new Font(bfChinese,12,Font.NORMAL,Color.GREEN);
-		Font fontChinese = new Font(bfChinese, 12, Font.NORMAL, BaseColor.BLACK);
-		Font fontRed = new Font(bfChinese, 12, Font.NORMAL, BaseColor.RED);
-		PdfPCell cell = new PdfPCell(new Phrase(TEXT, fontChinese));
+		
+		PdfPCell cell = new PdfPCell(new Phrase(TEXT, fontBlack));
 		cell.setBorder(Rectangle.NO_BORDER);
 		String date = dftime.format(new Date());
 		String[] dateInfo = date.split("-");
@@ -213,21 +209,21 @@ public class PDFReport {
 		} else {
 			month = StringUtils.leftPad(String.valueOf(Integer.parseInt(dateInfo[1]) - 1), 2, "0");
 		}
-		document.add(new Phrase(dateInfo[0] + month + "报表\r\n制表日期:" + dftime.format(new Date()) + "\r\n", fontChinese));
-		cell.setPhrase(new Phrase("项目", fontChinese));
+		document.add(new Phrase(dateInfo[0] + month + "报表\r\n制表日期:" + dftime.format(new Date()) + "\r\n", fontBlack));
+		cell.setPhrase(new Phrase("项目", fontBlack));
 		table.addCell(cell);
-		cell.setPhrase(new Phrase("本月数", fontChinese));
+		cell.setPhrase(new Phrase("本月数", fontBlack));
 		table.addCell(cell);
-		cell.setPhrase(new Phrase("本年累计数", fontChinese));
+		cell.setPhrase(new Phrase("本年累计数", fontBlack));
 		table.addCell(cell);
 		for (int i = 0; i < list.size(); i++) {
-			cell.setPhrase(new Phrase(list.get(i), fontChinese));
+			cell.setPhrase(new Phrase(list.get(i), fontBlack));
 			table.addCell(cell);
 			cell.setPhrase((new Phrase(financeSumMonth.get(i),
-					financeSumMonth.get(i).startsWith("-") ? fontRed : fontChinese)));
+					financeSumMonth.get(i).startsWith("-") ? fontRed : fontBlack)));
 			table.addCell(cell);
 			cell.setPhrase(
-					(new Phrase(financeSumYear.get(i), financeSumYear.get(i).startsWith("-") ? fontRed : fontChinese)));
+					(new Phrase(financeSumYear.get(i), financeSumYear.get(i).startsWith("-") ? fontRed : fontBlack)));
 			table.addCell(cell);
 		}
 		event.setRowCount(table.getRows().size());
@@ -294,10 +290,8 @@ public class PDFReport {
 		table.setWidthPercentage(100);
 		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 		table.setSplitLate(false);
-		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", false);
-		// Font fontChinese = new Font(bfChinese,12,Font.NORMAL,Color.GREEN);
-		Font fontChinese = new Font(bfChinese, 12, Font.NORMAL, BaseColor.BLACK);
-		PdfPCell cell = new PdfPCell(new Phrase(TEXT, fontChinese));
+
+		PdfPCell cell = new PdfPCell(new Phrase(TEXT, fontBlack));
 		cell.setBorder(Rectangle.NO_BORDER);
 		for (int i = 0; i < 60;) {
 			table.addCell("Cell " + (++i));
@@ -308,10 +302,14 @@ public class PDFReport {
 		document.close();
 	}
 
+	private Font fontBlack = null;
+	private Font fontRed = null;
+	
 	private static SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");
 	private static SimpleDateFormat dftime = new SimpleDateFormat("yyyy-MM-dd");
 
 	static {
+		
 		Properties prop = new Properties();
 		System.out.println(PDFReport.class.getClassLoader().getResource("config.properties").getPath());
 		try {
