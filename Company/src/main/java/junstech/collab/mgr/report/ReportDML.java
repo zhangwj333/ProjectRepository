@@ -83,12 +83,40 @@ public class ReportDML extends BaseController {
 	}
 
 	@RequestMapping(value = "/createReportProcess")
-	public ModelAndView GenerateLastMonthReport(HttpServletRequest request,
+	public ModelAndView GenerateLastMonthReport(@RequestParam("time") String time, HttpServletRequest request,
 			HttpSession session) throws Exception {
+		if(time.isEmpty()){
+			return GenerateReport(df.format(new Date()), request, session);
+		}
+		return GenerateReport(time, request, session);
+
+	}
+
+	@RequestMapping(value = "/queryReportProcess")
+	public ModelAndView queryLastMonthReport(@RequestParam("time") String time, HttpServletRequest request,
+			HttpSession session) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		Report report = reportService.selectReport(time);
+		mv.addObject("reportPath", report.getPath());
+		mv.setViewName("report");
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
+	}
+
+	@RequestMapping(value = "/queryHistoryReportProcess")
+	public ModelAndView queryHistoryReport(@RequestParam("year") String year, @RequestParam("month") String month,
+			HttpServletRequest request, HttpSession session) throws Exception {
+		return queryLastMonthReport(year.trim() + StringUtils.leftPad(month.trim(), 2, "0"), request, session);
+
+	}
+
+	public ModelAndView GenerateReport(String targetDate, HttpServletRequest request,
+			HttpSession session) throws Exception {
+		
 		ModelAndView mv = new ModelAndView();
 		try {
 			System.out.println("开始生成上月报表.........");
-			String date = df.format(new Date());
+			String date = targetDate;
 			String[] dateInfo = date.split("-");
 			String month;
 			if ((Integer.parseInt(dateInfo[1]) - 1) == 0) {
@@ -167,27 +195,8 @@ public class ReportDML extends BaseController {
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
 		return this.outputView(session, mv);
-
 	}
-
-	@RequestMapping(value = "/queryReportProcess")
-	public ModelAndView queryLastMonthReport(@RequestParam("time") String time, HttpServletRequest request,
-			HttpSession session) throws Exception {
-		ModelAndView mv = new ModelAndView();
-		Report report = reportService.selectReport(time);
-		mv.addObject("reportPath", report.getPath());
-		mv.setViewName("report");
-		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
-		return this.outputView(session, mv);
-	}
-
-	@RequestMapping(value = "/queryHistoryReportProcess")
-	public ModelAndView queryHistoryReport(@RequestParam("year") String year, @RequestParam("month") String month,
-			HttpServletRequest request, HttpSession session) throws Exception {
-		return queryLastMonthReport(year.trim() + StringUtils.leftPad(month.trim(), 2, "0"), request, session);
-
-	}
-
+	
 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 }

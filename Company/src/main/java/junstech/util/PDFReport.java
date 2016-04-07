@@ -113,8 +113,8 @@ public class PDFReport {
 		PdfWriter.getInstance(document, new FileOutputStream(path));
 		document.open();
 		
-		fontBlack = new Font(BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED), 12, Font.NORMAL, BaseColor.BLACK);
-		fontRed = new Font(BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED), 12, Font.NORMAL, BaseColor.RED);
+		fontBlack = new Font(BaseFont.createFont(PDFReport.class.getClassLoader().getResource("AdobeSongStd-Light.otf").getPath(), BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED), 12, Font.NORMAL, BaseColor.BLACK);
+		fontRed = new Font(BaseFont.createFont(PDFReport.class.getClassLoader().getResource("AdobeSongStd-Light.otf").getPath(), BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED), 12, Font.NORMAL, BaseColor.RED);
 		
 		double yearEndProfit =  createProfitReport(document, financeSumMonth, financeSumYear);
 		double financeReceivableTotal = 0;

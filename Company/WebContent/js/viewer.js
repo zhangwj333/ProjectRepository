@@ -25,7 +25,7 @@
 
 'use strict';
 
-var DEFAULT_URL = '/../report/baobiao20160405072857.pdf';
+var DEFAULT_URL = 'fail to load pdf';
 var DEFAULT_SCALE_DELTA = 1.1;
 var MIN_SCALE = 0.25;
 var MAX_SCALE = 10.0;
@@ -7480,6 +7480,7 @@ function validateFileURL(file) {
 }
 
 function webViewerLoad(evt) {
+	DEFAULT_URL = evt;
     configure(PDFJS);
     PDFViewerApplication.initialize().then(webViewerInitialized);
 }
@@ -7679,7 +7680,7 @@ function webViewerInitialized() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', webViewerLoad, true);
+//document.addEventListener('DOMContentLoaded', webViewerLoad, true);
 
 document.addEventListener('pagerendered', function (e) {
   var pageNumber = e.detail.pageNumber;

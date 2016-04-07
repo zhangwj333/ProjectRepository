@@ -137,7 +137,7 @@
 							<ul class="dropdown-menu">
 								<li id="latestReport"></li>
 								<li><a onclick="getSearchMenuSubFields('Report')">查询历史报表</a></li>
-								<li><a href="${path}/createReportProcess.htm"
+								<li><a href="${path}/createReportProcess.htm?time="
 									target="contentFrame" onclick="foldMenu()">生成上月报表</a></li>
 							</ul></li>
 					</c:if>
