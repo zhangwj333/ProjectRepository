@@ -34,14 +34,14 @@ public class FileUtil {
 	
 	public static String getFileAsString(String FileName) throws IOException{
 		StringBuilder result = new StringBuilder();
-		
-		File file = new File(FileUtil.class.getClassLoader().getResource(FileName).getPath());
+		//getResource(folder).getPath() +"/" + FileName
+		System.out.println(FileUtil.class.getClassLoader().getResource("/").getPath() + FileName);
+		File file = new File(FileUtil.class.getClassLoader().getResource("/").getPath() + FileName);
 		System.out.println(file.getAbsolutePath());
 		BufferedInputStream ins = new BufferedInputStream(new FileInputStream(file));
 		byte[] buffer = new byte[4096]; 
-		int byteread;
 		while (ins.read(buffer) != -1) { 
-			result.append(buffer);
+			result.append(new String(buffer));
 		} 
 		ins.close();
 		return result.toString();
