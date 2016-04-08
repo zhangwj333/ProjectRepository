@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Questions>
+	<Question>
+		<Title>Question 1</Title>
+		<Options>
+			<Option>
+				<Description>我选A</Description>
+				<Value>A</Value>
+			</Option>
+			<Option>
+				<Description>我选B</Description>
+				<Value>B</Value>
+			</Option>
+		</Options>
+	</Question>
+	<Question>
+		<Title>Question 2</Title>
+		<Options>
+			<Option>
+				<Description>我选A</Description>
+				<Value>A</Value>
+			</Option>
+			<Option>
+				<Description>我选B</Description>
+				<Value>B</Value>
+			</Option>
+		</Options>
+	</Question>
+	<Question>
+		<Title>Question 3</Title>
+		<Options>
+			<Option>
+				<Description>我选A</Description>
+				<Value>A</Value>
+			</Option>
+			<Option>
+				<Description>我选B</Description>
+				<Value>B</Value>
+			</Option>
+		</Options>
+	</Question>
+</Questions>
