@@ -100,7 +100,7 @@ public class ReportDML extends BaseController {
 		mv.addObject("reportPath", report.getPath());
 		mv.setViewName("report");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
-		return this.outputView(session, mv);
+		return mv;
 	}
 
 	@RequestMapping(value = "/queryHistoryReportProcess")

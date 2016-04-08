@@ -11,12 +11,12 @@ public class AESEncryptionTest {
 	String content = "81711484";  
 	String password = "JunstechCompany";  
 
-	System.out.println("¼ÓÃÜÇ°" + content);  
+	System.out.println("åŠ å¯†å‰" + content);  
 	String encryptResult = AESEncryption.encrypt(content, password);  
-	System.out.println("¼ÓÃÜºó" + encryptResult);  
+	System.out.println("åŠ å¯†å" + encryptResult);  
 
 	String decryptResult = AESEncryption.decrypt(encryptResult,password);  
-	System.out.println("½âÃÜºó" + new String(decryptResult));
+	System.out.println("è§£å¯†å" + new String(decryptResult));
 	
 	}
 }

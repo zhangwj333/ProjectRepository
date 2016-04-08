@@ -19,7 +19,12 @@ public class PropertyPlaceholderConfigurerExt extends PropertyPlaceholderConfigu
                 String password = props.getProperty("jdbc.pass"); 
                 if (password != null) { 
                 		//解密jdbc.password属性值，并重新设置 
-                        props.setProperty("jdbc.pass", AESEncryption.encrypt(password, ENVConfig.encryptKey)); 
+                        try {
+							props.setProperty("jdbc.pass", AESEncryption.decrypt(password, ENVConfig.encryptKey));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} 
                 }
                 
                 MetaData.cargoPath = props.getProperty("cargo");
