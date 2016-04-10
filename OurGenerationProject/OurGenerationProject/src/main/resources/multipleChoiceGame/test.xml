@@ -1,42 +1,42 @@
 <?xml version='1.0' encoding='utf-8'?>
-<Questions>
-	<Question>
+<MultipleChoice>
+	<Question1>
 		<Title>Question 1</Title>
 		<Options>
-			<Option>
+			<Option1>
 				<Description>我选A</Description>
 				<Value>A</Value>
-			</Option>
-			<Option>
+			</Option1>
+			<Option2>
 				<Description>我选B</Description>
 				<Value>B</Value>
-			</Option>
+			</Option2>
 		</Options>
-	</Question>
-	<Question>
+	</Question1>
+	<Question2>
 		<Title>Question 2</Title>
 		<Options>
-			<Option>
+			<Option1>
 				<Description>我选A</Description>
 				<Value>A</Value>
-			</Option>
-			<Option>
+			</Option1>
+			<Option2>
 				<Description>我选B</Description>
 				<Value>B</Value>
-			</Option>
+			</Option2>
 		</Options>
-	</Question>
-	<Question>
+	</Question2>
+	<Question3>
 		<Title>Question 3</Title>
 		<Options>
-			<Option>
+			<Option1>
 				<Description>我选A</Description>
 				<Value>A</Value>
-			</Option>
-			<Option>
+			</Option1>
+			<Option2>
 				<Description>我选B</Description>
 				<Value>B</Value>
-			</Option>
+			</Option2>
 		</Options>
-	</Question>
-</Questions>
+	</Question3>
+</MultipleChoice>
