@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
+<QuestionPerPage>2</QuestionPerPage>
 <MultipleChoice>
 	<Question1>
 		<Title>Question 1</Title>

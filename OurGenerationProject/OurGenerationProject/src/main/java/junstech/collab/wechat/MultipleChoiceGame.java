@@ -47,7 +47,7 @@ public class MultipleChoiceGame extends BaseController {
 		ArrayList<TableProperty> result = new ArrayList<TableProperty>();
 		;
 		Matcher m = resultPattern
-				.matcher(FileUtil.getFileAsStringFromConfigPath(FileUtil.multipleChoiceGame, "result.xml"));
+				.matcher(FileUtil.getFileAsStringFromConfigPath(FileUtil.multipleChoiceGame, "calMethod.xml"));
 		if (!m.find()) {
 			throw new BusinessException();
 		}
@@ -98,6 +98,10 @@ public class MultipleChoiceGame extends BaseController {
 			testType = type;
 		}
 		String data = FileUtil.getFileAsStringFromConfigPath(FileUtil.multipleChoiceGame, testType);
+		Matcher questionPerPageMatcher = questionPerPagePattern.matcher(data);
+		if(questionPerPageMatcher.find()){
+			mv.addObject("questionPerPage", questionPerPageMatcher.group(1));
+		}
 		Matcher questionMatcher = null;
 		boolean flag = true;
 		int i = 1;
@@ -164,5 +168,5 @@ public class MultipleChoiceGame extends BaseController {
 	private Pattern optionPattern = null;
 	private Pattern descriptionPattern = Pattern.compile("<Description>(.*)</Description>", Pattern.DOTALL);
 	private Pattern valuePattern = Pattern.compile("<Value>(.*)</Value>", Pattern.DOTALL);
-
+	private Pattern questionPerPagePattern = Pattern.compile("<QuestionPerPage>(.*)</QuestionPerPage>", Pattern.DOTALL);
 }
