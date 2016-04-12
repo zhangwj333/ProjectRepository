@@ -47,6 +47,7 @@ import junstech.service.FinancetypeService;
 import junstech.service.LedgerService;
 import junstech.util.FileUtil;
 import junstech.util.MetaData;
+import junstech.util.RedisUtil;
 
 @Controller
 public class LedgerDML extends BaseController{
@@ -128,24 +129,24 @@ public class LedgerDML extends BaseController{
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("key", key);
-		map.put("type", "未结清");
+		map.put("type", RedisUtil.getString("statusPendingPayment"));
 		map.put("prev",  (page - 1) * size);
 		map.put("next",  size);
 		List<Financereceivable> financereceivables = financetypereceivableService.selectSummary(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("companyid", "客户"));
-		tablepropertys.add(new TableProperty("type", "状态"));
-		tablepropertys.add(new TableProperty("totalamount", "未结总金额"));
-		tablepropertys.add(new TableProperty("nowpay", "已收金额"));
-		tablepropertys.add(new TableProperty("needpay", "剩余金额"));
-		tablepropertys.add(new TableProperty("note", "注明"));
+		tablepropertys.add(new TableProperty("companyid", RedisUtil.getString("companyid")));
+		tablepropertys.add(new TableProperty("type", RedisUtil.getString("ledgerType")));
+		tablepropertys.add(new TableProperty("totalamount", RedisUtil.getString("pendingTotalamount")));
+		tablepropertys.add(new TableProperty("nowpay", RedisUtil.getString("nowpay")));
+		tablepropertys.add(new TableProperty("needpay", RedisUtil.getString("needpay")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", financereceivables);
 		mv.addObject("criteria", "SummaryCurrentFinanceReceivable");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "存货单");
+		mv.addObject("title", RedisUtil.getString("ledgerTitle"));
 		mv.addObject("showoper", "no");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
@@ -176,14 +177,14 @@ public class LedgerDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Ledger ledger = ledgerService.selectLedger(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("receiveid", "入账编号"));
-		tablepropertys.add(new TableProperty("financetype", "财务条目"));
-		tablepropertys.add(new TableProperty("companytype", "公司类型"));
-		tablepropertys.add(new TableProperty("companyid", "供应商/客户"));
-		tablepropertys.add(new TableProperty("paydate", "入账日期"));
-		tablepropertys.add(new TableProperty("amount", "金额"));
-		tablepropertys.add(new TableProperty("note", "注明"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("receiveid", RedisUtil.getString("receiveid")));
+		tablepropertys.add(new TableProperty("financetype", RedisUtil.getString("financetype")));
+		tablepropertys.add(new TableProperty("companytype", RedisUtil.getString("companytype")));
+		tablepropertys.add(new TableProperty("companyid", RedisUtil.getString("companyid")));
+		tablepropertys.add(new TableProperty("paydate", RedisUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("amount", RedisUtil.getString("amount")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", ledger);
 		mv.setViewName("criteriaShow");
@@ -196,7 +197,7 @@ public class LedgerDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Ledger ledger = ledgerService.selectLedger(id);
 		mv.addObject("proofPath", ledger.getProof());
-		mv.addObject("title", "财务凭证");
+		mv.addObject("title", RedisUtil.getString("ledgerTitle"));
 		mv.setViewName("proof");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		return this.outputView(session, mv);
@@ -232,17 +233,17 @@ public class LedgerDML extends BaseController{
 			Ledger ledger = ledgerService.selectLedger(Long.valueOf(id));
 			ledger.setProof("/transaction" + path);
 			ledgerService.editLedger(ledger);
-			mv.addObject("message", "更新财务条目成功");
+			mv.addObject("message", RedisUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", RedisUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -258,14 +259,15 @@ public class LedgerDML extends BaseController{
 		List<Financetype> types = financetypeService.selectAllFinancetypes();
 		List<Supplier> suppliers = supplierService.selectAllSuppliers();
 		List<Customer> customers = customerService.selectAllCustomers();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("receiveid", "入账编号"));
-		tablepropertys.add(new TableProperty("financetype", "财务条目"));
-		tablepropertys.add(new TableProperty("companytype", "公司类型"));
-		tablepropertys.add(new TableProperty("companyid", "供应商/客户"));
-		tablepropertys.add(new TableProperty("paydate", "入账日期"));
-		tablepropertys.add(new TableProperty("amount", "金额"));
-		tablepropertys.add(new TableProperty("note", "注明"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("receiveid", RedisUtil.getString("receiveid")));
+		tablepropertys.add(new TableProperty("financetype", RedisUtil.getString("financetype")));
+		tablepropertys.add(new TableProperty("companytype", RedisUtil.getString("companytype")));
+		tablepropertys.add(new TableProperty("companyid", RedisUtil.getString("companyid")));
+		tablepropertys.add(new TableProperty("paydate", RedisUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("amount", RedisUtil.getString("amount")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", ledger);
 		mv.addObject("types", types);
@@ -285,16 +287,16 @@ public class LedgerDML extends BaseController{
 
 		try {
 			ledgerService.editLedger(ledger);
-			mv.addObject("message", "更新财务条目成功");
+			mv.addObject("message", RedisUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", RedisUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -305,13 +307,14 @@ public class LedgerDML extends BaseController{
 	public ModelAndView createLedger(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("receiveid", "入账编号"));
-		tablepropertys.add(new TableProperty("financetype", "财务条目"));
-		tablepropertys.add(new TableProperty("companytype", "公司类型"));
-		tablepropertys.add(new TableProperty("companyid", "供应商/客户"));
-		tablepropertys.add(new TableProperty("paydate", "入账日期"));
-		tablepropertys.add(new TableProperty("amount", "金额"));
-		tablepropertys.add(new TableProperty("note", "注明"));
+		tablepropertys.add(new TableProperty("receiveid", RedisUtil.getString("receiveid")));
+		tablepropertys.add(new TableProperty("financetype", RedisUtil.getString("financetype")));
+		tablepropertys.add(new TableProperty("companytype", RedisUtil.getString("companytype")));
+		tablepropertys.add(new TableProperty("companyid", RedisUtil.getString("companyid")));
+		tablepropertys.add(new TableProperty("paydate", RedisUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("amount", RedisUtil.getString("amount")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		
 		Ledger ledger = new Ledger();
 		List<Financetype> types = financetypeService.selectAllFinancetypes();
 		List<Supplier> suppliers = supplierService.selectAllSuppliers();
@@ -335,16 +338,16 @@ public class LedgerDML extends BaseController{
 
 		try {
 			ledgerService.createLedger(Ledger);
-			mv.addObject("message", "新建账目记录成功");
+			mv.addObject("message", RedisUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "创建失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -364,9 +367,9 @@ public class LedgerDML extends BaseController{
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
-			mv.addObject("message", "删除失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, "结果");
+			mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -390,18 +393,19 @@ public class LedgerDML extends BaseController{
 		List<Ledger> ledgers = ledgerService.selectLedgers(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("receiveid", "入账编号"));
-		tablepropertys.add(new TableProperty("financetype", "财务条目"));
-		tablepropertys.add(new TableProperty("companyid", "供应商/客户"));
-		tablepropertys.add(new TableProperty("paydate", "入账日期"));
-		tablepropertys.add(new TableProperty("amount", "金额"));
-		tablepropertys.add(new TableProperty("note", "注明"));
+		tablepropertys.add(new TableProperty("receiveid", RedisUtil.getString("receiveid")));
+		tablepropertys.add(new TableProperty("financetype", RedisUtil.getString("financetype")));
+		tablepropertys.add(new TableProperty("companyid", RedisUtil.getString("companyid")));
+		tablepropertys.add(new TableProperty("paydate", RedisUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("amount", RedisUtil.getString("amount")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", ledgers);
 		mv.addObject("criteria", "Ledger");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "财务凭证");
+		mv.addObject("title", RedisUtil.getString("ledgerTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));

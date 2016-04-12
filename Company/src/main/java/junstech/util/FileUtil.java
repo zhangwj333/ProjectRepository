@@ -32,6 +32,14 @@ public class FileUtil {
 		return fileName.substring(fileName.lastIndexOf("."));
 	}
 
+	public static File getFileFromClassPath(String FileName) throws IOException {
+		return new File(FileUtil.class.getClassLoader().getResource("/").getPath() + FileName);
+	}
+	
+	public static File getFileFromConfigPath(String ConfigPath, String FileName) throws IOException {
+		return new File(ConfigPath + "/" + FileName);
+	}
+	
 	public static String getFileAsStringFromClassPath(String FileName) throws IOException {
 		return getFileAsString(FileUtil.class.getClassLoader().getResource("/").getPath() + FileName);
 	}

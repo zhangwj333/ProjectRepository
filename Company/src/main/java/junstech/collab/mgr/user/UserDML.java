@@ -41,6 +41,7 @@ import junstech.service.UserService;
 import junstech.util.AESEncryption;
 import junstech.util.ENVConfig;
 import junstech.util.MetaData;
+import junstech.util.RedisUtil;
 
 @Controller
 public class UserDML extends BaseController{
@@ -108,18 +109,18 @@ public class UserDML extends BaseController{
 		List<User> users = userService.getAllUser(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("username", "用户名"));
-		tablepropertys.add(new TableProperty("nickname", "昵称"));
-		tablepropertys.add(new TableProperty("createTime", "创建时间"));
-		tablepropertys.add(new TableProperty("lastlogintime", "上次登录时间"));
-		tablepropertys.add(new TableProperty("superuser", "用户类型"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("username", RedisUtil.getString("username")));
+		tablepropertys.add(new TableProperty("nickname", RedisUtil.getString("nickname")));
+		tablepropertys.add(new TableProperty("createTime", RedisUtil.getString("createTime")));
+		tablepropertys.add(new TableProperty("lastlogintime", RedisUtil.getString("lastlogintime")));
+		tablepropertys.add(new TableProperty("superuser", RedisUtil.getString("superuser")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", users);
 		mv.addObject("criteria", "User");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "用户");
+		mv.addObject("title", RedisUtil.getString("userTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));
@@ -142,11 +143,12 @@ public class UserDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		User user = userService.getUserWithPrivilege(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("username", "用户名"));
-		tablepropertys.add(new TableProperty("nickname", "昵称"));
-		tablepropertys.add(new TableProperty("lastlogintime", "上次登录时间"));
-		tablepropertys.add(new TableProperty("superuser", "是否管理员"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("username", RedisUtil.getString("username")));
+		tablepropertys.add(new TableProperty("nickname", RedisUtil.getString("nickname")));
+		tablepropertys.add(new TableProperty("lastlogintime", RedisUtil.getString("lastlogintime")));
+		tablepropertys.add(new TableProperty("superuser", RedisUtil.getString("superuser")));
+		
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", user);
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
@@ -177,20 +179,19 @@ public class UserDML extends BaseController{
 		user.setPrivileges(tmpPrivileges);
 		user.setPassword(AESEncryption.decrypt(user.getPassword(), ENVConfig.encryptKey));
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("username", "用户名"));
-		tablepropertys.add(new TableProperty("password", "密码"));
-		tablepropertys.add(new TableProperty("nickname", "昵称"));
-		tablepropertys.add(new TableProperty("phone", "电话"));
-		tablepropertys.add(new TableProperty("email", "E-mail"));
-		tablepropertys.add(new TableProperty("superuser", "是否管理员"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("username", RedisUtil.getString("username")));
+		tablepropertys.add(new TableProperty("nickname", RedisUtil.getString("nickname")));
+		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("email", RedisUtil.getString("email")));
+		tablepropertys.add(new TableProperty("superuser", RedisUtil.getString("superuser")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", user);
 		mv.addObject("action", "editUserProcess");
 		mv.addObject("modelAttribute", "user");
 		List<TableProperty> subtablepropertys = new ArrayList<TableProperty>();
-		subtablepropertys.add(new TableProperty("programname", "模块"));
-		subtablepropertys.add(new TableProperty("privilege", "权限"));
+		subtablepropertys.add(new TableProperty("programname", RedisUtil.getString("programname")));
+		subtablepropertys.add(new TableProperty("privilege", RedisUtil.getString("privilege")));
 		mv.addObject("subtablepropertys", subtablepropertys);
 		mv.setViewName("userEdit");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
@@ -204,16 +205,16 @@ public class UserDML extends BaseController{
 
 		try {
 			userService.updateUser(user);
-			mv.addObject("message", "更新用户成功");
+			mv.addObject("message", RedisUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", RedisUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -224,11 +225,12 @@ public class UserDML extends BaseController{
 	public ModelAndView createUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("username", "用户名"));
-		tablepropertys.add(new TableProperty("password", "密码"));
-		tablepropertys.add(new TableProperty("nickname", "昵称"));
-		tablepropertys.add(new TableProperty("phone", "电话"));
-		tablepropertys.add(new TableProperty("superuser", "是否管理员"));
+		tablepropertys.add(new TableProperty("username", RedisUtil.getString("username")));
+		tablepropertys.add(new TableProperty("password", RedisUtil.getString("password")));
+		tablepropertys.add(new TableProperty("nickname", RedisUtil.getString("nickname")));
+		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("superuser", RedisUtil.getString("superuser")));
+
 		List<Privilege> privileges = new ArrayList<Privilege>();
 		List<Criteria> criterias = criteriaService.getAllCriteria();
 		for (Criteria criteria : criterias) {
@@ -252,16 +254,16 @@ public class UserDML extends BaseController{
 
 		try {
 			userService.createUser(user);
-			mv.addObject("message", "新建用户成功");
+			mv.addObject("message", RedisUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "创建失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -275,16 +277,16 @@ public class UserDML extends BaseController{
 
 		try {
 			userService.deleteUser(id);
-			mv.addObject("message", "删除用户成功");
+			mv.addObject("message", RedisUtil.getString("deleteSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "删除失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

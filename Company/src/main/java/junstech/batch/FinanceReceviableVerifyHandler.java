@@ -25,6 +25,7 @@ import junstech.service.PurchaseService;
 import junstech.service.SaleService;
 import junstech.util.LogUtil;
 import junstech.util.MetaData;
+import junstech.util.RedisUtil;
 
 @Component
 public class FinanceReceviableVerifyHandler {
@@ -74,8 +75,15 @@ public class FinanceReceviableVerifyHandler {
 	}
 
 	@Scheduled(cron = "0/30 * *  * * ? ") // execute every 5 second
+	public void NewFinanceReceviableVerifyHandling() throws Exception{
+		if(runAble){
+			FinanceReceviableVerifyHandling();
+		}
+	}
+	
 	public void FinanceReceviableVerifyHandling() throws Exception {
 		try {
+			runAble = false;
 			List<Customer> customers = customerService.selectAllCustomers();
 			for (Customer customer : customers) {
 				Map<String, Object> map = new HashMap<String, Object>();
@@ -95,24 +103,24 @@ public class FinanceReceviableVerifyHandler {
 					if (total == 0) {
 						break;
 					} else if (total >= financereceivable.getTotalamount()) {
-						if (financereceivable.getType().equals("未结清")) {
+						if (financereceivable.getType().equals(RedisUtil.getString("statusPendingPayment"))) {
 							financereceivable.setNowpay(financereceivable.getTotalamount());
-							financereceivable.setType("已结清");
+							financereceivable.setType(RedisUtil.getString("statusCompletePayment"));
 							financereceivable
-									.setNote(financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": 已结清");
+									.setNote(financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("statusCompletePayment"));
 							financereceivableService.editFinancereceivable(financereceivable);
 							Sale sale = saleService.selectSale(financereceivable.getSaleid());
-							sale.setStatus("已完成");
-							sale.setNote(sale.getNote() + "<br/>" + df.format(new Date()) + ": 已完成收款");
+							sale.setStatus(RedisUtil.getString("statusCompleteOrder"));
+							sale.setNote(sale.getNote() + "<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("NoteCompletePayment"));
 							saleService.editSale(sale);
 						}
 						total = total - financereceivable.getTotalamount();
 					} else {
 						if (total != financereceivable.getNowpay()) {
-							financereceivable.setType("未结清");
+							financereceivable.setType(RedisUtil.getString("statusPendingPayment"));
 							financereceivable.setNowpay(total);
 							financereceivable.setNote(
-									financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": 已结" + total);
+									financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("NoteLeftPayment") + total);
 							financereceivableService.editFinancereceivable(financereceivable);
 						}
 						total = 0;
@@ -120,10 +128,12 @@ public class FinanceReceviableVerifyHandler {
 				}
 
 			}
+			runAble = true;
 		} catch (Exception e) {
 			LogUtil.logger.error(e.getStackTrace().toString());
 		}
 	}
 
 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	private static boolean runAble = true;
 }

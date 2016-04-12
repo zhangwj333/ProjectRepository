@@ -40,7 +40,9 @@ import junstech.service.GoodService;
 import junstech.service.ProductService;
 import junstech.service.SaleService;
 import junstech.service.SupplierService;
+import junstech.util.ENVConfig;
 import junstech.util.MetaData;
+import junstech.util.RedisUtil;
 
 @Controller
 public class SaleDML extends BaseController{
@@ -106,21 +108,21 @@ public class SaleDML extends BaseController{
 			throw new BusinessException();
 		}
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("salemanid", "销售员"));
-		tablepropertys.add(new TableProperty("customerid", "客户"));
-		tablepropertys.add(new TableProperty("saletime", "开单时间"));
-		tablepropertys.add(new TableProperty("operman", "操作人"));
-		tablepropertys.add(new TableProperty("total", "销售总价"));
-		tablepropertys.add(new TableProperty("status", "状态"));
-		tablepropertys.add(new TableProperty("note", "说明"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("salemanid", RedisUtil.getString("salemanid")));
+		tablepropertys.add(new TableProperty("customerid", RedisUtil.getString("customerid")));
+		tablepropertys.add(new TableProperty("saletime", RedisUtil.getString("saletime")));
+		tablepropertys.add(new TableProperty("operman", RedisUtil.getString("operman")));
+		tablepropertys.add(new TableProperty("total", RedisUtil.getString("total")));
+		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		List<TableProperty> tablesubpropertys = new ArrayList<TableProperty>();
-		tablesubpropertys.add(new TableProperty("goodid", "商品"));
-		tablesubpropertys.add(new TableProperty("price", "价格"));
-		tablesubpropertys.add(new TableProperty("goodqty", "数量(吨)"));
-		tablesubpropertys.add(new TableProperty("opertime", "送货时间"));
-		tablesubpropertys.add(new TableProperty("verification", "是否核销"));
+		tablesubpropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
+		tablesubpropertys.add(new TableProperty("price", RedisUtil.getString("price")));
+		tablesubpropertys.add(new TableProperty("goodqty", RedisUtil.getString("goodqty")));
+		tablesubpropertys.add(new TableProperty("opertime", RedisUtil.getString("opertime")));
+		tablesubpropertys.add(new TableProperty("verification", RedisUtil.getString("verification")));
 		mv.addObject("tablesubpropertys", tablesubpropertys);
 		mv.addObject("tableline", sale);
 		mv.addObject("tablesublines", sale.getSalesubs());
@@ -139,14 +141,14 @@ public class SaleDML extends BaseController{
 		}
 		sale.setNote(sale.getNote().replaceAll("<br/>", "\r\n"));
 		List<String> statusOptions = new ArrayList<String>();
-		statusOptions.add("�¿���");
+		statusOptions.add(RedisUtil.getString("statusNew"));
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("salemanid", "销售员"));
-		tablepropertys.add(new TableProperty("customerid", "客户"));
-		tablepropertys.add(new TableProperty("total", "销售总价"));
-		tablepropertys.add(new TableProperty("status", "状态"));
-		tablepropertys.add(new TableProperty("note", "说明"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("salemanid", RedisUtil.getString("salemanid")));
+		tablepropertys.add(new TableProperty("customerid", RedisUtil.getString("customerid")));
+		tablepropertys.add(new TableProperty("total", RedisUtil.getString("total")));
+		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("customers", customerService.selectAllCustomers());
 		mv.addObject("products", productService.selectAllProducts());
@@ -167,23 +169,23 @@ public class SaleDML extends BaseController{
 		String errorMsg = null;
 		try {
 			if (sale.getSalesubs() == null) {
-				errorMsg = "销售单没有商品，请重新创建订单.";
+				errorMsg = RedisUtil.getString("saleErrorMsg");
 				throw new BusinessException();
 			}
 			User user = (User) session.getAttribute("user");
 			sale.setOperman(user.getId());
 			sale.setNote(sale.getNote().replaceAll("\r\n", "<br/>"));
 			saleService.editSale(sale);
-			mv.addObject("message", "更新订单成功");
+			mv.addObject("message", RedisUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "更新失败." + errorMsg);
+			mv.addObject("message", RedisUtil.getString("updateFail") + errorMsg);
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -194,14 +196,14 @@ public class SaleDML extends BaseController{
 	public ModelAndView create(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("salemanid", "销售员"));
-		tablepropertys.add(new TableProperty("customerid", "客户"));
-		tablepropertys.add(new TableProperty("total", "销售总价"));
-		tablepropertys.add(new TableProperty("status", "状态"));
-		tablepropertys.add(new TableProperty("note", "说明"));
+		tablepropertys.add(new TableProperty("salemanid", RedisUtil.getString("salemanid")));
+		tablepropertys.add(new TableProperty("customerid", RedisUtil.getString("customerid")));
+		tablepropertys.add(new TableProperty("total", RedisUtil.getString("total")));
+		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
 		Sale sale = new Sale();
 		List<String> statusOptions = new ArrayList<String>();
-		statusOptions.add("新开单");
+		statusOptions.add(RedisUtil.getString("statusNew"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", sale);
 		mv.addObject("customers", customerService.selectAllCustomers());
@@ -221,7 +223,7 @@ public class SaleDML extends BaseController{
 		String errorMsg = null;
 		try {
 			if (sale.getSalesubs() == null) {
-				errorMsg = "销售单没有商品，请重新创建订单.";
+				errorMsg = RedisUtil.getString("saleErrorMsg");
 				throw new BusinessException();
 			}
 			User user = (User) session.getAttribute("user");
@@ -235,21 +237,21 @@ public class SaleDML extends BaseController{
 			}
 			sale.setNote(sale.getNote().concat(df.format(new Date()) + ": 新开单"));
 			saleService.createSale(sale);
-			mv.addObject("message", "新建销售订单成功");
+			mv.addObject("message", RedisUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			if (errorMsg == null) {
-				mv.addObject("message", "更新失败.");
+				errorMsg = RedisUtil.getString("saleErrorMsg");
 				e.printStackTrace();
 			} else {
-				mv.addObject("message", "更新失败." + errorMsg);
+				mv.addObject("message", RedisUtil.getString("createFail") + errorMsg);
 			}
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -269,9 +271,9 @@ public class SaleDML extends BaseController{
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
-			mv.addObject("message", "删除失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, "结果");
+			mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -292,16 +294,16 @@ public class SaleDML extends BaseController{
 			Sale sale = saleService.selectSale(Long.parseLong(tempid));
 			User user = (User) session.getAttribute("user");
 			sale.setOperman(user.getId());
-			sale.setStatus("待确认");
+			sale.setStatus(RedisUtil.getString("statusPendingVerification"));
 			sale.setNote(sale.getNote().replaceAll("\r\n", "<br/>"));
 			saleService.editSale(sale);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", RedisUtil.getString("submitFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, "结果");
+			mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -329,20 +331,20 @@ public class SaleDML extends BaseController{
 		List<Sale> sales = saleService.selectSales(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("salemanid", "销售员"));
-		tablepropertys.add(new TableProperty("customerid", "客户"));
-		tablepropertys.add(new TableProperty("saletime", "开单时间"));
-		tablepropertys.add(new TableProperty("operman", "操作人"));
-		tablepropertys.add(new TableProperty("total", "销售总价"));
-		tablepropertys.add(new TableProperty("status", "状态"));
-		tablepropertys.add(new TableProperty("note", "说明"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("salemanid", RedisUtil.getString("salemanid")));
+		tablepropertys.add(new TableProperty("customerid", RedisUtil.getString("customerid")));
+		tablepropertys.add(new TableProperty("saletime", RedisUtil.getString("saletime")));
+		tablepropertys.add(new TableProperty("operman", RedisUtil.getString("operman")));
+		tablepropertys.add(new TableProperty("total", RedisUtil.getString("total")));
+		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", sales);
 		mv.addObject("criteria", "Sale");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "销售订单");
+		mv.addObject("title",  RedisUtil.getString("saleTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));

@@ -34,6 +34,7 @@ import junstech.service.GoodService;
 import junstech.service.ProductService;
 import junstech.service.SupplierService;
 import junstech.util.MetaData;
+import junstech.util.RedisUtil;
 
 @Controller
 public class GoodDML extends BaseController{
@@ -91,15 +92,15 @@ public class GoodDML extends BaseController{
 		List<Good> goods = goodService.selectGoods(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodname", "采购商品"));
-		tablepropertys.add(new TableProperty("goodsortid", "对应公司商品"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("goodname", RedisUtil.getString("goodname")));
+		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", goods);
 		mv.addObject("criteria", "Good");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "货物");
+		mv.addObject("title", RedisUtil.getString("goodname"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("page", page));
@@ -120,10 +121,9 @@ public class GoodDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Good good = goodService.selectGood(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodname", "采购商品"));
-		tablepropertys.add(new TableProperty("goodsortid", "对应公司商品"));
-		mv.addObject("tablepropertys", tablepropertys);
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("goodname", RedisUtil.getString("goodname")));
+		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", good);
 		mv.setViewName("criteriaShow");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
@@ -137,10 +137,9 @@ public class GoodDML extends BaseController{
 		Good good = goodService.selectGood(id);
 		List<Product> types = productService.selectAllProducts();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodname", "采购商品"));
-		tablepropertys.add(new TableProperty("goodsortid", "对应公司商品"));
-		mv.addObject("tablepropertys", tablepropertys);
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("goodname", RedisUtil.getString("goodname")));
+		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", good);
 		mv.addObject("types", types);
 		mv.addObject("action", "editGoodProcess");
@@ -157,16 +156,16 @@ public class GoodDML extends BaseController{
 
 		try {
 			goodService.editGood(good);
-			mv.addObject("message", "更新商品成功");
+			mv.addObject("message", RedisUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", RedisUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -177,7 +176,7 @@ public class GoodDML extends BaseController{
 	public ModelAndView createUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("goodname", "采购商品"));
+		tablepropertys.add(new TableProperty("goodname", RedisUtil.getString("goodname")));
 		Good good = new Good();
 		List<Product> types = productService.selectAllProducts();
 		mv.addObject("tablepropertys", tablepropertys);
@@ -198,16 +197,16 @@ public class GoodDML extends BaseController{
 
 		try {
 			goodService.createGood(Good);
-			mv.addObject("message", "新建商品成功");
+			mv.addObject("message", RedisUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "创建失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -222,16 +221,16 @@ public class GoodDML extends BaseController{
 		try {
 			String tempid = id.split(",", 2)[0];
 			goodService.deleteGood(Integer.parseInt(tempid));
-			mv.addObject("message", "删除商品成功");
+			mv.addObject("message", RedisUtil.getString("deleteSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "删除失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

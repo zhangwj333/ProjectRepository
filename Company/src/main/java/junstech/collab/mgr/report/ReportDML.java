@@ -34,6 +34,7 @@ import junstech.service.LedgerService;
 import junstech.service.ReportService;
 import junstech.util.MetaData;
 import junstech.util.PDFReport;
+import junstech.util.RedisUtil;
 
 @Controller
 public class ReportDML extends BaseController {
@@ -115,7 +116,7 @@ public class ReportDML extends BaseController {
 		
 		ModelAndView mv = new ModelAndView();
 		try {
-			System.out.println("开始生成上月报表.........");
+			System.out.println(RedisUtil.getString("generatingReport"));
 			String date = targetDate;
 			String[] dateInfo = date.split("-");
 			String month;
@@ -163,7 +164,7 @@ public class ReportDML extends BaseController {
 			}
 			Map<String, Object> conditionOfFinancereceivable = new HashMap<String, Object>();
 			conditionOfFinancereceivable.put("key", "");
-			conditionOfFinancereceivable.put("type", "未结清");
+			conditionOfFinancereceivable.put("type", RedisUtil.getString("statusPendingPayment"));
 			List<Financereceivable> financereceivables = financereceivableService
 					.selectSummary(conditionOfFinancereceivable);
 			String fileName = PDFReport.generateReport(financeSumMonth, financeSumYear, financereceivables);
@@ -181,16 +182,16 @@ public class ReportDML extends BaseController {
 				report.setPath("/report" + fileName);
 				reportService.editReport(report);
 			}
-			System.out.println("完成生成上月报表.........");
-			mv.addObject("message", "新建报表成功");
+			System.out.println(RedisUtil.getString("completeGeneratingReport"));
+			mv.addObject("message", RedisUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "创建失败，请重新操作!");
+			mv.addObject("message",  RedisUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle,  RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

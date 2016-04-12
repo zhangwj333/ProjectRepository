@@ -40,6 +40,7 @@ import junstech.service.UserService;
 import junstech.util.AESEncryption;
 import junstech.util.ENVConfig;
 import junstech.util.MetaData;
+import junstech.util.RedisUtil;
 
 @Controller
 public class FinancetypeDML extends BaseController{
@@ -75,14 +76,14 @@ public class FinancetypeDML extends BaseController{
 		List<Financetype> financetypes = financetypeService.selectFinancetypes(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("name", "科目类型"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("name", RedisUtil.getString("financeTypeName")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", financetypes);
 		mv.addObject("criteria", "Financetype");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "财务条目");
+		mv.addObject("title", RedisUtil.getString("financeTypeTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("page", page));
@@ -103,8 +104,8 @@ public class FinancetypeDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Financetype financetype = financetypeService.selectFinancetype(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("name", "科目类型"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("name", RedisUtil.getString("financeTypeName")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", financetype);
 		mv.setViewName("criteriaShow");
@@ -118,8 +119,8 @@ public class FinancetypeDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Financetype financetype = financetypeService.selectFinancetype(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("name", "科目类型"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("name", RedisUtil.getString("financeTypeName")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", financetype);
 		mv.addObject("action", "editFinancetypeProcess");
@@ -136,16 +137,16 @@ public class FinancetypeDML extends BaseController{
 
 		try {
 			financetypeService.editFinancetype(financetype);
-			mv.addObject("message", "更新科目类型成功");
+			mv.addObject("message", RedisUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", RedisUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -156,7 +157,7 @@ public class FinancetypeDML extends BaseController{
 	public ModelAndView create(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("name", "科目类型"));
+		tablepropertys.add(new TableProperty("name", RedisUtil.getString("financeTypeName")));
 		
 		Financetype financetype = new Financetype();
 		mv.addObject("tablepropertys", tablepropertys);
@@ -175,16 +176,16 @@ public class FinancetypeDML extends BaseController{
 
 		try {
 			financetypeService.createFinancetype(financetype);
-			mv.addObject("message", "新建科目类型成功");
+			mv.addObject("message", RedisUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "创建失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -199,16 +200,16 @@ public class FinancetypeDML extends BaseController{
 		try {
 			String tempid = id.split(",", 2)[0];
 			financetypeService.deleteFinancetype(Integer.valueOf(tempid));
-			mv.addObject("message", "删除科目类型成功");
+			mv.addObject("message", RedisUtil.getString("deleteSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "创建失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

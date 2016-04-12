@@ -14,6 +14,7 @@ import junstech.model.Salesub;
 import junstech.service.InventoryService;
 import junstech.service.SaleService;
 import junstech.util.LogUtil;
+import junstech.util.RedisUtil;
 
 @Component
 public class SalePendingToVerifyHandler {
@@ -41,12 +42,19 @@ public class SalePendingToVerifyHandler {
 	}
 
 	@Scheduled(cron = "0/10 * *  * * ? ") // execute every 5 second
-	public void NewSaleOrderHandling() {
+	public void NewSaleOrderHandling() throws Exception{
+		if(runAble){
+			SaleOrderHandling();
+		}
+	}
+	
+	public void SaleOrderHandling() {
 		try {
-			List<Sale> sales = saleService.selectSalesByStatus("待确认");
+			runAble = false;
+			List<Sale> sales = saleService.selectSalesByStatus(RedisUtil.getString("statusPendingVerification"));
 			if (sales.size() > 0) {
 				for (Sale sale : sales) {
-					LogUtil.logger.info("执行销售订单:" + sale.getId());
+					LogUtil.logger.info(RedisUtil.getString("NoteHandleSale") + sale.getId());
 					List<Salesub> salesubs = sale.getSalesubs();
 					if (sale.getSalesubs().size() <= 0) {
 						sale.setStatus("InvalidOrder");
@@ -57,23 +65,25 @@ public class SalePendingToVerifyHandler {
 						Inventory inventory = new Inventory();
 						inventory.setGoodid(-1);
 						inventory.setGoodsortid(salesub.getGoodid());
-						inventory.setStatus("待出货");
-						inventory.setType("现货");
+						inventory.setStatus(RedisUtil.getString("statusPendingShipOutFromInventory"));
+						inventory.setType(RedisUtil.getString("futures"));
 						inventory.setPrice(salesub.getPrice());
 						inventory.setInventoryqty(-salesub.getGoodqty());
 						inventory.setExecutedate(salesub.getOpertime());
 						inventory.setActionid("sale" + sale.getId());
 						inventoryService.createInventory(inventory);
 					}
-					sale.setStatus("待出货");
-					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": 待出库-库存已结算"));
+					sale.setStatus(RedisUtil.getString("statusPendingShipOutFromInventory"));
+					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": " + (RedisUtil.getString("NotePendingShipOut"))));
 					saleService.editSale(sale);
 				}
 			}
+			runAble = true;
 		} catch (Exception e) {
 			LogUtil.logger.error(e.getStackTrace().toString());
 		}
 	}
 
 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	private static boolean runAble = true;
 }

@@ -20,6 +20,7 @@ import junstech.service.LedgerService;
 import junstech.service.PurchaseService;
 import junstech.service.SaleService;
 import junstech.util.LogUtil;
+import junstech.util.RedisUtil;
 
 @Component
 public class InventoryVerifyHandler {
@@ -80,34 +81,41 @@ public class InventoryVerifyHandler {
 	}
 
 	@Scheduled(cron = "0/5 * *  * * ? ") // execute every 5 second
-	public void NewSaleOrderHandling() {
+	public void NewSaleOrderHandling(){
+		if(runAble){
+			runNewSaleOrderHandling();
+		}
+	}
+	
+	public void runNewSaleOrderHandling() {
 		try {
+			runAble = false;
 			List<Inventory> inventorys = inventoryService.selectInventorysForBatch();
 			for (Inventory inventory : inventorys) {
 				if (inventory.getActionid().contains("purchase")) {
-					if ((!inventory.getStatus().equals("已入库")) || (!checkFullyComplete(inventory, inventorys))) {
+					if ((!inventory.getStatus().equals(RedisUtil.getString("statusCompleteGoToInventory"))) || (!checkFullyComplete(inventory, inventorys))) {
 						continue;
 					}
 					Purchase purchase = purchaseService
 							.selectPurchase(Long.parseLong(inventory.getActionid().replace("purchase", "").trim()));
-					if (purchase.getStatus().equals("已完成")) {
+					if (purchase.getStatus().equals(RedisUtil.getString("statusCompleteOrder"))) {
 						continue;
 					}
-					purchase.setStatus("已完成");
-					purchase.setNote(purchase.getNote().concat("<br/>" + df.format(new Date()) + ": 已入库-采购单结束"));
+					purchase.setStatus(RedisUtil.getString("statusCompleteOrder"));
+					purchase.setNote(purchase.getNote().concat("<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("statusCompleteGoToInventory") +"-采购单结束"));
 					purchaseService.editPurchase(purchase);
 				} else if (inventory.getActionid().contains("sale")) {
-					if ((!inventory.getStatus().equals("已出货")) || (!checkFullyComplete(inventory, inventorys))) {
+					if ((!inventory.getStatus().equals(RedisUtil.getString("statusCompleteShipOutFromInventory"))) || (!checkFullyComplete(inventory, inventorys))) {
 						continue;
 					}
 					Sale sale = saleService
 							.selectSale(Long.parseLong(inventory.getActionid().replace("sale", "").trim()));
-					if (sale.getStatus().equals("待收款") || sale.getStatus().equals("已完成")) {
+					if (sale.getStatus().equals(RedisUtil.getString("statusPendingCollectPayment")) || sale.getStatus().equals("已完成")) {
 						continue;
 					}
-					sale.setStatus("待收款");
-					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": 已出货"));
-					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": 待收款"));
+					sale.setStatus(RedisUtil.getString("statusPendingCollectPayment"));
+					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("statusCompleteShipOutFromInventory")));
+					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("statusPendingCollectPayment")));
 					saleService.editSale(sale);
 					// 录入应收账
 					Financereceivable financereceivable = new Financereceivable();
@@ -115,9 +123,10 @@ public class InventoryVerifyHandler {
 					financereceivable.setCompanyid(sale.getCustomerid());
 					financereceivable.setTotalamount(sale.getTotal());
 					financereceivable.setNowpay(Double.valueOf("0"));
-					financereceivable.setType("未结清");
-					financereceivable.setNote(df.format(new Date()) + ": 生成应收账");
+					financereceivable.setType(RedisUtil.getString("statusPendingPayment"));
+					financereceivable.setNote(df.format(new Date()) + ": " + RedisUtil.getString("NoteGenerationReceiveable"));
 					financereceivableService.createFinancereceivable(financereceivable);
+					runAble= true;
 				} else {
 					continue;
 				}
@@ -141,4 +150,6 @@ public class InventoryVerifyHandler {
 	}
 
 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	
+	private static boolean runAble = true;
 }

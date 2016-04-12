@@ -31,6 +31,7 @@ import junstech.util.AESEncryption;
 import junstech.util.ENVConfig;
 import junstech.util.JacksonUtil;
 import junstech.util.MetaData;
+import junstech.util.RedisUtil;
 
 @Controller
 public class LogInOut extends BaseController{
@@ -81,7 +82,7 @@ public class LogInOut extends BaseController{
 				mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 			}
 		}
-		mv.addObject("message", String.format("欢迎你,"));
+		mv.addObject("message", RedisUtil.getString("login"));
 		mv.setViewName("login");
 		return mv;
 	}
@@ -90,7 +91,7 @@ public class LogInOut extends BaseController{
 	public ModelAndView logoutUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();		
 		session.invalidate();
-		mv.addObject("message", String.format("注销成功！"));
+		mv.addObject("message", RedisUtil.getString("logout"));
 		mv.setViewName("login");
 		return mv;
 	}

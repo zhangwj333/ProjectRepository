@@ -40,6 +40,7 @@ import junstech.service.UserService;
 import junstech.util.AESEncryption;
 import junstech.util.ENVConfig;
 import junstech.util.MetaData;
+import junstech.util.RedisUtil;
 
 @Controller
 public class SupplierDML extends BaseController{
@@ -75,17 +76,17 @@ public class SupplierDML extends BaseController{
 		List<Supplier> suppliers = supplierService.selectSuppliers(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("supplier", "供应商"));
-		tablepropertys.add(new TableProperty("phone", "联系电话"));
-		tablepropertys.add(new TableProperty("address", "地址"));
-		tablepropertys.add(new TableProperty("note", "备注"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("supplier", RedisUtil.getString("supplier")));
+		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("address", RedisUtil.getString("address")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", suppliers);
 		mv.addObject("criteria", "Supplier");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "供应商");
+		mv.addObject("title", RedisUtil.getString("supplierTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("page", page));
@@ -106,11 +107,11 @@ public class SupplierDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Supplier supplier = supplierService.selectSupplier(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("supplier", "供应商"));
-		tablepropertys.add(new TableProperty("phone", "联系电话"));
-		tablepropertys.add(new TableProperty("address", "地址"));
-		tablepropertys.add(new TableProperty("note", "备注"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("supplier", RedisUtil.getString("supplier")));
+		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("address", RedisUtil.getString("address")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", supplier);
 		mv.setViewName("criteriaShow");
@@ -124,11 +125,11 @@ public class SupplierDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Supplier supplier = supplierService.selectSupplier(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("supplier", "供应商"));
-		tablepropertys.add(new TableProperty("phone", "联系电话"));
-		tablepropertys.add(new TableProperty("address", "地址"));
-		tablepropertys.add(new TableProperty("note", "备注"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("supplier", RedisUtil.getString("supplier")));
+		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("address", RedisUtil.getString("address")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", supplier);
 		mv.addObject("action", "editSupplierProcess");
@@ -145,16 +146,16 @@ public class SupplierDML extends BaseController{
 
 		try {
 			supplierService.editSupplier(supplier);
-			mv.addObject("message", "更新供应商成功");
+			mv.addObject("message", RedisUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", RedisUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -165,10 +166,10 @@ public class SupplierDML extends BaseController{
 	public ModelAndView createUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("supplier", "供应商"));
-		tablepropertys.add(new TableProperty("phone", "联系电话"));
-		tablepropertys.add(new TableProperty("address", "地址"));
-		tablepropertys.add(new TableProperty("note", "备注"));
+		tablepropertys.add(new TableProperty("supplier", RedisUtil.getString("supplier")));
+		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("address", RedisUtil.getString("address")));
+		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
 		
 		Supplier supplier = new Supplier();
 		mv.addObject("tablepropertys", tablepropertys);
@@ -187,16 +188,16 @@ public class SupplierDML extends BaseController{
 
 		try {
 			supplierService.createSupplier(supplier);
-			mv.addObject("message", "新建供应商成功");
+			mv.addObject("message", RedisUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "创建失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -211,16 +212,16 @@ public class SupplierDML extends BaseController{
 		try {
 			String tempid = id.split(",", 2)[0];
 			supplierService.deleteSupplier(Integer.parseInt(tempid));
-			mv.addObject("message", "删除供应商成功");
+			mv.addObject("message", RedisUtil.getString("deleteSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "删除失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

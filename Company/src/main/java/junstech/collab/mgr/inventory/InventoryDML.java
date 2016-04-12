@@ -43,6 +43,7 @@ import junstech.service.ProductService;
 import junstech.service.InventoryService;
 import junstech.util.FileUtil;
 import junstech.util.MetaData;
+import junstech.util.RedisUtil;
 
 @Controller
 public class InventoryDML extends BaseController{
@@ -96,16 +97,16 @@ public class InventoryDML extends BaseController{
 		List<Inventory> inventorys = inventoryService.selectSummary(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodsortid", "公司商品"));
-		tablepropertys.add(new TableProperty("type", "种类"));
-		tablepropertys.add(new TableProperty("inventoryqty", "存货数量"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));
+		tablepropertys.add(new TableProperty("type", RedisUtil.getString("type")));
+		tablepropertys.add(new TableProperty("inventoryqty", RedisUtil.getString("inventoryqty")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", inventorys);
 		mv.addObject("criteria", "SummaryInventory");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "存货单");
+		mv.addObject("title", RedisUtil.getString("inventoryTitle"));
 		mv.addObject("showoper", "no");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
@@ -136,14 +137,15 @@ public class InventoryDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Inventory inventory = inventoryService.selectInventory(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("actionid", "库存号"));
-		tablepropertys.add(new TableProperty("goodid", "进货商品编号"));
-		tablepropertys.add(new TableProperty("goodsortid", "公司商品编号"));
-		tablepropertys.add(new TableProperty("type", "种类"));
-		tablepropertys.add(new TableProperty("status", "状态"));
-		tablepropertys.add(new TableProperty("price", "成本价"));
-		tablepropertys.add(new TableProperty("inventoryqty", "存货数量"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("actionid", RedisUtil.getString("actionid")));
+		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));
+		tablepropertys.add(new TableProperty("type", RedisUtil.getString("type")));
+		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
+		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
+		tablepropertys.add(new TableProperty("inventoryqty", RedisUtil.getString("inventoryqty")));
+		
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", inventory);
 		mv.setViewName("criteriaShow");
@@ -156,7 +158,7 @@ public class InventoryDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Inventory inventory = inventoryService.selectInventory(id);
 		mv.addObject("proofPath", inventory.getProof());
-		mv.addObject("title", "物流单据");
+		mv.addObject("title", RedisUtil.getString("inventoryTitle"));
 		mv.setViewName("proof");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		return this.outputView(session, mv);
@@ -192,17 +194,17 @@ public class InventoryDML extends BaseController{
 	        Inventory inventory = inventoryService.selectInventory(id);
 	        inventory.setProof("/cargo" + path);
 	        inventoryService.editInventory(inventory);
-	        mv.addObject("message", "更新库存记录成功");
+	        mv.addObject("message", RedisUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", RedisUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -216,13 +218,14 @@ public class InventoryDML extends BaseController{
 		Inventory inventory = inventoryService.selectInventory(id);
 		List<Product> types = productService.selectAllProducts();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("goodid", "进货商品编号"));
-		tablepropertys.add(new TableProperty("goodsortid", "公司商品编号"));
-		tablepropertys.add(new TableProperty("status", "状态"));
-		tablepropertys.add(new TableProperty("price", "成本价"));
-		tablepropertys.add(new TableProperty("inventoryqty", "存货数量"));
-		tablepropertys.add(new TableProperty("actionid", "库存号"));
+		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
+		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));
+		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
+		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
+		tablepropertys.add(new TableProperty("inventoryqty", RedisUtil.getString("inventoryqty")));
+		tablepropertys.add(new TableProperty("actionid", RedisUtil.getString("actionid")));
+		
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", inventory);
 		mv.addObject("types", types);
@@ -240,16 +243,16 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.editInventory(inventory);
-			mv.addObject("message", "更新库存成功");
+			mv.addObject("message", RedisUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", RedisUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -260,12 +263,13 @@ public class InventoryDML extends BaseController{
 	public ModelAndView createInventory(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("actionid", "库存号"));
-		tablepropertys.add(new TableProperty("goodid", "进货商品编号"));
-		tablepropertys.add(new TableProperty("goodsortid", "公司商品编号"));
-		tablepropertys.add(new TableProperty("status", "状态"));
-		tablepropertys.add(new TableProperty("price", "成本价"));
-		tablepropertys.add(new TableProperty("inventoryqty", "存货数量"));
+		tablepropertys.add(new TableProperty("actionid", RedisUtil.getString("actionid")));
+		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));
+		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
+		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
+		tablepropertys.add(new TableProperty("inventoryqty", RedisUtil.getString("inventoryqty")));
+		
 		Inventory inventory = new Inventory();
 		List<Product> types = productService.selectAllProducts();
 		mv.addObject("tablepropertys", tablepropertys);
@@ -285,16 +289,16 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.createInventory(Inventory);
-			mv.addObject("message", "新建库存成功");
+			mv.addObject("message", RedisUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "创建失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -308,16 +312,16 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.deleteInventory(id);
-			mv.addObject("message", "删除库存成功");
+			mv.addObject("message", RedisUtil.getString("deleteSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", "删除失败，请重新操作!");
+			mv.addObject("message", RedisUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, "结果");
+		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -335,20 +339,20 @@ public class InventoryDML extends BaseController{
 			String tempid = id.split("," , 2)[0];
 			Inventory inventory = inventoryService.selectInventory(Long.parseLong(tempid));
 			if(inventory.getActionid().contains("purchase")){
-				inventory.setStatus("已入库");
-				inventory.setType("现货");
+				inventory.setStatus(RedisUtil.getString("statusCompleteGoToInventory"));
+				inventory.setType(RedisUtil.getString("spot"));
 				inventory.setExecutedate(new Date());
 			}else if (inventory.getActionid().contains("sale")){
-				inventory.setStatus("已出货");			
+				inventory.setStatus("statusCompleteShipPutFromInventory");			
 			}
 			inventoryService.editInventory(inventory);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 			return prepareView(mv, id.split("," , 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", "更新失败，请重试!");
+			mv.addObject("message", RedisUtil.getString("submitFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, "结果");
+			mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -370,20 +374,21 @@ public class InventoryDML extends BaseController{
 		List<Inventory> inventorys = inventoryService.selectInventorys(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("actionid", "ID"));
-		tablepropertys.add(new TableProperty("goodid", "进货商品编号"));
-		tablepropertys.add(new TableProperty("goodsortid", "公司商品编号"));
-		tablepropertys.add(new TableProperty("type", "种类"));
-		tablepropertys.add(new TableProperty("status", "状态"));
-		tablepropertys.add(new TableProperty("executedate", "入库/送货时间"));
-		tablepropertys.add(new TableProperty("price", "成本价"));
-		tablepropertys.add(new TableProperty("inventoryqty", "存货数量"));
+		tablepropertys.add(new TableProperty("actionid", RedisUtil.getString("actionid")));
+		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));
+		tablepropertys.add(new TableProperty("type", RedisUtil.getString("type")));
+		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
+		tablepropertys.add(new TableProperty("executedate", RedisUtil.getString("executedate")));
+		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
+		tablepropertys.add(new TableProperty("inventoryqty", RedisUtil.getString("inventoryqty")));
+		
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", inventorys);
 		mv.addObject("criteria", "Inventory");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", "物流单据");
+		mv.addObject("title", RedisUtil.getString("inventoryTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));
