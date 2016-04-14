@@ -14,52 +14,46 @@
 <c:set value="${pageContext.request.contextPath}" var="path"
 	scope="page" />
 
-<link rel="stylesheet" href="${path}/css/bootstrap.css">
-<link rel="stylesheet" href="${path}/css/bootswatch.min.css">
 
+<link rel="stylesheet" href="${path}/css/wechat.css">
+<link rel="stylesheet" href="${path}/css/wechatEx.css">
 <script src="${path}/js/jquery-1.10.2.min.js"></script>
 <script src="${path}/js/bootstrap.min.js"></script>
 <script src="${path}/js/bootswatch.js"></script>
 <script src="${path}/js/controller.js"></script>
+<script src="${path}/js/zepto.min.js"></script>
+<script src="${path}/js/router.min.js"></script>
+<script src="${path}/js/example.js"></script>
 </head>
 <body style="background-color: #eeeeee" onload="getDataSet()">
-	<input id="dataSet" name="dataSet" type="hidden" value='${dataSet}' />
-	<input id="questionPerPage" name="questionPerPage" type="hidden"
-		value='${questionPerPage}' />
 	<form:form class="form-horizontal" id="GetResult" name="GetResult"
 		method="post" action="${path}/GetResult.htm">
 		<fieldset>
 			<div class="container">
 				<div class="row">
-					<div class="span12"></div>
-				</div>
-
-				<div class="row">
 					<div id="questions">
-						<div class="info">
-							<blockquote>
-								<h3 id="title">${questions[0].title}</h3>
-							</blockquote>
-						</div>
-						<div class="well">
-							<div id="selections" class="form-group">
-								<div id="choice" class="radio">
-									<label> <input type="radio" name="optionsRadios"
-										id="optionsRadios" value="option"> option
-									</label>
+						<div class="weui_cells_title" id="title">单选列表项</div>
+						<div class="weui_cells weui_cells_radio" id="choice">
+							<label class="weui_cell weui_check_label" for="x11">
+								<div class="weui_cell_bd weui_cell_primary">
+									<p>cell standard</p>
 								</div>
-
-							</div>
+								<div class="weui_cell_ft">
+									<input type="radio" class="weui_check" name="radio1" id="x11">
+									<span class="weui_icon_checked"></span>
+								</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-sm-4">
-							<a id="prev" class="btn btn-default" onclick="prev()">上一条</a>
-
+					<br/><br/>
+					<div style="left:-0.5px; width: 100%; align: center; ">
+						<div style="top:0px">
+							<a id="prev" href="javascript:;" class="weui_btn weui_btn_warn"
+								onclick="prev()">上一条</a>
 						</div>
-						<div class="col-sm-4"></div>
-						<div id="submitButton" class="col-sm-4">
-							<a id="next" class="btn btn-primary" onclick="next()">下一条</a>
+						<br/><br/>
+						<div id="submitButton">
+							<a id="next" href="javascript:;"
+								class="weui_btn weui_btn_primary" onclick="next()">下一条</a>
 						</div>
 					</div>
 				</div>
@@ -71,4 +65,7 @@
 	<div class="row">
 		<div class="span12"></div>
 	</div>
+	<input id="dataSet" name="dataSet" type="hidden" value='${dataSet}' />
+	<input id="questionPerPage" name="questionPerPage" type="hidden"
+		value='${questionPerPage}' />
 </body>

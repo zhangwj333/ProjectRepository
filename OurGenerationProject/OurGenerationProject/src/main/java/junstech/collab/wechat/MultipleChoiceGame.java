@@ -2,6 +2,7 @@ package junstech.collab.wechat;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -51,8 +52,9 @@ public class MultipleChoiceGame extends BaseController {
 		if (!m.find()) {
 			throw new BusinessException();
 		}
-		String[] calMethods = m.group(1).split("\r?\n");
-		String[] factors = new String[] {};
+		String data = m.group(1);
+		String[] calMethods = data.split("\r\n");
+		String[] factors = null;
 		String testType = "";
 		for (String calMethod : calMethods) {
 			String[] info = calMethod.split("~");
@@ -62,12 +64,13 @@ public class MultipleChoiceGame extends BaseController {
 			}
 		}
 
+		String[] answers = answer.split(",");
 		if (factors.length > 0) {
 			if ("single".equals(testType)) {
 				for (String factor : factors) {
 					int point = 0;
-					for (int i = 0; i < answer.length(); i++) {
-						if (factor.equals(answer.substring(i, i + 1))) {
+					for (int i = 0; i < answers.length; i++) {
+						if (factor.equals(answers[i])) {
 							point++;
 						}
 					}
@@ -79,6 +82,9 @@ public class MultipleChoiceGame extends BaseController {
 			}
 		}
 		mv.addObject("result", result);
+		Collections.sort(result);
+		String finalResult = result.get(0).getKey() + result.get(1).getKey() + result.get(2).getKey(); 
+		
 		MappingJackson2JsonView json = new MappingJackson2JsonView();
 		Gson gson = new Gson();
 		String output = gson.toJson(mv.getModel());
@@ -116,6 +122,7 @@ public class MultipleChoiceGame extends BaseController {
 			}
 			i++;
 		}
+
 		mv.addObject("questions", questions);
 		MappingJackson2JsonView json = new MappingJackson2JsonView();
 		Gson gson = new Gson();

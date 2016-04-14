@@ -17,6 +17,7 @@
 <script src="${path}/js/jquery-1.10.2.min.js"></script>
 <script src="${path}/js/bootstrap.min.js"></script>
 <script src="${path}/js/bootswatch.js"></script>
+<script src="${path}/js/junstech.js"></script>
 <link rel="stylesheet" href="${path}/js/jqwidgets/styles/jqx.base.css" type="text/css" />
 <script type="text/javascript" src="${path}/js/jqwidgets/jqxcore.js"></script>
 <script type="text/javascript" src="${path}/js/jqwidgets/jqxdata.js"></script>
@@ -29,13 +30,17 @@
 <script type="text/javascript" src="${path}/js/jqwidgets/jqxdropdownlist.js"></script>
 <script type="text/javascript" src="${path}/js/jqwidgets/base.js"></script>
 <script type="text/javascript">
-
+function reloadFrameHeight() {
+	
+	iFrameHeight(document.getElementById("contentFrame"));
+}
+setInterval("reloadFrameHeight()",100)
 </script>
 </head>
-<body style="background-color: #eeeeee" onload="getDataSet()">
-	<div class="span12"  scroll=no style="overflow:hidden">
-			<iframe src="${path}/MultipleChoiceGame.htm?type=${type}" id="contentFrame"
-				name="contentFrame" frameBorder=0 width="100%" height="1500"
+<body style="background-color: #eeeeee; margin:0; padding:0;" onload="getDataSet()" >
+	<div class="span12" style="overflow:hidden">
+			<iframe src="${path}/MultipleChoiceGame.htm?type=${type}" id="contentFrame" overflow="hidden"
+				name="contentFrame" frameBorder="0" margin="0" padding="0" scrolling="no" allowtransparency="yes" width="100%" 
 				onload="iFrameHeight(this)"></iframe>
 		</div>
 </body>

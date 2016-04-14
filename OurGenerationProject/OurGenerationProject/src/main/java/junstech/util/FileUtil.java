@@ -50,7 +50,7 @@ public class FileUtil {
 		BufferedReader reader = new BufferedReader(read);
 		String line;
 		while ((line = reader.readLine()) != null) {
-			result.append(line);
+			result.append(line + "\r\n");
 		}
 		read.close();
 

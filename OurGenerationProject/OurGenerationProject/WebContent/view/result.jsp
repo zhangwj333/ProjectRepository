@@ -72,7 +72,7 @@ function
 				spider : true,
 				startAngle : 0,
 				endAngle : 360,
-				radius : 120,
+				radius : 90,
 				type : 'line',
 
 				type : 'splinearea',
@@ -89,8 +89,8 @@ function
 					displayText : 'Your Rating',
 					opacity : 0.7,
 					lineWidth : 1,
-					radius : 2,
-					lineWidth : 2,
+					radius : 1,
+					lineWidth : 1,
 					symbolType : 'square'
 				} ]
 			} ]
@@ -186,38 +186,9 @@ function
 </head>
 <body style="background-color: #eeeeee" onload="getDataSet()">
 	<input id="dataSet" name="dataSet" type="hidden" value='${dataSet}' />
-	<div id='chartContainer' style="width: 850px; height: 500px">
+	<div id='chartContainer' style="width: 400px; height: 400px">
     </div>
-    <table style="width: 850px">
-        <tr>
-            <td style="padding-left:50px">
-                <p style="font-family: Verdana; font-size: 12px;">Move the slider to rotate:
-                </p>
-                <div id='sliderStartAngle'>
-                </div>
-            </td>
-            <td>
-                <p style="font-family: Verdana; font-size: 12px;">Select the series type:
-                </p>
-                <div id='dropDownSeries'>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding-left:50px">
-                <p style="font-family: Verdana; font-size: 12px;">Move the slider to change the radius:
-                </p>
-                <div id='sliderRadius'>
-                </div>
-            </td>
-            <td>
-                <p style="font-family: Verdana; font-size: 12px;">Select color scheme:
-                </p>
-                <div id='dropDownColors'>
-                </div>
-            </td>
-        </tr>
-    </table>
+
 
 	<div class="container">
 		<div class="row">
