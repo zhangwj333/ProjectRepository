@@ -1,5 +1,6 @@
 package junstech.collab.wechat;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +11,8 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,11 +20,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import com.google.gson.Gson;
 
 import junstech.util.ENVConfig;
 import junstech.util.FileUtil;
+import junstech.util.RedisUtil;
 import junstech.collab.BaseController;
 import junstech.exception.BusinessException;
 import junstech.model.Option;
@@ -37,6 +46,11 @@ public class MultipleChoiceGame extends BaseController {
 	public ModelAndView RedirectToTest(@RequestParam("type") String type, HttpServletRequest request,
 			HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
+		Matcher m = testTypePattern.matcher(type);
+		if(m.find()){
+			type = m.group(1);
+		}
+		System.out.println(type);
 		mv.addObject("type", type);
 		mv.setViewName("index");
 		return mv;
@@ -105,10 +119,12 @@ public class MultipleChoiceGame extends BaseController {
 			testType = type;
 		}
 		String data = FileUtil.getFileAsStringFromJunstech(ENVConfig.multipleChoiceGame, testType);
+
 		Matcher questionPerPageMatcher = questionPerPagePattern.matcher(data);
 		if(questionPerPageMatcher.find()){
 			mv.addObject("questionPerPage", questionPerPageMatcher.group(1));
-		}
+		}		
+		
 		Matcher questionMatcher = null;
 		boolean flag = true;
 		int i = 1;
@@ -129,6 +145,7 @@ public class MultipleChoiceGame extends BaseController {
 		Gson gson = new Gson();
 		String output = gson.toJson(mv.getModel());
 		mv.addObject("dataSet", output);
+		System.out.println(output);
 		mv.addObject("type", type);
 		mv.setViewName("multipleChoiceGame");
 		return mv;
@@ -169,6 +186,8 @@ public class MultipleChoiceGame extends BaseController {
 		return option;
 	}
 
+	private Pattern testTypePattern = Pattern.compile("(.*\\.xml*)",
+			Pattern.DOTALL);
 	private Pattern resultPattern = Pattern.compile("<MultipleChoiceResult>(.*)</MultipleChoiceResult>",
 			Pattern.DOTALL);
 	private Pattern questionPattern = null;

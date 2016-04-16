@@ -71,10 +71,9 @@ public class FileUtil {
 		BufferedReader reader = new BufferedReader(read);
 		char[] data = new char[4096];
 		while ((reader.read(data)) != -1) {
-			result.append(data.toString());
+			result.append(data);
 		}
 		read.close();
-
 		return result.toString();
 	}
 }

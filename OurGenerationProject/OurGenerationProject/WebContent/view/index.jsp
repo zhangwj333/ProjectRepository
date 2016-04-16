@@ -29,6 +29,7 @@
 <script type="text/javascript" src="${path}/js/jqwidgets/jqxscrollbar.js"></script>
 <script type="text/javascript" src="${path}/js/jqwidgets/jqxdropdownlist.js"></script>
 <script type="text/javascript" src="${path}/js/jqwidgets/base.js"></script>
+
 <script type="text/javascript">
 function reloadFrameHeight() {
 	
@@ -39,7 +40,7 @@ setInterval("reloadFrameHeight()",100)
 </head>
 <body  onload="getDataSet()" >
 	<div style="width:100%">
-			<iframe src="${path}/MultipleChoiceGame.htm?type=${type}" id="contentFrame" overflow="hidden" style="position: absolute; top: -10px;"
+			<iframe src="${path}/MultipleChoiceGame.htm?type=${type}" id="contentFrame" overflow="hidden" style="position: absolute; top: 0px;"
 				name="contentFrame" frameBorder="0" margin="0" padding="0" scrolling="no" allowtransparency="yes" width="100%" 
 				onload="iFrameHeight(this)"></iframe>
 		</div>
