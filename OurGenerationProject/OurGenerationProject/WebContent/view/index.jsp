@@ -29,7 +29,7 @@
 <script type="text/javascript" src="${path}/js/jqwidgets/jqxscrollbar.js"></script>
 <script type="text/javascript" src="${path}/js/jqwidgets/jqxdropdownlist.js"></script>
 <script type="text/javascript" src="${path}/js/jqwidgets/base.js"></script>
-
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
 function reloadFrameHeight() {
 	

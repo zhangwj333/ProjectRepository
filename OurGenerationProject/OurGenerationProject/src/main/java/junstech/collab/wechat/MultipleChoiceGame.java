@@ -113,17 +113,22 @@ public class MultipleChoiceGame extends BaseController {
 			HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
-		ArrayList<Question> questions = new ArrayList<Question>();
+		List<Question> questions = new ArrayList<Question>();
 		String testType = "test.xml";
 		if (!type.isEmpty()) {
 			testType = type;
 		}
 		String data = FileUtil.getFileAsStringFromJunstech(ENVConfig.multipleChoiceGame, testType);
-
+		
+		Matcher questionsMatcher = questionsPattern.matcher(data);
+		if(questionsMatcher.find()){
+			data = questionsMatcher.group(1);
+		}	
+		
 		Matcher questionPerPageMatcher = questionPerPagePattern.matcher(data);
 		if(questionPerPageMatcher.find()){
 			mv.addObject("questionPerPage", questionPerPageMatcher.group(1));
-		}		
+		}	
 		
 		Matcher questionMatcher = null;
 		boolean flag = true;
@@ -145,7 +150,6 @@ public class MultipleChoiceGame extends BaseController {
 		Gson gson = new Gson();
 		String output = gson.toJson(mv.getModel());
 		mv.addObject("dataSet", output);
-		System.out.println(output);
 		mv.addObject("type", type);
 		mv.setViewName("multipleChoiceGame");
 		return mv;
@@ -190,6 +194,9 @@ public class MultipleChoiceGame extends BaseController {
 			Pattern.DOTALL);
 	private Pattern resultPattern = Pattern.compile("<MultipleChoiceResult>(.*)</MultipleChoiceResult>",
 			Pattern.DOTALL);
+	private Pattern questionsPattern = Pattern.compile("<MultipleChoice>(.*)</MultipleChoice>",
+			Pattern.DOTALL);
+	
 	private Pattern questionPattern = null;
 	private Pattern titlePattern = Pattern.compile("<Title>(.*)</Title>", Pattern.DOTALL);
 	private Pattern optionPattern = null;
