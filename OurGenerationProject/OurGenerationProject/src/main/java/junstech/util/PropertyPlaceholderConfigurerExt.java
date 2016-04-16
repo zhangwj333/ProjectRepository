@@ -7,7 +7,7 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import java.util.Properties; 
 
 /** 
-* ��дPropertyPlaceholderConfigurer��processProperties����ʵ�� 
+* PropertyPlaceholderConfigurer process Properties
 * 
 * @author zhangwj333 2015-12-18 16:47 
 */ 
@@ -26,11 +26,6 @@ public class PropertyPlaceholderConfigurerExt extends PropertyPlaceholderConfigu
 							e.printStackTrace();
 						} 
                 }
-                
-                MetaData.cargoPath = props.getProperty("cargo");
-                MetaData.transactionPath = props.getProperty("transaction");
-                MetaData.reportPath = props.getProperty("report");
-                MetaData.logPath = props.getProperty("log");
                 super.processProperties(beanFactory, props); 
 
         } 

@@ -37,9 +37,9 @@ function reloadFrameHeight() {
 setInterval("reloadFrameHeight()",100)
 </script>
 </head>
-<body style="background-color: #eeeeee; margin:0; padding:0;" onload="getDataSet()" >
-	<div class="span12" style="overflow:hidden">
-			<iframe src="${path}/MultipleChoiceGame.htm?type=${type}" id="contentFrame" overflow="hidden"
+<body  onload="getDataSet()" >
+	<div style="width:100%">
+			<iframe src="${path}/MultipleChoiceGame.htm?type=${type}" id="contentFrame" overflow="hidden" style="position: absolute; top: -10px;"
 				name="contentFrame" frameBorder="0" margin="0" padding="0" scrolling="no" allowtransparency="yes" width="100%" 
 				onload="iFrameHeight(this)"></iframe>
 		</div>

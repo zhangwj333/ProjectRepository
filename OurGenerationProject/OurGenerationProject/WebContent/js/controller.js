@@ -9,7 +9,7 @@ function setButtons() {
 	if ((parseInt(curPageFirstQuestionNo, 10) + parseInt(questionPerPage, 10)) >= title.length) {
 		document.getElementById("submitButton").innerHTML = "<a id='next' href='javascript:;' class='weui_btn weui_btn_primary' onclick='submitAnswer()'>提交</a>";
 	} else {
-		document.getElementById("submitButton").innerHTML = "<a id='next' href='javascript:;' class='weui_btn weui_btn_primary' onclick='next()'>下一条</a>";
+		document.getElementById("submitButton").innerHTML = "<a id='next' href='javascript:;' class='weui_btn weui_btn_primary' onclick='next()'>下一页</a>";
 	}
 }
 
@@ -72,7 +72,7 @@ function prev() {
 		document.getElementById("answer").value = myAnswers;
 		curPageFirstQuestionNo = parseInt(curPageFirstQuestionNo, 10)
 				- parseInt(questionPerPage, 10);
-		document.getElementById("submitButton").innerHTML = "<a id='next' href='javascript:;' class='weui_btn weui_btn_primary' onclick='next()'>下一条</a>";
+		document.getElementById("submitButton").innerHTML = "<a id='next' href='javascript:;' class='weui_btn weui_btn_primary' onclick='next()'>下一页</a>";
 		setQuestion();
 	}
 }

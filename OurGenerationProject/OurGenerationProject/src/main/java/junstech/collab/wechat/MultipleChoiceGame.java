@@ -20,6 +20,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.google.gson.Gson;
 
+import junstech.util.ENVConfig;
 import junstech.util.FileUtil;
 import junstech.collab.BaseController;
 import junstech.exception.BusinessException;
@@ -48,7 +49,7 @@ public class MultipleChoiceGame extends BaseController {
 		ArrayList<TableProperty> result = new ArrayList<TableProperty>();
 		;
 		Matcher m = resultPattern
-				.matcher(FileUtil.getFileAsStringFromConfigPath(FileUtil.multipleChoiceGame, "calMethod.xml"));
+				.matcher(FileUtil.getFileAsStringFromJunstech(ENVConfig.multipleChoiceGame, "calMethod.xml"));
 		if (!m.find()) {
 			throw new BusinessException();
 		}
@@ -103,7 +104,7 @@ public class MultipleChoiceGame extends BaseController {
 		if (!type.isEmpty()) {
 			testType = type;
 		}
-		String data = FileUtil.getFileAsStringFromConfigPath(FileUtil.multipleChoiceGame, testType);
+		String data = FileUtil.getFileAsStringFromJunstech(ENVConfig.multipleChoiceGame, testType);
 		Matcher questionPerPageMatcher = questionPerPagePattern.matcher(data);
 		if(questionPerPageMatcher.find()){
 			mv.addObject("questionPerPage", questionPerPageMatcher.group(1));

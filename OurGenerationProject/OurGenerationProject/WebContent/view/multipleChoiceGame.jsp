@@ -25,7 +25,7 @@
 <script src="${path}/js/router.min.js"></script>
 <script src="${path}/js/example.js"></script>
 </head>
-<body style="background-color: #eeeeee" onload="getDataSet()">
+<body onload="getDataSet()">
 	<form:form class="form-horizontal" id="GetResult" name="GetResult"
 		method="post" action="${path}/GetResult.htm">
 		<fieldset>
@@ -42,18 +42,21 @@
 									<input type="radio" class="weui_check" name="radio1" id="x11">
 									<span class="weui_icon_checked"></span>
 								</div>
+							</label>
 						</div>
 					</div>
-					<br/><br/>
-					<div style="left:-0.5px; width: 100%; align: center; ">
-						<div style="top:0px">
+					<br />
+					<br />
+					<div style="left: -0.5px; width: 100%; align: center;">
+						<div style="top: 0px">
 							<a id="prev" href="javascript:;" class="weui_btn weui_btn_warn"
-								onclick="prev()">上一条</a>
+								onclick="prev()">上一页</a>
 						</div>
-						<br/><br/>
+						<br />
+						<br />
 						<div id="submitButton">
 							<a id="next" href="javascript:;"
-								class="weui_btn weui_btn_primary" onclick="next()">下一条</a>
+								class="weui_btn weui_btn_primary" onclick="next()">下一页</a>
 						</div>
 					</div>
 				</div>

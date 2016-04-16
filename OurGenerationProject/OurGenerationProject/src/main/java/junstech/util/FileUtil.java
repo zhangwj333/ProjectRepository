@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.CharBuffer;
 import java.util.Properties;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -35,42 +36,45 @@ public class FileUtil {
 		return fileName.substring(fileName.lastIndexOf("."));
 	}
 
+	public static String getFileAsStringFromJunstech(String path, String fileName) throws IOException {
+		if (RedisUtil.contains(fileName)) {
+			System.out.println("Get from Redis");
+			return RedisUtil.getString(fileName);
+		} else {
+			System.out.println("Get from Config");
+			String data = getFileAsStringFromConfigPath(path, fileName);
+			RedisUtil.setString(fileName, data);
+			return data;
+		}
+	}
+
+	public static String getFileAsStringFromJunstech(String fileName) throws IOException {
+		return getFileAsStringFromJunstech(null, fileName);
+	}
+
+	public static String getFileAsStringFromRedis(String FileName) throws IOException {
+		return RedisUtil.getString(FileName);
+	}
+
 	public static String getFileAsStringFromClassPath(String FileName) throws IOException {
 		return getFileAsString(FileUtil.class.getClassLoader().getResource("/").getPath() + FileName);
 	}
-	
+
 	public static String getFileAsStringFromConfigPath(String ConfigPath, String FileName) throws IOException {
 		return getFileAsString(ConfigPath + "/" + FileName);
 	}
-	
+
 	public static String getFileAsString(String FileName) throws IOException {
 		StringBuilder result = new StringBuilder();
 		File file = new File(FileName);
 		InputStreamReader read = new InputStreamReader(new FileInputStream(file), "UTF-8");
 		BufferedReader reader = new BufferedReader(read);
-		String line;
-		while ((line = reader.readLine()) != null) {
-			result.append(line + "\r\n");
+		char[] data = new char[4096];
+		while ((reader.read(data)) != -1) {
+			result.append(data.toString());
 		}
 		read.close();
 
 		return result.toString();
-	}
-	
-	public static String multipleChoiceGame;
-	
-	static {
-
-		Properties prop = new Properties();
-		System.out.println(MultipleChoiceGame.class.getClassLoader().getResource("config.properties").getPath());
-		try {
-			// 读取属性文件a.properties
-			InputStream in = MultipleChoiceGame.class.getClassLoader().getResourceAsStream("config.properties");
-			prop.load(in); /// 加载属性列表
-			multipleChoiceGame = prop.getProperty("multipleChoiceGame");
-			in.close();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
 	}
 }

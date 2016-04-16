@@ -184,7 +184,7 @@ function
 	}
 </script>
 </head>
-<body style="background-color: #eeeeee" onload="getDataSet()">
+<body class="bd spacing" onload="getDataSet()">
 	<input id="dataSet" name="dataSet" type="hidden" value='${dataSet}' />
 	<div id='chartContainer' style="width: 400px; height: 400px">
     </div>
