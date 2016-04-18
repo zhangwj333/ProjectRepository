@@ -69,11 +69,13 @@ public class FileUtil {
 		File file = new File(FileName);
 		InputStreamReader read = new InputStreamReader(new FileInputStream(file), "UTF-8");
 		BufferedReader reader = new BufferedReader(read);
-		char[] data = new char[4096];
+		char[] data = new char[bufferSize];
 		while ((reader.read(data)) != -1) {
 			result.append(data);
 		}
 		read.close();
 		return result.toString();
 	}
+	
+	private static int bufferSize = 4096;
 }

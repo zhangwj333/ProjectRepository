@@ -3,10 +3,11 @@ package junstech.util;
 import redis.clients.jedis.Jedis;
 public class RedisUtil {
    private static Jedis jedis = null;
+   private static String server = "localhost";
    
    public static Jedis getJedis(){
 	   if(jedis == null){
-		   jedis = new Jedis("localhost");
+		   jedis = new Jedis(RedisUtil.server);
 	   }
 	   return jedis;
    }
@@ -25,7 +26,7 @@ public class RedisUtil {
    
    public static void main(String[] args) {
       //连接本地的 Redis 服务
-      Jedis jedis = new Jedis("localhost");
+      Jedis jedis = new Jedis(RedisUtil.server);
       System.out.println("Connection to server sucessfully");
       //查看服务是否运行
       System.out.println("Server is running: "+jedis.ping());
