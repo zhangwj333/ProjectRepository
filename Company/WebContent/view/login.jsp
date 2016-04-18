@@ -8,9 +8,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Transaction List</title>
+<title>Junstech</title>
 <c:set value="${pageContext.request.contextPath}" var="path" scope="page" />
-
+<link rel="shortcut icon" href="${path}/img/icon.png" type="image/x-icon" />
 <link rel="stylesheet" href="${path}/css/bootstrap.css">
 <link rel="stylesheet" href="${path}/css/bootswatch.min.css">
 
