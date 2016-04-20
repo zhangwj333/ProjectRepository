@@ -34,15 +34,12 @@ junstech\aop\UserMgrPrivilegeCheck.class
 junstech\dao\FinancetypeMapper.class
 junstech\service\SaleService.class
 junstech\model\Sale.class
-junstech\batch\SalePendingToVerifyHandler.class
-junstech\batch\PurchasePendingToVerifyHandler.class
 junstech\service\UserService.class
 junstech\service\imp\PrivilegeServiceImp.class
 junstech\collab\mgr\report\ReportDML.class
 junstech\model\Report.class
 junstech\service\SupplierService.class
 junstech\service\FinancetypeService.class
-junstech\batch\InventoryVerifyHandler.class
 junstech\service\imp\CustomerServiceImp.class
 junstech\service\imp\SaleServiceImp.class
 junstech\dao\ProductMapper.class
@@ -50,9 +47,8 @@ junstech\service\SalesubService.class
 junstech\util\PDFReport.class
 junstech\dao\SaleMapper.class
 junstech\model\Criteria.class
-junstech\service\PrivilegeService.class
-junstech\batch\FinanceReceviableVerifyHandler.class
 junstech\model\Financereceivable.class
+junstech\service\PrivilegeService.class
 junstech\service\imp\PurchaseServiceImp.class
 junstech\service\imp\FinancereceivableServiceImp.class
 junstech\model\Product.class
@@ -72,7 +68,6 @@ junstech\dao\InventoryMapper.class
 junstech\dao\FinancereceivableMapper.class
 junstech\service\imp\ProductServiceImp.class
 junstech\service\ProductService.class
-junstech\batch\ReportGenerator.class
 junstech\collab\mgr\sale\CustomerDML.class
 junstech\service\CustomerService.class
 junstech\collab\mgr\purchase\GoodDML.class
