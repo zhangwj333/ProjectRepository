@@ -5,7 +5,7 @@
 	id="WebApp_ID" version="3.0">
 	<display-name>Junstech Created Web Application</display-name>
 	<context-param>
-		<param-name>Company</param-name>
+		<param-name>webAppRootKey</param-name>
 		<param-value>webapp.Company</param-value>
 	</context-param>
 	<context-param>

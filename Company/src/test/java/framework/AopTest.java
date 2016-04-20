@@ -8,7 +8,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import junstech.aop.UserMgrPrivilegeCheck;
-import junstech.batch.ReportGenerator;
 import junstech.collab.mgr.user.UserDML;
 
 @RunWith(SpringJUnit4ClassRunner.class)

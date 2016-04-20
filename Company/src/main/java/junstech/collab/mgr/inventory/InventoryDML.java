@@ -343,7 +343,8 @@ public class InventoryDML extends BaseController{
 				inventory.setType(RedisUtil.getString("spot"));
 				inventory.setExecutedate(new Date());
 			}else if (inventory.getActionid().contains("sale")){
-				inventory.setStatus("statusCompleteShipPutFromInventory");			
+				inventory.setStatus(RedisUtil.getString("statusCompleteShipOutFromInventory"));
+				inventory.setExecutedate(new Date());
 			}
 			inventoryService.editInventory(inventory);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);

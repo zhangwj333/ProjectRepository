@@ -1,8 +1,12 @@
 package junstech.util;
 
+import java.util.HashMap;
+
 import redis.clients.jedis.Jedis;
 public class RedisUtil {
    private static Jedis jedis = null;
+   
+   private static HashMap<String, String> text = new HashMap<String, String>();
    
    public static Jedis getJedis(){
 	   if(jedis == null){
@@ -11,11 +15,16 @@ public class RedisUtil {
 	   return jedis;
    }
 	
-   public static String setString(String key, String value){
-	   return getJedis().set(key, value);
+   public static void setString(String key, String value){
+	   text.put(key, value);
+	   getJedis().set(key, value);
    }
    
    public static String getString(String key){
+	   if(text.containsKey(key)){
+		   return text.get(key);
+	   }
+	   System.out.println("getFromRedis: " + key);
 	   return getJedis().get(key);
    }
    
