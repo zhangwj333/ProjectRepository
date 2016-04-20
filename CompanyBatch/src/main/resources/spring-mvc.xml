@@ -20,24 +20,6 @@
 
 	<!-- 配置 AOP -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
-
-	<bean id="financeMgrPrivilegeCheck" class="junstech.aop.FinanceMgrPrivilegeCheck">
-	</bean>
-
-	<bean id="userMgrPrivilegeCheck" class="junstech.aop.UserMgrPrivilegeCheck">
-	</bean>
-
-	<bean id="purchaseMgrPrivilegeCheck" class="junstech.aop.PurchaseMgrPrivilegeCheck">
-	</bean>
-
-	<bean id="saleMgrPrivilegeCheck" class="junstech.aop.SaleMgrPrivilegeCheck">
-	</bean>
-
-	<bean id="inventoryMgrPrivilegeCheck" class="junstech.aop.InventoryMgrPrivilegeCheck">
-	</bean>
-
-	<bean id="reportMgrPrivilegeCheck" class="junstech.aop.ReportMgrPrivilegeCheck">
-	</bean>
 	
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
 	<!-- 避免AJAX 发生 JSON 文件下载 -->
