@@ -37,7 +37,7 @@ public class ENVConfig {
 			MetaData.reportPath = prop.getProperty("report");
 			MetaData.logPath = prop.getProperty("log");
 			in.close();
-			initializing();
+			//initializing();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
