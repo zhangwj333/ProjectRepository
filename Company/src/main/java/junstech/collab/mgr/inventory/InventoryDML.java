@@ -43,7 +43,7 @@ import junstech.service.ProductService;
 import junstech.service.InventoryService;
 import junstech.util.FileUtil;
 import junstech.util.MetaData;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Controller
 public class InventoryDML extends BaseController{
@@ -97,16 +97,16 @@ public class InventoryDML extends BaseController{
 		List<Inventory> inventorys = inventoryService.selectSummary(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));
-		tablepropertys.add(new TableProperty("type", RedisUtil.getString("type")));
-		tablepropertys.add(new TableProperty("inventoryqty", RedisUtil.getString("inventoryqty")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("goodsortid", LanguageUtil.getString("goodsortid")));
+		tablepropertys.add(new TableProperty("type", LanguageUtil.getString("type")));
+		tablepropertys.add(new TableProperty("inventoryqty", LanguageUtil.getString("inventoryqty")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", inventorys);
 		mv.addObject("criteria", "SummaryInventory");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", RedisUtil.getString("inventoryTitle"));
+		mv.addObject("title", LanguageUtil.getString("inventoryTitle"));
 		mv.addObject("showoper", "no");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
@@ -137,14 +137,14 @@ public class InventoryDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Inventory inventory = inventoryService.selectInventory(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("actionid", RedisUtil.getString("actionid")));
-		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
-		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));
-		tablepropertys.add(new TableProperty("type", RedisUtil.getString("type")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
-		tablepropertys.add(new TableProperty("inventoryqty", RedisUtil.getString("inventoryqty")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("actionid", LanguageUtil.getString("actionid")));
+		tablepropertys.add(new TableProperty("goodid", LanguageUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodsortid", LanguageUtil.getString("goodsortid")));
+		tablepropertys.add(new TableProperty("type", LanguageUtil.getString("type")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("price", LanguageUtil.getString("price")));
+		tablepropertys.add(new TableProperty("inventoryqty", LanguageUtil.getString("inventoryqty")));
 		
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", inventory);
@@ -158,7 +158,7 @@ public class InventoryDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Inventory inventory = inventoryService.selectInventory(id);
 		mv.addObject("proofPath", inventory.getProof());
-		mv.addObject("title", RedisUtil.getString("inventoryTitle"));
+		mv.addObject("title", LanguageUtil.getString("inventoryTitle"));
 		mv.setViewName("proof");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		return this.outputView(session, mv);
@@ -194,17 +194,17 @@ public class InventoryDML extends BaseController{
 	        Inventory inventory = inventoryService.selectInventory(id);
 	        inventory.setProof("/cargo" + path);
 	        inventoryService.editInventory(inventory);
-	        mv.addObject("message", RedisUtil.getString("updateSuccess"));
+	        mv.addObject("message", LanguageUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", RedisUtil.getString("updateFail"));
+			mv.addObject("message", LanguageUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -218,13 +218,13 @@ public class InventoryDML extends BaseController{
 		Inventory inventory = inventoryService.selectInventory(id);
 		List<Product> types = productService.selectAllProducts();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
-		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
-		tablepropertys.add(new TableProperty("inventoryqty", RedisUtil.getString("inventoryqty")));
-		tablepropertys.add(new TableProperty("actionid", RedisUtil.getString("actionid")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("goodid", LanguageUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodsortid", LanguageUtil.getString("goodsortid")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("price", LanguageUtil.getString("price")));
+		tablepropertys.add(new TableProperty("inventoryqty", LanguageUtil.getString("inventoryqty")));
+		tablepropertys.add(new TableProperty("actionid", LanguageUtil.getString("actionid")));
 		
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", inventory);
@@ -243,16 +243,16 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.editInventory(inventory);
-			mv.addObject("message", RedisUtil.getString("updateSuccess"));
+			mv.addObject("message", LanguageUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("updateFail"));
+			mv.addObject("message", LanguageUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -263,12 +263,12 @@ public class InventoryDML extends BaseController{
 	public ModelAndView createInventory(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("actionid", RedisUtil.getString("actionid")));
-		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
-		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
-		tablepropertys.add(new TableProperty("inventoryqty", RedisUtil.getString("inventoryqty")));
+		tablepropertys.add(new TableProperty("actionid", LanguageUtil.getString("actionid")));
+		tablepropertys.add(new TableProperty("goodid", LanguageUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodsortid", LanguageUtil.getString("goodsortid")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("price", LanguageUtil.getString("price")));
+		tablepropertys.add(new TableProperty("inventoryqty", LanguageUtil.getString("inventoryqty")));
 		
 		Inventory inventory = new Inventory();
 		List<Product> types = productService.selectAllProducts();
@@ -289,16 +289,16 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.createInventory(Inventory);
-			mv.addObject("message", RedisUtil.getString("createSuccess"));
+			mv.addObject("message", LanguageUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("createFail"));
+			mv.addObject("message", LanguageUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -312,16 +312,16 @@ public class InventoryDML extends BaseController{
 
 		try {
 			inventoryService.deleteInventory(id);
-			mv.addObject("message", RedisUtil.getString("deleteSuccess"));
+			mv.addObject("message", LanguageUtil.getString("deleteSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("deleteFail"));
+			mv.addObject("message", LanguageUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -339,11 +339,11 @@ public class InventoryDML extends BaseController{
 			String tempid = id.split("," , 2)[0];
 			Inventory inventory = inventoryService.selectInventory(Long.parseLong(tempid));
 			if(inventory.getActionid().contains("purchase")){
-				inventory.setStatus(RedisUtil.getString("statusCompleteGoToInventory"));
-				inventory.setType(RedisUtil.getString("spot"));
+				inventory.setStatus(LanguageUtil.getString("statusCompleteGoToInventory"));
+				inventory.setType(LanguageUtil.getString("spot"));
 				inventory.setExecutedate(new Date());
 			}else if (inventory.getActionid().contains("sale")){
-				inventory.setStatus(RedisUtil.getString("statusCompleteShipOutFromInventory"));
+				inventory.setStatus(LanguageUtil.getString("statusCompleteShipOutFromInventory"));
 				inventory.setExecutedate(new Date());
 			}
 			inventoryService.editInventory(inventory);
@@ -351,9 +351,9 @@ public class InventoryDML extends BaseController{
 			return prepareView(mv, id.split("," , 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", RedisUtil.getString("submitFail"));
+			mv.addObject("message", LanguageUtil.getString("submitFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+			mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -375,21 +375,21 @@ public class InventoryDML extends BaseController{
 		List<Inventory> inventorys = inventoryService.selectInventorys(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("actionid", RedisUtil.getString("actionid")));
-		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
-		tablepropertys.add(new TableProperty("goodsortid", RedisUtil.getString("goodsortid")));
-		tablepropertys.add(new TableProperty("type", RedisUtil.getString("type")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("executedate", RedisUtil.getString("executedate")));
-		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
-		tablepropertys.add(new TableProperty("inventoryqty", RedisUtil.getString("inventoryqty")));
+		tablepropertys.add(new TableProperty("actionid", LanguageUtil.getString("actionid")));
+		tablepropertys.add(new TableProperty("goodid", LanguageUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodsortid", LanguageUtil.getString("goodsortid")));
+		tablepropertys.add(new TableProperty("type", LanguageUtil.getString("type")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("executedate", LanguageUtil.getString("executedate")));
+		tablepropertys.add(new TableProperty("price", LanguageUtil.getString("price")));
+		tablepropertys.add(new TableProperty("inventoryqty", LanguageUtil.getString("inventoryqty")));
 		
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", inventorys);
 		mv.addObject("criteria", "Inventory");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", RedisUtil.getString("inventoryTitle"));
+		mv.addObject("title", LanguageUtil.getString("inventoryTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));

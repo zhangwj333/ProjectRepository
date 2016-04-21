@@ -34,7 +34,7 @@ import junstech.service.LedgerService;
 import junstech.service.ReportService;
 import junstech.util.MetaData;
 import junstech.util.PDFReport;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Controller
 public class ReportDML extends BaseController {
@@ -116,7 +116,7 @@ public class ReportDML extends BaseController {
 		
 		ModelAndView mv = new ModelAndView();
 		try {
-			System.out.println(RedisUtil.getString("generatingReport"));
+			System.out.println(LanguageUtil.getString("generatingReport"));
 			String date = targetDate;
 			String[] dateInfo = date.split("-");
 			String month;
@@ -164,7 +164,7 @@ public class ReportDML extends BaseController {
 			}
 			Map<String, Object> conditionOfFinancereceivable = new HashMap<String, Object>();
 			conditionOfFinancereceivable.put("key", "");
-			conditionOfFinancereceivable.put("type", RedisUtil.getString("statusPendingPayment"));
+			conditionOfFinancereceivable.put("type", LanguageUtil.getString("statusPendingPayment"));
 			List<Financereceivable> financereceivables = financereceivableService
 					.selectSummary(conditionOfFinancereceivable);
 			String fileName = PDFReport.generateReport(financeSumMonth, financeSumYear, financereceivables);
@@ -182,16 +182,16 @@ public class ReportDML extends BaseController {
 				report.setPath("/report" + fileName);
 				reportService.editReport(report);
 			}
-			System.out.println(RedisUtil.getString("completeGeneratingReport"));
-			mv.addObject("message", RedisUtil.getString("createSuccess"));
+			System.out.println(LanguageUtil.getString("completeGeneratingReport"));
+			mv.addObject("message", LanguageUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message",  RedisUtil.getString("createFail"));
+			mv.addObject("message",  LanguageUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
-		mv.addObject(MetaData.setNoteTitle,  RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle,  LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

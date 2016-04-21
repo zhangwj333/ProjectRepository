@@ -60,8 +60,8 @@ public class FinancereceivableServiceImp implements FinancereceivableService{
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor = { Exception.class })
-	public void deleteFinancereceivable(Long id) throws Exception {
-		financereceivableMapper.deleteByPrimaryKey(id);
+	public void deleteFinancereceivable(Long saleid) throws Exception {
+		financereceivableMapper.deleteByPrimaryKey(saleid);
 	}
 	
 }

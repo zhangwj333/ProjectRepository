@@ -40,7 +40,7 @@ import junstech.service.UserService;
 import junstech.util.AESEncryption;
 import junstech.util.ENVConfig;
 import junstech.util.MetaData;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Controller
 public class CustomerDML extends BaseController{
@@ -76,19 +76,19 @@ public class CustomerDML extends BaseController{
 		List<Customer> customers = customerService.selectCustomers(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("name", RedisUtil.getString("name")));
-		tablepropertys.add(new TableProperty("address", RedisUtil.getString("address")));
-		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
-		tablepropertys.add(new TableProperty("email", RedisUtil.getString("email")));
-		tablepropertys.add(new TableProperty("credit", RedisUtil.getString("credit")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("name", LanguageUtil.getString("name")));
+		tablepropertys.add(new TableProperty("address", LanguageUtil.getString("address")));
+		tablepropertys.add(new TableProperty("phone", LanguageUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("email", LanguageUtil.getString("email")));
+		tablepropertys.add(new TableProperty("credit", LanguageUtil.getString("credit")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", customers);
 		mv.addObject("criteria", "Customer");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", RedisUtil.getString("customerTitle"));
+		mv.addObject("title", LanguageUtil.getString("customerTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("page", page));
@@ -110,12 +110,12 @@ public class CustomerDML extends BaseController{
 		Customer customer = customerService.selectCustomer(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", "ID"));
-		tablepropertys.add(new TableProperty("name", RedisUtil.getString("name")));
-		tablepropertys.add(new TableProperty("address", RedisUtil.getString("address")));
-		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
-		tablepropertys.add(new TableProperty("email", RedisUtil.getString("email")));
-		tablepropertys.add(new TableProperty("credit", RedisUtil.getString("credit")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("name", LanguageUtil.getString("name")));
+		tablepropertys.add(new TableProperty("address", LanguageUtil.getString("address")));
+		tablepropertys.add(new TableProperty("phone", LanguageUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("email", LanguageUtil.getString("email")));
+		tablepropertys.add(new TableProperty("credit", LanguageUtil.getString("credit")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", customer);
 		mv.setViewName("criteriaShow");
@@ -129,13 +129,13 @@ public class CustomerDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Customer customer = customerService.selectCustomer(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("name", RedisUtil.getString("name")));
-		tablepropertys.add(new TableProperty("address", RedisUtil.getString("address")));
-		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
-		tablepropertys.add(new TableProperty("email", RedisUtil.getString("email")));
-		tablepropertys.add(new TableProperty("credit", RedisUtil.getString("credit")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("name", LanguageUtil.getString("name")));
+		tablepropertys.add(new TableProperty("address", LanguageUtil.getString("address")));
+		tablepropertys.add(new TableProperty("phone", LanguageUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("email", LanguageUtil.getString("email")));
+		tablepropertys.add(new TableProperty("credit", LanguageUtil.getString("credit")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", customer);
 		mv.addObject("action", "editCustomerProcess");
@@ -152,16 +152,16 @@ public class CustomerDML extends BaseController{
 
 		try {
 			customerService.editCustomer(customer);
-			mv.addObject("message", RedisUtil.getString("updateSuccess"));
+			mv.addObject("message", LanguageUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("updateFail"));
+			mv.addObject("message", LanguageUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -172,12 +172,12 @@ public class CustomerDML extends BaseController{
 	public ModelAndView createUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("name", RedisUtil.getString("name")));
-		tablepropertys.add(new TableProperty("address", RedisUtil.getString("address")));
-		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
-		tablepropertys.add(new TableProperty("email", RedisUtil.getString("email")));
-		tablepropertys.add(new TableProperty("credit", RedisUtil.getString("credit")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("name", LanguageUtil.getString("name")));
+		tablepropertys.add(new TableProperty("address", LanguageUtil.getString("address")));
+		tablepropertys.add(new TableProperty("phone", LanguageUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("email", LanguageUtil.getString("email")));
+		tablepropertys.add(new TableProperty("credit", LanguageUtil.getString("credit")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		
 		Customer customer = new Customer();
 		mv.addObject("tablepropertys", tablepropertys);
@@ -196,16 +196,16 @@ public class CustomerDML extends BaseController{
 
 		try {
 			customerService.createCustomer(customer);
-			mv.addObject("message", RedisUtil.getString("createSuccess"));
+			mv.addObject("message", LanguageUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("createFail"));
+			mv.addObject("message", LanguageUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -220,16 +220,16 @@ public class CustomerDML extends BaseController{
 		try {
 			String tempid = id.split(",", 2)[0];
 			customerService.deleteCustomer(Long.parseLong(tempid));
-			mv.addObject("message", RedisUtil.getString("deleteSuccess"));
+			mv.addObject("message", LanguageUtil.getString("deleteSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("deleteFail"));
+			mv.addObject("message", LanguageUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

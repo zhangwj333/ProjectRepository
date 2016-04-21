@@ -19,6 +19,6 @@ public interface FinancereceivableService {
 	
 	public void editFinancereceivable(Financereceivable financereceivable) throws Exception;
 	
-	public void deleteFinancereceivable(Long id) throws Exception;
+	public void deleteFinancereceivable(Long saleid) throws Exception;
 
 }

@@ -41,7 +41,7 @@ import junstech.service.UserService;
 import junstech.util.AESEncryption;
 import junstech.util.ENVConfig;
 import junstech.util.MetaData;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Controller
 public class UserDML extends BaseController{
@@ -109,18 +109,18 @@ public class UserDML extends BaseController{
 		List<User> users = userService.getAllUser(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("username", RedisUtil.getString("username")));
-		tablepropertys.add(new TableProperty("nickname", RedisUtil.getString("nickname")));
-		tablepropertys.add(new TableProperty("createTime", RedisUtil.getString("createTime")));
-		tablepropertys.add(new TableProperty("lastlogintime", RedisUtil.getString("lastlogintime")));
-		tablepropertys.add(new TableProperty("superuser", RedisUtil.getString("superuser")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("username", LanguageUtil.getString("username")));
+		tablepropertys.add(new TableProperty("nickname", LanguageUtil.getString("nickname")));
+		tablepropertys.add(new TableProperty("createTime", LanguageUtil.getString("createTime")));
+		tablepropertys.add(new TableProperty("lastlogintime", LanguageUtil.getString("lastlogintime")));
+		tablepropertys.add(new TableProperty("superuser", LanguageUtil.getString("superuser")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", users);
 		mv.addObject("criteria", "User");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", RedisUtil.getString("userTitle"));
+		mv.addObject("title", LanguageUtil.getString("userTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));
@@ -143,11 +143,11 @@ public class UserDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		User user = userService.getUserWithPrivilege(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("username", RedisUtil.getString("username")));
-		tablepropertys.add(new TableProperty("nickname", RedisUtil.getString("nickname")));
-		tablepropertys.add(new TableProperty("lastlogintime", RedisUtil.getString("lastlogintime")));
-		tablepropertys.add(new TableProperty("superuser", RedisUtil.getString("superuser")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("username", LanguageUtil.getString("username")));
+		tablepropertys.add(new TableProperty("nickname", LanguageUtil.getString("nickname")));
+		tablepropertys.add(new TableProperty("lastlogintime", LanguageUtil.getString("lastlogintime")));
+		tablepropertys.add(new TableProperty("superuser", LanguageUtil.getString("superuser")));
 		
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", user);
@@ -179,19 +179,19 @@ public class UserDML extends BaseController{
 		user.setPrivileges(tmpPrivileges);
 		user.setPassword(AESEncryption.decrypt(user.getPassword(), ENVConfig.encryptKey));
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("username", RedisUtil.getString("username")));
-		tablepropertys.add(new TableProperty("nickname", RedisUtil.getString("nickname")));
-		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
-		tablepropertys.add(new TableProperty("email", RedisUtil.getString("email")));
-		tablepropertys.add(new TableProperty("superuser", RedisUtil.getString("superuser")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("username", LanguageUtil.getString("username")));
+		tablepropertys.add(new TableProperty("nickname", LanguageUtil.getString("nickname")));
+		tablepropertys.add(new TableProperty("phone", LanguageUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("email", LanguageUtil.getString("email")));
+		tablepropertys.add(new TableProperty("superuser", LanguageUtil.getString("superuser")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", user);
 		mv.addObject("action", "editUserProcess");
 		mv.addObject("modelAttribute", "user");
 		List<TableProperty> subtablepropertys = new ArrayList<TableProperty>();
-		subtablepropertys.add(new TableProperty("programname", RedisUtil.getString("programname")));
-		subtablepropertys.add(new TableProperty("privilege", RedisUtil.getString("privilege")));
+		subtablepropertys.add(new TableProperty("programname", LanguageUtil.getString("programname")));
+		subtablepropertys.add(new TableProperty("privilege", LanguageUtil.getString("privilege")));
 		mv.addObject("subtablepropertys", subtablepropertys);
 		mv.setViewName("userEdit");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
@@ -205,16 +205,16 @@ public class UserDML extends BaseController{
 
 		try {
 			userService.updateUser(user);
-			mv.addObject("message", RedisUtil.getString("updateSuccess"));
+			mv.addObject("message", LanguageUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("updateFail"));
+			mv.addObject("message", LanguageUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -225,11 +225,11 @@ public class UserDML extends BaseController{
 	public ModelAndView createUser(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("username", RedisUtil.getString("username")));
-		tablepropertys.add(new TableProperty("password", RedisUtil.getString("password")));
-		tablepropertys.add(new TableProperty("nickname", RedisUtil.getString("nickname")));
-		tablepropertys.add(new TableProperty("phone", RedisUtil.getString("phone")));
-		tablepropertys.add(new TableProperty("superuser", RedisUtil.getString("superuser")));
+		tablepropertys.add(new TableProperty("username", LanguageUtil.getString("username")));
+		tablepropertys.add(new TableProperty("password", LanguageUtil.getString("password")));
+		tablepropertys.add(new TableProperty("nickname", LanguageUtil.getString("nickname")));
+		tablepropertys.add(new TableProperty("phone", LanguageUtil.getString("phone")));
+		tablepropertys.add(new TableProperty("superuser", LanguageUtil.getString("superuser")));
 
 		List<Privilege> privileges = new ArrayList<Privilege>();
 		List<Criteria> criterias = criteriaService.getAllCriteria();
@@ -254,16 +254,16 @@ public class UserDML extends BaseController{
 
 		try {
 			userService.createUser(user);
-			mv.addObject("message", RedisUtil.getString("createSuccess"));
+			mv.addObject("message", LanguageUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("createFail"));
+			mv.addObject("message", LanguageUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -277,16 +277,16 @@ public class UserDML extends BaseController{
 
 		try {
 			userService.deleteUser(id);
-			mv.addObject("message", RedisUtil.getString("deleteSuccess"));
+			mv.addObject("message", LanguageUtil.getString("deleteSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("deleteFail"));
+			mv.addObject("message", LanguageUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");

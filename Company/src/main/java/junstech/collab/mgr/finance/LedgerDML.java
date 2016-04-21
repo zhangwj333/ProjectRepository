@@ -47,7 +47,7 @@ import junstech.service.FinancetypeService;
 import junstech.service.LedgerService;
 import junstech.util.FileUtil;
 import junstech.util.MetaData;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Controller
 public class LedgerDML extends BaseController{
@@ -129,24 +129,24 @@ public class LedgerDML extends BaseController{
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("key", key);
-		map.put("type", RedisUtil.getString("statusPendingPayment"));
+		map.put("type", LanguageUtil.getString("statusPendingPayment"));
 		map.put("prev",  (page - 1) * size);
 		map.put("next",  size);
 		List<Financereceivable> financereceivables = financetypereceivableService.selectSummary(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("companyid", RedisUtil.getString("companyid")));
-		tablepropertys.add(new TableProperty("type", RedisUtil.getString("ledgerType")));
-		tablepropertys.add(new TableProperty("totalamount", RedisUtil.getString("pendingTotalamount")));
-		tablepropertys.add(new TableProperty("nowpay", RedisUtil.getString("nowpay")));
-		tablepropertys.add(new TableProperty("needpay", RedisUtil.getString("needpay")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("companyid", LanguageUtil.getString("companyid")));
+		tablepropertys.add(new TableProperty("type", LanguageUtil.getString("ledgerType")));
+		tablepropertys.add(new TableProperty("totalamount", LanguageUtil.getString("pendingTotalamount")));
+		tablepropertys.add(new TableProperty("nowpay", LanguageUtil.getString("nowpay")));
+		tablepropertys.add(new TableProperty("needpay", LanguageUtil.getString("needpay")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", financereceivables);
 		mv.addObject("criteria", "SummaryCurrentFinanceReceivable");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", RedisUtil.getString("ledgerTitle"));
+		mv.addObject("title", LanguageUtil.getString("ledgerTitle"));
 		mv.addObject("showoper", "no");
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
@@ -177,14 +177,14 @@ public class LedgerDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Ledger ledger = ledgerService.selectLedger(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("receiveid", RedisUtil.getString("receiveid")));
-		tablepropertys.add(new TableProperty("financetype", RedisUtil.getString("financetype")));
-		tablepropertys.add(new TableProperty("companytype", RedisUtil.getString("companytype")));
-		tablepropertys.add(new TableProperty("companyid", RedisUtil.getString("companyid")));
-		tablepropertys.add(new TableProperty("paydate", RedisUtil.getString("paydate")));
-		tablepropertys.add(new TableProperty("amount", RedisUtil.getString("amount")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("receiveid", LanguageUtil.getString("receiveid")));
+		tablepropertys.add(new TableProperty("financetype", LanguageUtil.getString("financetype")));
+		tablepropertys.add(new TableProperty("companytype", LanguageUtil.getString("companytype")));
+		tablepropertys.add(new TableProperty("companyid", LanguageUtil.getString("companyid")));
+		tablepropertys.add(new TableProperty("paydate", LanguageUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("amount", LanguageUtil.getString("amount")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", ledger);
 		mv.setViewName("criteriaShow");
@@ -197,7 +197,7 @@ public class LedgerDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Ledger ledger = ledgerService.selectLedger(id);
 		mv.addObject("proofPath", ledger.getProof());
-		mv.addObject("title", RedisUtil.getString("ledgerTitle"));
+		mv.addObject("title", LanguageUtil.getString("ledgerTitle"));
 		mv.setViewName("proof");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		return this.outputView(session, mv);
@@ -233,17 +233,17 @@ public class LedgerDML extends BaseController{
 			Ledger ledger = ledgerService.selectLedger(Long.valueOf(id));
 			ledger.setProof("/transaction" + path);
 			ledgerService.editLedger(ledger);
-			mv.addObject("message", RedisUtil.getString("updateSuccess"));
+			mv.addObject("message", LanguageUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", RedisUtil.getString("updateFail"));
+			mv.addObject("message", LanguageUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -259,14 +259,14 @@ public class LedgerDML extends BaseController{
 		List<Financetype> types = financetypeService.selectAllFinancetypes();
 		List<Supplier> suppliers = supplierService.selectAllSuppliers();
 		List<Customer> customers = customerService.selectAllCustomers();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("receiveid", RedisUtil.getString("receiveid")));
-		tablepropertys.add(new TableProperty("financetype", RedisUtil.getString("financetype")));
-		tablepropertys.add(new TableProperty("companytype", RedisUtil.getString("companytype")));
-		tablepropertys.add(new TableProperty("companyid", RedisUtil.getString("companyid")));
-		tablepropertys.add(new TableProperty("paydate", RedisUtil.getString("paydate")));
-		tablepropertys.add(new TableProperty("amount", RedisUtil.getString("amount")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("receiveid", LanguageUtil.getString("receiveid")));
+		tablepropertys.add(new TableProperty("financetype", LanguageUtil.getString("financetype")));
+		tablepropertys.add(new TableProperty("companytype", LanguageUtil.getString("companytype")));
+		tablepropertys.add(new TableProperty("companyid", LanguageUtil.getString("companyid")));
+		tablepropertys.add(new TableProperty("paydate", LanguageUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("amount", LanguageUtil.getString("amount")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", ledger);
@@ -287,16 +287,16 @@ public class LedgerDML extends BaseController{
 
 		try {
 			ledgerService.editLedger(ledger);
-			mv.addObject("message", RedisUtil.getString("updateSuccess"));
+			mv.addObject("message", LanguageUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("updateFail"));
+			mv.addObject("message", LanguageUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -307,13 +307,13 @@ public class LedgerDML extends BaseController{
 	public ModelAndView createLedger(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("receiveid", RedisUtil.getString("receiveid")));
-		tablepropertys.add(new TableProperty("financetype", RedisUtil.getString("financetype")));
-		tablepropertys.add(new TableProperty("companytype", RedisUtil.getString("companytype")));
-		tablepropertys.add(new TableProperty("companyid", RedisUtil.getString("companyid")));
-		tablepropertys.add(new TableProperty("paydate", RedisUtil.getString("paydate")));
-		tablepropertys.add(new TableProperty("amount", RedisUtil.getString("amount")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("receiveid", LanguageUtil.getString("receiveid")));
+		tablepropertys.add(new TableProperty("financetype", LanguageUtil.getString("financetype")));
+		tablepropertys.add(new TableProperty("companytype", LanguageUtil.getString("companytype")));
+		tablepropertys.add(new TableProperty("companyid", LanguageUtil.getString("companyid")));
+		tablepropertys.add(new TableProperty("paydate", LanguageUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("amount", LanguageUtil.getString("amount")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		
 		Ledger ledger = new Ledger();
 		List<Financetype> types = financetypeService.selectAllFinancetypes();
@@ -338,16 +338,16 @@ public class LedgerDML extends BaseController{
 
 		try {
 			ledgerService.createLedger(Ledger);
-			mv.addObject("message", RedisUtil.getString("createSuccess"));
+			mv.addObject("message", LanguageUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("createFail"));
+			mv.addObject("message", LanguageUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -367,9 +367,9 @@ public class LedgerDML extends BaseController{
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("deleteFail"));
+			mv.addObject("message", LanguageUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+			mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -393,19 +393,19 @@ public class LedgerDML extends BaseController{
 		List<Ledger> ledgers = ledgerService.selectLedgers(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("receiveid", RedisUtil.getString("receiveid")));
-		tablepropertys.add(new TableProperty("financetype", RedisUtil.getString("financetype")));
-		tablepropertys.add(new TableProperty("companyid", RedisUtil.getString("companyid")));
-		tablepropertys.add(new TableProperty("paydate", RedisUtil.getString("paydate")));
-		tablepropertys.add(new TableProperty("amount", RedisUtil.getString("amount")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("receiveid", LanguageUtil.getString("receiveid")));
+		tablepropertys.add(new TableProperty("financetype", LanguageUtil.getString("financetype")));
+		tablepropertys.add(new TableProperty("companyid", LanguageUtil.getString("companyid")));
+		tablepropertys.add(new TableProperty("paydate", LanguageUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("amount", LanguageUtil.getString("amount")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", ledgers);
 		mv.addObject("criteria", "Ledger");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", RedisUtil.getString("ledgerTitle"));
+		mv.addObject("title", LanguageUtil.getString("ledgerTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));

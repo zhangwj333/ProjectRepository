@@ -14,7 +14,7 @@ import junstech.collab.BaseController;
 import junstech.util.JacksonUtil;
 import junstech.util.LogUtil;
 import junstech.util.MetaData;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Component
 public class ExceptionController extends BaseController implements HandlerExceptionResolver{
@@ -26,31 +26,31 @@ public class ExceptionController extends BaseController implements HandlerExcept
 		
 		if (ex.getCause() instanceof BusinessException){
 			mv.addObject("failcause", "business");
-			mv.addObject("message", RedisUtil.getString("BusinessException"));
+			mv.addObject("message", LanguageUtil.getString("BusinessException"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		}
 		else if (ex.getCause() instanceof LoginException){
 			mv.addObject("failcause", "login");
-			mv.addObject("message", RedisUtil.getString("LoginException"));
+			mv.addObject("message", LanguageUtil.getString("LoginException"));
 			mv.addObject(MetaData.completeReturnPage, "userLogout.htm");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsFullWindow);
 		}
 		else if (ex.getCause() instanceof PrivilegeException){
 			mv.addObject("failcause", "privilege");
-			mv.addObject("message", RedisUtil.getString("PrivilegeException"));
+			mv.addObject("message", LanguageUtil.getString("PrivilegeException"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		}
 		else {
 			ex.printStackTrace();
 			LogUtil.logger.error(ex.getMessage());
-			mv.addObject("message", RedisUtil.getString("OtherException"));
+			mv.addObject("message", LanguageUtil.getString("OtherException"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		}
 		
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("ExceptionTitle"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("ExceptionTitle"));
 		mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		mv.setViewName("complete");

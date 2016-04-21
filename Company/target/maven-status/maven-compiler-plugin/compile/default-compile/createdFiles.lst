@@ -34,6 +34,7 @@ junstech\aop\UserMgrPrivilegeCheck.class
 junstech\dao\FinancetypeMapper.class
 junstech\service\SaleService.class
 junstech\model\Sale.class
+junstech\util\LanguageUtil.class
 junstech\service\UserService.class
 junstech\service\imp\PrivilegeServiceImp.class
 junstech\collab\mgr\report\ReportDML.class

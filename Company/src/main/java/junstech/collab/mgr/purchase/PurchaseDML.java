@@ -34,7 +34,7 @@ import junstech.service.GoodService;
 import junstech.service.PurchaseService;
 import junstech.service.SupplierService;
 import junstech.util.MetaData;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Controller
 public class PurchaseDML extends BaseController{
@@ -90,14 +90,14 @@ public class PurchaseDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 		Purchase purchase = purchaseService.selectPurchase(id);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("purchasename", RedisUtil.getString("purchasename")));
-		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
-		tablepropertys.add(new TableProperty("goodqty", RedisUtil.getString("goodqty")));
-		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
-		tablepropertys.add(new TableProperty("userid",RedisUtil.getString("userid")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("purchasename", LanguageUtil.getString("purchasename")));
+		tablepropertys.add(new TableProperty("goodid", LanguageUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodqty", LanguageUtil.getString("goodqty")));
+		tablepropertys.add(new TableProperty("price", LanguageUtil.getString("price")));
+		tablepropertys.add(new TableProperty("userid",LanguageUtil.getString("userid")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", purchase);
 		mv.setViewName("criteriaShow");
@@ -112,16 +112,16 @@ public class PurchaseDML extends BaseController{
 		Purchase purchase = purchaseService.selectPurchase(id);
 		purchase.setNote(purchase.getNote().replaceAll("<br/>", "\r\n"));
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("purchasename", RedisUtil.getString("purchasename")));
-		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
-		tablepropertys.add(new TableProperty("goodqty", RedisUtil.getString("goodqty")));
-		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("purchasename", LanguageUtil.getString("purchasename")));
+		tablepropertys.add(new TableProperty("goodid", LanguageUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodqty", LanguageUtil.getString("goodqty")));
+		tablepropertys.add(new TableProperty("price", LanguageUtil.getString("price")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		
 		List<String> statusOptions = new ArrayList<String>();
-		statusOptions.add(RedisUtil.getString("statusNew"));
+		statusOptions.add(LanguageUtil.getString("statusNew"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", purchase);
 		mv.addObject("goods", goodService.selectGoods());
@@ -143,16 +143,16 @@ public class PurchaseDML extends BaseController{
 			purchase.setUserid(user.getId());
 			purchase.setNote(purchase.getNote().replaceAll("\r\n", "<br/>"));
 			purchaseService.editPurchase(purchase);
-			mv.addObject("message", RedisUtil.getString("updateSuccess"));
+			mv.addObject("message", LanguageUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("updateFail"));
+			mv.addObject("message", LanguageUtil.getString("updateFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -163,15 +163,15 @@ public class PurchaseDML extends BaseController{
 	public ModelAndView create(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
-		tablepropertys.add(new TableProperty("goodqty", RedisUtil.getString("goodqty")));
-		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("goodid", LanguageUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodqty", LanguageUtil.getString("goodqty")));
+		tablepropertys.add(new TableProperty("price", LanguageUtil.getString("price")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 
 		Purchase purchase = new Purchase();
 		List<String> statusOptions = new ArrayList<String>();
-		statusOptions.add(RedisUtil.getString("statusNew"));
+		statusOptions.add(LanguageUtil.getString("statusNew"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", purchase);
 		mv.addObject("goods", goodService.selectGoods());
@@ -198,19 +198,19 @@ public class PurchaseDML extends BaseController{
 			else{
 				purchase.setNote("");
 			}
-			purchase.setNote(purchase.getNote().concat(df.format(new Date()) + ": "+RedisUtil.getString("statusNew")));
+			purchase.setNote(purchase.getNote().concat(df.format(new Date()) + ": "+LanguageUtil.getString("statusNew")));
 			purchase.setNote(purchase.getNote().replaceAll("\r\n", "<br/>"));
 			purchaseService.createPurchase(purchase);
-			mv.addObject("message", RedisUtil.getString("createSuccess"));
+			mv.addObject("message", LanguageUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("createFail"));
+			mv.addObject("message", LanguageUtil.getString("createFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -229,9 +229,9 @@ public class PurchaseDML extends BaseController{
 			purchaseService.deletePurchase(Long.parseLong(tempid));
 			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("deleteFail"));
+			mv.addObject("message", LanguageUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+			mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -252,15 +252,15 @@ public class PurchaseDML extends BaseController{
 			Purchase purchase = purchaseService.selectPurchase(Long.parseLong(tempid));
 			User user = (User) session.getAttribute("user");
 			purchase.setUserid(user.getId());
-			purchase.setStatus(RedisUtil.getString("statusPendingVerification"));
+			purchase.setStatus(LanguageUtil.getString("statusPendingVerification"));
 			purchase.setNote(purchase.getNote().replaceAll("\r\n", "<br/>"));
 			purchaseService.editPurchase(purchase);
 			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", RedisUtil.getString("submitFail"));
+			mv.addObject("message", LanguageUtil.getString("submitFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+			mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -288,22 +288,22 @@ public class PurchaseDML extends BaseController{
 		List<Purchase> purchases = purchaseService.selectPurchases(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("purchasename", RedisUtil.getString("purchasename")));
-		tablepropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
-		tablepropertys.add(new TableProperty("goodqty", RedisUtil.getString("goodqty")));
-		tablepropertys.add(new TableProperty("price", RedisUtil.getString("price")));
-		tablepropertys.add(new TableProperty("purchasedate", RedisUtil.getString("purchasedate")));
-		tablepropertys.add(new TableProperty("userid",RedisUtil.getString("userid")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("purchasename", LanguageUtil.getString("purchasename")));
+		tablepropertys.add(new TableProperty("goodid", LanguageUtil.getString("goodid")));
+		tablepropertys.add(new TableProperty("goodqty", LanguageUtil.getString("goodqty")));
+		tablepropertys.add(new TableProperty("price", LanguageUtil.getString("price")));
+		tablepropertys.add(new TableProperty("purchasedate", LanguageUtil.getString("purchasedate")));
+		tablepropertys.add(new TableProperty("userid",LanguageUtil.getString("userid")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", purchases);
 		mv.addObject("criteria", "Purchase");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title", RedisUtil.getString("purchaseTitle"));
+		mv.addObject("title", LanguageUtil.getString("purchaseTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));

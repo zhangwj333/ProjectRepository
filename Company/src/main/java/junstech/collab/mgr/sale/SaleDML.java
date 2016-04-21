@@ -42,7 +42,7 @@ import junstech.service.SaleService;
 import junstech.service.SupplierService;
 import junstech.util.ENVConfig;
 import junstech.util.MetaData;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Controller
 public class SaleDML extends BaseController{
@@ -108,21 +108,21 @@ public class SaleDML extends BaseController{
 			throw new BusinessException();
 		}
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("salemanid", RedisUtil.getString("salemanid")));
-		tablepropertys.add(new TableProperty("customerid", RedisUtil.getString("customerid")));
-		tablepropertys.add(new TableProperty("saletime", RedisUtil.getString("saletime")));
-		tablepropertys.add(new TableProperty("operman", RedisUtil.getString("operman")));
-		tablepropertys.add(new TableProperty("total", RedisUtil.getString("total")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("salemanid", LanguageUtil.getString("salemanid")));
+		tablepropertys.add(new TableProperty("customerid", LanguageUtil.getString("customerid")));
+		tablepropertys.add(new TableProperty("saletime", LanguageUtil.getString("saletime")));
+		tablepropertys.add(new TableProperty("operman", LanguageUtil.getString("operman")));
+		tablepropertys.add(new TableProperty("total", LanguageUtil.getString("total")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		List<TableProperty> tablesubpropertys = new ArrayList<TableProperty>();
-		tablesubpropertys.add(new TableProperty("goodid", RedisUtil.getString("goodid")));
-		tablesubpropertys.add(new TableProperty("price", RedisUtil.getString("price")));
-		tablesubpropertys.add(new TableProperty("goodqty", RedisUtil.getString("goodqty")));
-		tablesubpropertys.add(new TableProperty("opertime", RedisUtil.getString("opertime")));
-		tablesubpropertys.add(new TableProperty("verification", RedisUtil.getString("verification")));
+		tablesubpropertys.add(new TableProperty("goodid", LanguageUtil.getString("goodid")));
+		tablesubpropertys.add(new TableProperty("price", LanguageUtil.getString("price")));
+		tablesubpropertys.add(new TableProperty("goodqty", LanguageUtil.getString("goodqty")));
+		tablesubpropertys.add(new TableProperty("opertime", LanguageUtil.getString("opertime")));
+		tablesubpropertys.add(new TableProperty("verification", LanguageUtil.getString("verification")));
 		mv.addObject("tablesubpropertys", tablesubpropertys);
 		mv.addObject("tableline", sale);
 		mv.addObject("tablesublines", sale.getSalesubs());
@@ -141,14 +141,14 @@ public class SaleDML extends BaseController{
 		}
 		sale.setNote(sale.getNote().replaceAll("<br/>", "\r\n"));
 		List<String> statusOptions = new ArrayList<String>();
-		statusOptions.add(RedisUtil.getString("statusNew"));
+		statusOptions.add(LanguageUtil.getString("statusNew"));
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("salemanid", RedisUtil.getString("salemanid")));
-		tablepropertys.add(new TableProperty("customerid", RedisUtil.getString("customerid")));
-		tablepropertys.add(new TableProperty("total", RedisUtil.getString("total")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("salemanid", LanguageUtil.getString("salemanid")));
+		tablepropertys.add(new TableProperty("customerid", LanguageUtil.getString("customerid")));
+		tablepropertys.add(new TableProperty("total", LanguageUtil.getString("total")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("customers", customerService.selectAllCustomers());
 		mv.addObject("products", productService.selectAllProducts());
@@ -169,23 +169,23 @@ public class SaleDML extends BaseController{
 		String errorMsg = null;
 		try {
 			if (sale.getSalesubs() == null) {
-				errorMsg = RedisUtil.getString("saleErrorMsg");
+				errorMsg = LanguageUtil.getString("saleErrorMsg");
 				throw new BusinessException();
 			}
 			User user = (User) session.getAttribute("user");
 			sale.setOperman(user.getId());
 			sale.setNote(sale.getNote().replaceAll("\r\n", "<br/>"));
 			saleService.editSale(sale);
-			mv.addObject("message", RedisUtil.getString("updateSuccess"));
+			mv.addObject("message", LanguageUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("updateFail") + errorMsg);
+			mv.addObject("message", LanguageUtil.getString("updateFail") + errorMsg);
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -196,14 +196,14 @@ public class SaleDML extends BaseController{
 	public ModelAndView create(HttpServletRequest request, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("salemanid", RedisUtil.getString("salemanid")));
-		tablepropertys.add(new TableProperty("customerid", RedisUtil.getString("customerid")));
-		tablepropertys.add(new TableProperty("total", RedisUtil.getString("total")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("salemanid", LanguageUtil.getString("salemanid")));
+		tablepropertys.add(new TableProperty("customerid", LanguageUtil.getString("customerid")));
+		tablepropertys.add(new TableProperty("total", LanguageUtil.getString("total")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		Sale sale = new Sale();
 		List<String> statusOptions = new ArrayList<String>();
-		statusOptions.add(RedisUtil.getString("statusNew"));
+		statusOptions.add(LanguageUtil.getString("statusNew"));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", sale);
 		mv.addObject("customers", customerService.selectAllCustomers());
@@ -223,7 +223,7 @@ public class SaleDML extends BaseController{
 		String errorMsg = null;
 		try {
 			if (sale.getSalesubs() == null) {
-				errorMsg = RedisUtil.getString("saleErrorMsg");
+				errorMsg = LanguageUtil.getString("saleErrorMsg");
 				throw new BusinessException();
 			}
 			User user = (User) session.getAttribute("user");
@@ -237,21 +237,21 @@ public class SaleDML extends BaseController{
 			}
 			sale.setNote(sale.getNote().concat(df.format(new Date()) + ": 新开单"));
 			saleService.createSale(sale);
-			mv.addObject("message", RedisUtil.getString("createSuccess"));
+			mv.addObject("message", LanguageUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		} catch (Exception e) {
 			if (errorMsg == null) {
-				errorMsg = RedisUtil.getString("saleErrorMsg");
+				errorMsg = LanguageUtil.getString("saleErrorMsg");
 				e.printStackTrace();
 			} else {
-				mv.addObject("message", RedisUtil.getString("createFail") + errorMsg);
+				mv.addObject("message", LanguageUtil.getString("createFail") + errorMsg);
 			}
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
 		}
 
-		mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+		mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 		mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 		mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		mv.setViewName("complete");
@@ -271,9 +271,9 @@ public class SaleDML extends BaseController{
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
-			mv.addObject("message", RedisUtil.getString("deleteFail"));
+			mv.addObject("message", LanguageUtil.getString("deleteFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+			mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -294,16 +294,16 @@ public class SaleDML extends BaseController{
 			Sale sale = saleService.selectSale(Long.parseLong(tempid));
 			User user = (User) session.getAttribute("user");
 			sale.setOperman(user.getId());
-			sale.setStatus(RedisUtil.getString("statusPendingVerification"));
+			sale.setStatus(LanguageUtil.getString("statusPendingVerification"));
 			sale.setNote(sale.getNote().replaceAll("\r\n", "<br/>"));
 			saleService.editSale(sale);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 			return prepareView(mv, id.split(",", 2)[1], key, startdate, enddate, page, size, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mv.addObject("message", RedisUtil.getString("submitFail"));
+			mv.addObject("message", LanguageUtil.getString("submitFail"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoDanger);
-			mv.addObject(MetaData.setNoteTitle, RedisUtil.getString("title"));
+			mv.addObject(MetaData.setNoteTitle, LanguageUtil.getString("title"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 			mv.setViewName("complete");
@@ -331,20 +331,20 @@ public class SaleDML extends BaseController{
 		List<Sale> sales = saleService.selectSales(map);
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		List<TableProperty> searchFactors = new ArrayList<TableProperty>();
-		tablepropertys.add(new TableProperty("id", RedisUtil.getString("id")));
-		tablepropertys.add(new TableProperty("salemanid", RedisUtil.getString("salemanid")));
-		tablepropertys.add(new TableProperty("customerid", RedisUtil.getString("customerid")));
-		tablepropertys.add(new TableProperty("saletime", RedisUtil.getString("saletime")));
-		tablepropertys.add(new TableProperty("operman", RedisUtil.getString("operman")));
-		tablepropertys.add(new TableProperty("total", RedisUtil.getString("total")));
-		tablepropertys.add(new TableProperty("status", RedisUtil.getString("status")));
-		tablepropertys.add(new TableProperty("note", RedisUtil.getString("note")));
+		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
+		tablepropertys.add(new TableProperty("salemanid", LanguageUtil.getString("salemanid")));
+		tablepropertys.add(new TableProperty("customerid", LanguageUtil.getString("customerid")));
+		tablepropertys.add(new TableProperty("saletime", LanguageUtil.getString("saletime")));
+		tablepropertys.add(new TableProperty("operman", LanguageUtil.getString("operman")));
+		tablepropertys.add(new TableProperty("total", LanguageUtil.getString("total")));
+		tablepropertys.add(new TableProperty("status", LanguageUtil.getString("status")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tablelines", sales);
 		mv.addObject("criteria", "Sale");
 		mv.addObject("page", page);
 		mv.addObject("size", size);
-		mv.addObject("title",  RedisUtil.getString("saleTitle"));
+		mv.addObject("title",  LanguageUtil.getString("saleTitle"));
 		searchFactors.add(new TableProperty("id", id));
 		searchFactors.add(new TableProperty("key", key));
 		searchFactors.add(new TableProperty("startdate", startdate));
