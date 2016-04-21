@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import junstech.dao.SaleMapper;
 import junstech.model.Sale;
 import junstech.model.Salesub;
+import junstech.service.FinancereceivableService;
 import junstech.service.InventoryService;
 import junstech.service.SaleService;
 import junstech.service.SalesubService;
@@ -26,6 +27,17 @@ public class SaleServiceImp implements SaleService{
 	SalesubService salesubService;
 	
 	InventoryService inventoryService;
+	
+	FinancereceivableService financereceivableService;
+	
+	@Autowired
+	public void setFinancereceivableService(FinancereceivableService financereceivableService) {
+		this.financereceivableService = financereceivableService;
+	}
+
+	public FinancereceivableService getFinancereceivableService() {
+		return financereceivableService;
+	}
 	
 	public InventoryService getInventoryService() {
 		return inventoryService;
@@ -96,6 +108,7 @@ public class SaleServiceImp implements SaleService{
 		saleMapper.deleteByPrimaryKey(id);
 		salesubService.deleteSalesub(id);
 		inventoryService.deleteInventoryByActionId("sale" + id);
+		financereceivableService.deleteFinancereceivable(id);
 	}
 
 	

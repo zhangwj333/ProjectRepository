@@ -20,7 +20,7 @@ import junstech.service.LedgerService;
 import junstech.service.PurchaseService;
 import junstech.service.SaleService;
 import junstech.util.LogUtil;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Component
 public class InventoryVerifyHandler {
@@ -82,40 +82,37 @@ public class InventoryVerifyHandler {
 
 	@Scheduled(cron = "0/5 * *  * * ? ") // execute every 5 second
 	public void NewSaleOrderHandling(){
-		if(runAble){
 			runNewSaleOrderHandling();
-		}
 	}
 	
 	public void runNewSaleOrderHandling() {
 		try {
-			runAble = false;
 			List<Inventory> inventorys = inventoryService.selectInventorysForBatch();
 			for (Inventory inventory : inventorys) {
 				if (inventory.getActionid().contains("purchase")) {
-					if ((!inventory.getStatus().equals(RedisUtil.getString("statusCompleteGoToInventory"))) || (!checkFullyComplete(inventory, inventorys))) {
+					if ((!inventory.getStatus().equals(LanguageUtil.getString("statusCompleteGoToInventory"))) || (!checkFullyComplete(inventory, inventorys))) {
 						continue;
 					}
 					Purchase purchase = purchaseService
 							.selectPurchase(Long.parseLong(inventory.getActionid().replace("purchase", "").trim()));
-					if (purchase.getStatus().equals(RedisUtil.getString("statusCompleteOrder"))) {
+					if (purchase.getStatus().equals(LanguageUtil.getString("statusCompleteOrder"))) {
 						continue;
 					}
-					purchase.setStatus(RedisUtil.getString("statusCompleteOrder"));
-					purchase.setNote(purchase.getNote().concat("<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("statusCompleteGoToInventory") +"-采购单结束"));
+					purchase.setStatus(LanguageUtil.getString("statusCompleteOrder"));
+					purchase.setNote(purchase.getNote().concat("<br/>" + df.format(new Date()) + ": " + LanguageUtil.getString("statusCompleteGoToInventory") + LanguageUtil.getString("NoteCompletePurchase")));
 					purchaseService.editPurchase(purchase);
 				} else if (inventory.getActionid().contains("sale")) {
-					if ((!inventory.getStatus().equals(RedisUtil.getString("statusCompleteShipOutFromInventory"))) || (!checkFullyComplete(inventory, inventorys))) {
+					if ((!inventory.getStatus().equals(LanguageUtil.getString("statusCompleteShipOutFromInventory"))) || (!checkFullyComplete(inventory, inventorys))) {
 						continue;
 					}
 					Sale sale = saleService
 							.selectSale(Long.parseLong(inventory.getActionid().replace("sale", "").trim()));
-					if (sale.getStatus().equals(RedisUtil.getString("statusPendingCollectPayment")) || sale.getStatus().equals("已完成")) {
+					if (sale.getStatus().equals(LanguageUtil.getString("statusPendingCollectPayment")) || sale.getStatus().equals(LanguageUtil.getString("statusCompleteOrder"))) {
 						continue;
 					}
-					sale.setStatus(RedisUtil.getString("statusPendingCollectPayment"));
-					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("statusCompleteShipOutFromInventory")));
-					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("statusPendingCollectPayment")));
+					sale.setStatus(LanguageUtil.getString("statusPendingCollectPayment"));
+					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": " + LanguageUtil.getString("statusCompleteShipOutFromInventory")));
+					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": " + LanguageUtil.getString("statusPendingCollectPayment")));
 					saleService.editSale(sale);
 					// 录入应收账
 					Financereceivable financereceivable = new Financereceivable();
@@ -123,10 +120,9 @@ public class InventoryVerifyHandler {
 					financereceivable.setCompanyid(sale.getCustomerid());
 					financereceivable.setTotalamount(sale.getTotal());
 					financereceivable.setNowpay(Double.valueOf("0"));
-					financereceivable.setType(RedisUtil.getString("statusPendingPayment"));
-					financereceivable.setNote(df.format(new Date()) + ": " + RedisUtil.getString("NoteGenerationReceiveable"));
+					financereceivable.setType(LanguageUtil.getString("statusPendingPayment"));
+					financereceivable.setNote(df.format(new Date()) + ": " + LanguageUtil.getString("NoteGenerationReceiveable"));
 					financereceivableService.createFinancereceivable(financereceivable);
-					runAble= true;
 				} else {
 					continue;
 				}

@@ -107,6 +107,7 @@
 <String key="NoteHandleSale">执行销售订单: </String>
 <String key="NotePendingShipOut">待出库-库存已结算</String>
 <String key="NotePendingShipIn">待入库-库存已结算</String>
+<String key="NoteCompletePurchase">-采购单结束</String>
 <String key="title">结果</String>
 
 <String key="spot">现货</String>

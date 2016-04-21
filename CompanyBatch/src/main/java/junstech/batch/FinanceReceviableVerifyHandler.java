@@ -25,7 +25,7 @@ import junstech.service.PurchaseService;
 import junstech.service.SaleService;
 import junstech.util.LogUtil;
 import junstech.util.MetaData;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Component
 public class FinanceReceviableVerifyHandler {
@@ -76,14 +76,11 @@ public class FinanceReceviableVerifyHandler {
 
 	@Scheduled(cron = "0/30 * *  * * ? ") // execute every 5 second
 	public void NewFinanceReceviableVerifyHandling() throws Exception{
-		if(runAble){
 			FinanceReceviableVerifyHandling();
-		}
 	}
 	
 	public void FinanceReceviableVerifyHandling() throws Exception {
 		try {
-			runAble = false;
 			List<Customer> customers = customerService.selectAllCustomers();
 			for (Customer customer : customers) {
 				Map<String, Object> map = new HashMap<String, Object>();
@@ -103,24 +100,24 @@ public class FinanceReceviableVerifyHandler {
 					if (total == 0) {
 						break;
 					} else if (total >= financereceivable.getTotalamount()) {
-						if (financereceivable.getType().equals(RedisUtil.getString("statusPendingPayment"))) {
+						if (financereceivable.getType().equals(LanguageUtil.getString("statusPendingPayment"))) {
 							financereceivable.setNowpay(financereceivable.getTotalamount());
-							financereceivable.setType(RedisUtil.getString("statusCompletePayment"));
+							financereceivable.setType(LanguageUtil.getString("statusCompletePayment"));
 							financereceivable
-									.setNote(financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("statusCompletePayment"));
+									.setNote(financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": " + LanguageUtil.getString("statusCompletePayment"));
 							financereceivableService.editFinancereceivable(financereceivable);
 							Sale sale = saleService.selectSale(financereceivable.getSaleid());
-							sale.setStatus(RedisUtil.getString("statusCompleteOrder"));
-							sale.setNote(sale.getNote() + "<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("NoteCompletePayment"));
+							sale.setStatus(LanguageUtil.getString("statusCompleteOrder"));
+							sale.setNote(sale.getNote() + "<br/>" + df.format(new Date()) + ": " + LanguageUtil.getString("NoteCompletePayment"));
 							saleService.editSale(sale);
 						}
 						total = total - financereceivable.getTotalamount();
 					} else {
 						if (total != financereceivable.getNowpay()) {
-							financereceivable.setType(RedisUtil.getString("statusPendingPayment"));
+							financereceivable.setType(LanguageUtil.getString("statusPendingPayment"));
 							financereceivable.setNowpay(total);
 							financereceivable.setNote(
-									financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("NoteLeftPayment") + total);
+									financereceivable.getNote() + "<br/>" + df.format(new Date()) + ": " + LanguageUtil.getString("NoteLeftPayment") + total);
 							financereceivableService.editFinancereceivable(financereceivable);
 						}
 						total = 0;
@@ -128,7 +125,6 @@ public class FinanceReceviableVerifyHandler {
 				}
 
 			}
-			runAble = true;
 		} catch (Exception e) {
 			LogUtil.logger.error(e.getStackTrace().toString());
 		}

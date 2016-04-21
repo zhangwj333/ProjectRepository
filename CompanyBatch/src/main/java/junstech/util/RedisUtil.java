@@ -16,15 +16,10 @@ public class RedisUtil {
    }
 	
    public static void setString(String key, String value){
-	   text.put(key, value);
 	   getJedis().set(key, value);
    }
    
    public static String getString(String key){
-	   if(text.containsKey(key)){
-		   return text.get(key);
-	   }
-	   System.out.println("getFromRedis: " + key);
 	   return getJedis().get(key);
    }
    

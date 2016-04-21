@@ -14,7 +14,7 @@ import junstech.model.Salesub;
 import junstech.service.InventoryService;
 import junstech.service.SaleService;
 import junstech.util.LogUtil;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Component
 public class SalePendingToVerifyHandler {
@@ -51,10 +51,10 @@ public class SalePendingToVerifyHandler {
 	public void SaleOrderHandling() {
 		try {
 			runAble = false;
-			List<Sale> sales = saleService.selectSalesByStatus(RedisUtil.getString("statusPendingVerification"));
+			List<Sale> sales = saleService.selectSalesByStatus(LanguageUtil.getString("statusPendingVerification"));
 			if (sales.size() > 0) {
 				for (Sale sale : sales) {
-					LogUtil.logger.info(RedisUtil.getString("NoteHandleSale") + sale.getId());
+					LogUtil.logger.info(LanguageUtil.getString("NoteHandleSale") + sale.getId());
 					List<Salesub> salesubs = sale.getSalesubs();
 					if (sale.getSalesubs().size() <= 0) {
 						sale.setStatus("InvalidOrder");
@@ -65,16 +65,16 @@ public class SalePendingToVerifyHandler {
 						Inventory inventory = new Inventory();
 						inventory.setGoodid(-1);
 						inventory.setGoodsortid(salesub.getGoodid());
-						inventory.setStatus(RedisUtil.getString("statusPendingShipOutFromInventory"));
-						inventory.setType(RedisUtil.getString("futures"));
+						inventory.setStatus(LanguageUtil.getString("statusPendingShipOutFromInventory"));
+						inventory.setType(LanguageUtil.getString("spot"));
 						inventory.setPrice(salesub.getPrice());
 						inventory.setInventoryqty(-salesub.getGoodqty());
 						inventory.setExecutedate(salesub.getOpertime());
 						inventory.setActionid("sale" + sale.getId());
 						inventoryService.createInventory(inventory);
 					}
-					sale.setStatus(RedisUtil.getString("statusPendingShipOutFromInventory"));
-					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": " + (RedisUtil.getString("NotePendingShipOut"))));
+					sale.setStatus(LanguageUtil.getString("statusPendingShipOutFromInventory"));
+					sale.setNote(sale.getNote().concat("<br/>" + df.format(new Date()) + ": " + (LanguageUtil.getString("NotePendingShipOut"))));
 					saleService.editSale(sale);
 				}
 			}

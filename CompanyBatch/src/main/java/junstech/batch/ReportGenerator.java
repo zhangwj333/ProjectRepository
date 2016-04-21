@@ -22,7 +22,7 @@ import junstech.service.FinancereceivableService;
 import junstech.service.FinancetypeService;
 import junstech.service.LedgerService;
 import junstech.util.PDFReport;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 
 @Component
@@ -110,7 +110,7 @@ public class ReportGenerator {
 		}
 		Map<String, Object> conditionOfFinancereceivable = new HashMap<String, Object>();
 		conditionOfFinancereceivable.put("key", "");
-		conditionOfFinancereceivable.put("type", RedisUtil.getString("statusPendingPayment"));
+		conditionOfFinancereceivable.put("type", LanguageUtil.getString("statusPendingPayment"));
 		List<Financereceivable> financereceivables = financereceivableService.selectSummary(conditionOfFinancereceivable);
 		PDFReport.generateReport(financeSumMonth, financeSumYear, financereceivables);
 

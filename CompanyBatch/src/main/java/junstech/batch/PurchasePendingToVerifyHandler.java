@@ -13,7 +13,7 @@ import junstech.model.Purchase;
 import junstech.service.InventoryService;
 import junstech.service.PurchaseService;
 import junstech.util.LogUtil;
-import junstech.util.RedisUtil;
+import junstech.util.LanguageUtil;
 
 @Component
 public class PurchasePendingToVerifyHandler {
@@ -42,34 +42,30 @@ public class PurchasePendingToVerifyHandler {
 
 	@Scheduled(cron = "0/10 * *  * * ? ") // execute every 10 second
 	public void NewPurchaseOrderHandling() throws Exception{
-		if(runAble){
 			PurchaseOrderHandling();
-		}
 	}
 	
 	public void PurchaseOrderHandling() {
 		try {
-			runAble = false;
-			List<Purchase> purchases = purchaseService.selectPurchasesByStatus(RedisUtil.getString("statusPendingVerification"));
+			List<Purchase> purchases = purchaseService.selectPurchasesByStatus(LanguageUtil.getString("statusPendingVerification"));
 			if (purchases.size() > 0) {
 				for (Purchase purchase : purchases) {
-					LogUtil.logger.info(RedisUtil.getString("NoteHandlePurchase") + purchase.getId());
+					LogUtil.logger.info(LanguageUtil.getString("NoteHandlePurchase") + purchase.getId());
 
 					Inventory inventory = new Inventory();
 					inventory.setGoodid(purchase.getGoodid());
 					inventory.setGoodsortid(purchase.getGood().getGoodsortid());
-					inventory.setStatus(RedisUtil.getString("statusUnderShipment"));
-					inventory.setType(RedisUtil.getString("futures"));
+					inventory.setStatus(LanguageUtil.getString("statusUnderShipment"));
+					inventory.setType(LanguageUtil.getString("futures"));
 					inventory.setPrice(purchase.getPrice());
 					inventory.setInventoryqty(purchase.getGoodqty());
 					inventory.setActionid("purchase" + purchase.getId());
 					inventoryService.createInventory(inventory);
-					purchase.setStatus(RedisUtil.getString("statusUnderShipment"));
-					purchase.setNote(purchase.getNote().concat("<br/>" + df.format(new Date()) + ": " + RedisUtil.getString("NotePendingShipIn")));
+					purchase.setStatus(LanguageUtil.getString("statusUnderShipment"));
+					purchase.setNote(purchase.getNote().concat("<br/>" + df.format(new Date()) + ": " + LanguageUtil.getString("NotePendingShipIn")));
 					purchaseService.editPurchase(purchase);
 				}
 			}
-			runAble = true;
 		} catch (Exception e) {
 			LogUtil.logger.error(e.getStackTrace().toString());
 		}
