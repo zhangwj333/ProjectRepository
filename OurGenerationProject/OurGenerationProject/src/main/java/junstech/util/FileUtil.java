@@ -37,15 +37,23 @@ public class FileUtil {
 	}
 
 	public static String getFileAsStringFromJunstech(String path, String fileName) throws IOException {
-		if (RedisUtil.contains(fileName)) {
-			System.out.println("Get from Redis");
-			return RedisUtil.getString(fileName);
+		String data = null;
+		if (RedisUtil.getJedis().isConnected()) {
+			if (RedisUtil.contains(fileName)) {
+				System.out.println("Get from Redis");
+				data = RedisUtil.getString(fileName);
+			}else{
+				System.out.println("Get from Config");
+				data = getFileAsStringFromConfigPath(path, fileName);
+				//Cache data
+				RedisUtil.setString(fileName, data);
+			}
 		} else {
 			System.out.println("Get from Config");
-			String data = getFileAsStringFromConfigPath(path, fileName);
-			RedisUtil.setString(fileName, data);
-			return data;
+			data = getFileAsStringFromConfigPath(path, fileName);
 		}
+
+		return data;
 	}
 
 	public static String getFileAsStringFromJunstech(String fileName) throws IOException {
@@ -76,6 +84,6 @@ public class FileUtil {
 		read.close();
 		return result.toString();
 	}
-	
+
 	private static int bufferSize = 4096;
 }
