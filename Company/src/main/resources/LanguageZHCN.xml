@@ -66,6 +66,7 @@
 <String key="verification">是否核销</String>
 
 <String key="userTitle">用户</String>
+<String key="username">用户名</String>
 <String key="password">密码</String>
 <String key="userTitle">用户</String>
 <String key="nickname">昵称</String>
