@@ -181,6 +181,7 @@ public class UserDML extends BaseController{
 		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
 		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
 		tablepropertys.add(new TableProperty("username", LanguageUtil.getString("username")));
+		tablepropertys.add(new TableProperty("password", LanguageUtil.getString("password")));
 		tablepropertys.add(new TableProperty("nickname", LanguageUtil.getString("nickname")));
 		tablepropertys.add(new TableProperty("phone", LanguageUtil.getString("phone")));
 		tablepropertys.add(new TableProperty("email", LanguageUtil.getString("email")));
@@ -204,6 +205,7 @@ public class UserDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 
 		try {
+			user.setPassword(AESEncryption.decrypt(user.getPassword(), ENVConfig.encryptKey));
 			userService.updateUser(user);
 			mv.addObject("message", LanguageUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
