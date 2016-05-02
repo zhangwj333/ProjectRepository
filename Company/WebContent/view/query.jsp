@@ -197,8 +197,21 @@ $(function ()
 											<a
 												onClick="submitForNextStep('submit${criteria}.htm?id=${tableline.id}');"
 												target="contentFrame" class="btn btn-primary">提交</a>
+											<c:if test="${criteria eq 'Purchase'}">
+												<a
+													onclick="showQueryModel('dialog','${title}', '${path}/editPurchaseLedger.htm?id=${tableline.id}');"
+													data-toggle="modal" data-target="#myModal"
+													class="btn btn-primary">采购入账记录</a>
+											</c:if>
+											<c:if test="${criteria eq 'Sale'}">
+												<a
+													onclick="showQueryModel('dialog','${title}', '${path}/editSaleLedger.htm?id=${tableline.id}');"
+													data-toggle="modal" data-target="#myModal"
+													class="btn btn-primary">销售入账记录</a>
+											</c:if>
 										</c:if>
-									</c:if> <c:if test="${user.superuser ne 'R' and criteria eq 'Inventory'}">
+									</c:if> <c:if
+										test="${user.superuser ne 'R' and criteria eq 'Inventory'}">
 										<c:if test="${tableline.status eq '运送中'}">
 											<a
 												onClick="submitForNextStep('submit${criteria}.htm?id=${tableline.id}');"
@@ -210,26 +223,45 @@ $(function ()
 												target="contentFrame" class="btn btn-primary">确认出货</a>
 										</c:if>
 									</c:if> <c:if
-										test="${criteria eq 'Ledger' or criteria eq 'Inventory'}">
-										<a
-											onclick="showQueryModel('${screen}', '${title}', '${path}/query${criteria}Proof.htm?id=${tableline.id}');"
-											data-toggle="modal" data-target="#myModal"
-											class="btn btn-success">查看单据</a>
-									</c:if> <c:if
-										test="${user.superuser eq 'M' and criteria ne 'Inventory'}">
-										<a
-											onclick="showQueryModel('dialog','${title}', '${path}/edit${criteria}.htm?id=${tableline.id}');"
-											data-toggle="modal" data-target="#myModal"
-											class="btn btn-primary">修改</a>
-										<a
-											onclick="submitForNextStep('delete${criteria}.htm?id=${tableline.id}');"
-											target="contentFrame" class="btn btn-danger">删除</a>
-									</c:if> <c:if
 										test="${user.superuser ne 'R' and ( criteria eq 'Ledger' or criteria eq 'Inventory')}">
 										<a
 											onclick="showQueryModel('dialog', '${title}', '${path}/edit${criteria}Proof.htm?id=${tableline.id}');"
 											data-toggle="modal" data-target="#myModal"
 											class="btn btn-primary">更改票据</a>
+									</c:if> <c:if
+										test="${criteria eq 'Ledger' or criteria eq 'Inventory'}">
+										<a
+											onclick="showQueryModel('${screen}', '${title}', '${path}/query${criteria}Proof.htm?id=${tableline.id}');"
+											data-toggle="modal" data-target="#myModal"
+											class="btn btn-success">查看单据</a>
+									</c:if> <c:if test="${criteria ne 'Inventory'}">
+										<c:choose>
+											<c:when test="${user.superuser eq 'R'}">
+											</c:when>
+											<c:when
+												test="${criteria eq 'Purchase' or criteria eq 'Sale'}">
+												<c:if
+													test="${tableline.status eq '已拒绝' or tableline.status eq '新开单' or tableline.status eq ''}">
+													<a
+														onclick="showQueryModel('dialog','${title}', '${path}/edit${criteria}.htm?id=${tableline.id}');"
+														data-toggle="modal" data-target="#myModal"
+														class="btn btn-primary">修改</a>
+													<a
+														onclick="submitForNextStep('delete${criteria}.htm?id=${tableline.id}');"
+														target="contentFrame" class="btn btn-danger">删除</a>
+												</c:if>
+											</c:when>
+											<c:otherwise>
+												<a
+													onclick="showQueryModel('dialog','${title}', '${path}/edit${criteria}.htm?id=${tableline.id}');"
+													data-toggle="modal" data-target="#myModal"
+													class="btn btn-primary">修改</a>
+												<a
+													onclick="submitForNextStep('delete${criteria}.htm?id=${tableline.id}');"
+													target="contentFrame" class="btn btn-danger">删除</a>
+											</c:otherwise>
+										</c:choose>
+
 									</c:if></td>
 							</c:otherwise>
 						</c:choose>

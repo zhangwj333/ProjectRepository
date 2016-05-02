@@ -21,22 +21,24 @@
 		var today = new Date();
 		var year = today.getFullYear();
 		var month = today.getMonth();
-		if(month == 0){
-			year = year - 1 ;
+		if (month == 0) {
+			year = year - 1;
 			month = 12;
 		}
-		if(month < 10){
+		if (month < 10) {
 			month = "0" + month;
 		}
 		document.getElementById("latestReport").innerHTML = "<a href='${path}/queryReportProcess.htm?time="
 				+ year
 				+ month
 				+ "' target='contentFrame' onclick='foldMenu()'>查看最新报表"
-				+ year + month + "</a>";
+				+ year
+				+ month + "</a>";
 	}
 </script>
 </head>
-<body style="background-color: #eeeeee" onload="genLatestReportLink()" style="overflow:hidden">
+<body style="background-color: #eeeeee" onload="genLatestReportLink()"
+	style="overflow:hidden">
 	<div class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 
@@ -51,44 +53,39 @@
 			</div>
 			<div class="navbar-collapse collapse" id="navbar-main">
 				<ul class="nav navbar-nav ">
-					<c:if test="${user.privileges[2].privilege ne ''}">
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" aria-expanded="false"> <strong>采购模块</strong>
-								<span class="caret"></span>
-						</a>
-							<ul class="dropdown-menu">
-								<li><a onclick="getSearchMenuSubFields('Purchase')">查询订单</a></li>
-								<li><a href="${path}/createPurchase.htm"
-									target="contentFrame" onclick="foldMenu()">新增订单</a></li>
-								<li><a
-									href="${path}/queryGoods.htm?id=&key=&page=1&size=10"
-									target="contentFrame" onclick="foldMenu()">查询商品</a></li>
-								<li><a href="${path}/createGood.htm" target="contentFrame"
-									onclick="foldMenu()">新增商品</a></li>
-								<li><a
-									href="${path}/querySuppliers.htm?id=&key=&page=1&size=10"
-									target="contentFrame" onclick="foldMenu()">查询供应商</a></li>
-								<li><a href="${path}/createSupplier.htm"
-									target="contentFrame" onclick="foldMenu()">新增供应商</a></li>
-							</ul></li>
-					</c:if>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" aria-expanded="false"> <strong>采购模块</strong>
+							<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li><a onclick="getSearchMenuSubFields('Purchase')">查询订单</a></li>
+							<li><a href="${path}/createPurchase.htm"
+								target="contentFrame" onclick="foldMenu()">新增订单</a></li>
+							<li><a href="${path}/queryGoods.htm?id=&key=&page=1&size=10"
+								target="contentFrame" onclick="foldMenu()">查询商品</a></li>
+							<li><a href="${path}/createGood.htm" target="contentFrame"
+								onclick="foldMenu()">新增商品</a></li>
+							<li><a
+								href="${path}/querySuppliers.htm?id=&key=&page=1&size=10"
+								target="contentFrame" onclick="foldMenu()">查询供应商</a></li>
+							<li><a href="${path}/createSupplier.htm"
+								target="contentFrame" onclick="foldMenu()">新增供应商</a></li>
+						</ul></li>
 
-					<c:if test="${user.privileges[3].privilege ne ''}">
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" aria-expanded="false"> <strong>销售模块</strong>
-								<span class="caret"></span>
-						</a>
-							<ul class="dropdown-menu">
-								<li><a onclick="getSearchMenuSubFields('Sale')">查询销售单</a></li>
-								<li><a href="${path}/createSale.htm" target="contentFrame"
-									onclick="foldMenu()">新增销售单</a></li>
-								<li><a
-									href="${path}/queryCustomers.htm?id=&key=&page=1&size=10"
-									target="contentFrame" onclick="foldMenu()">查询客户</a></li>
-								<li><a href="${path}/createCustomer.htm"
-									target="contentFrame" onclick="foldMenu()">新增客户</a></li>
-							</ul></li>
-					</c:if>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" aria-expanded="false"> <strong>销售模块</strong>
+							<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li><a onclick="getSearchMenuSubFields('Sale')">查询销售单</a></li>
+							<li><a href="${path}/createSale.htm" target="contentFrame"
+								onclick="foldMenu()">新增销售单</a></li>
+							<li><a
+								href="${path}/queryCustomers.htm?id=&key=&page=1&size=10"
+								target="contentFrame" onclick="foldMenu()">查询客户</a></li>
+							<li><a href="${path}/createCustomer.htm"
+								target="contentFrame" onclick="foldMenu()">新增客户</a></li>
+						</ul></li>
 
 					<c:if test="${user.privileges[4].privilege ne ''}">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -126,6 +123,11 @@
 									target="contentFrame" onclick="foldMenu()">查询财务条目种类</a></li>
 								<li><a href="${path}/createFinancetype.htm"
 									target="contentFrame" onclick="foldMenu()">新增财务条目</a></li>
+								<li><a
+									href="${path}/queryPaymentaccounts.htm?id=&key=&page=1&size=10"
+									target="contentFrame" onclick="foldMenu()">查询公司交易账号</a></li>
+								<li><a href="${path}/createPaymentaccount.htm"
+									target="contentFrame" onclick="foldMenu()">新增公司交易账号</a></li>
 							</ul></li>
 					</c:if>
 

@@ -205,7 +205,6 @@ public class UserDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 
 		try {
-			user.setPassword(AESEncryption.decrypt(user.getPassword(), ENVConfig.encryptKey));
 			userService.updateUser(user);
 			mv.addObject("message", LanguageUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);

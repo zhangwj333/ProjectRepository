@@ -24,19 +24,19 @@ public class ExceptionController extends BaseController implements HandlerExcept
 			Exception ex) {
 		ModelAndView mv = new ModelAndView();
 		
-		if (ex.getCause() instanceof BusinessException){
+		if (ex instanceof BusinessException){
 			mv.addObject("failcause", "business");
 			mv.addObject("message", LanguageUtil.getString("BusinessException"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		}
-		else if (ex.getCause() instanceof LoginException){
+		else if (ex instanceof LoginException){
 			mv.addObject("failcause", "login");
 			mv.addObject("message", LanguageUtil.getString("LoginException"));
 			mv.addObject(MetaData.completeReturnPage, "userLogout.htm");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsFullWindow);
 		}
-		else if (ex.getCause() instanceof PrivilegeException){
+		else if (ex instanceof PrivilegeException){
 			mv.addObject("failcause", "privilege");
 			mv.addObject("message", LanguageUtil.getString("PrivilegeException"));
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");

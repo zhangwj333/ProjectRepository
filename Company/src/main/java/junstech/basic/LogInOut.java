@@ -82,7 +82,7 @@ public class LogInOut extends BaseController{
 				mv.addObject(MetaData.ProcessResult, MetaData.ProcessFail);
 			}
 		}
-		mv.addObject("message", LanguageUtil.getString("login"));
+		mv.addObject("message", LanguageUtil.getString("loginfail"));
 		mv.setViewName("login");
 		return mv;
 	}

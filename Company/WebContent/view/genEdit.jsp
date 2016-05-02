@@ -76,40 +76,118 @@
 											<label for=${tableproperty.key }
 												class="col-${screen}-2 control-label">${tableproperty.value}</label>
 											<div class="col-${screen}-10">
-												<c:choose>													
+												<c:choose>
 													<c:when test="${tableproperty.key eq 'companytype'}">
 														<input id="${tableproperty.key}"
-															name="${tableproperty.key}" type="hidden" value="" />
+															name="${tableproperty.key}" type="hidden" value="${tableline[tableproperty.key]}" />
 														<select class="form-control" id="choose${status.count-1}"
-															onchange="selectType(this, '${tableproperty.key}')">
+															onchange="selectType(this, '${tableproperty.key}')" ${disable}>
 															<option value="">必选</option>
-															<option value="supplier">供应商</option>
-															<option value="customer">客户</option>
+															<c:choose>
+																<c:when
+																	test="${'supplier' eq tableline[tableproperty.key]}">
+																	<option value="supplier" selected="selected">供应商</option>
+																	<option value="customer">客户</option>
+																</c:when>
+																<c:when
+																	test="${'customer' eq tableline[tableproperty.key]}">
+																	<option value="supplier">供应商</option>
+																	<option value="customer" selected="selected">客户</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="supplier">供应商</option>
+																	<option value="customer">客户</option>
+																</c:otherwise>
+															</c:choose>
+
 														</select>
 													</c:when>
 													<c:when test="${tableproperty.key eq 'companyid'}">
 														<input id="${tableproperty.key}"
-															name="${tableproperty.key}" type="hidden" value="" />
+															name="${tableproperty.key}" type="hidden" value="${tableline[tableproperty.key]}" />
 														<select class="form-control" id="choosecompanyid"
-															onchange="selectInput(this, '${tableproperty.key}')">
+															onchange="selectInput(this, '${tableproperty.key}')" ${disable}>
 															<option value="">必选</option>
+															<c:if test="${!empty suppliers}">
+																<c:if
+																	test="${'supplier' eq tableline['companytype']}">
+																	<c:forEach var='supplier' items='${suppliers}'
+																		varStatus='status'>"
+																		<c:choose>
+																			<c:when
+																				test="${supplier.id eq tableline[tableproperty.key]}">
+																				<option value='${supplier.id}' selected="selected">${supplier.supplier}</option>
+																			</c:when>
+																			<c:otherwise>
+																				<option value='${supplier.id}'>${supplier.supplier}</option>
+																			</c:otherwise>
+																		</c:choose>
+																	</c:forEach>
+																</c:if>
+															</c:if>
+															<c:if test="${!empty customers}">
+																<c:if
+																	test="${'customer' eq tableline['companytype']}">
+																	<c:forEach var='customer' items='${customers}'
+																		varStatus='status'>
+																		<c:choose>
+																			<c:when
+																				test="${customer.id eq tableline[tableproperty.key]}">
+																				<option value='${customer.id}' selected="selected">${customer.name}</option>
+																			</c:when>
+																			<c:otherwise>
+																				<option value='${customer.id}'>${customer.name}</option>
+																			</c:otherwise>
+																		</c:choose>
+																	</c:forEach>
+																</c:if>
+															</c:if>
+
 														</select>
 													</c:when>
 													<c:when test="${tableproperty.key eq 'financetype'}">
 														<input id="${tableproperty.key}"
-															name="${tableproperty.key}" type="hidden" value="" />
+															name="${tableproperty.key}" type="hidden" value="${tableline[tableproperty.key]}" />
+														<select class="form-control" id="choose${status.count-1}"
+															onchange="selectInput(this, '${tableproperty.key}')" ${disable}>
+															<option value="">必选</option>
+															<c:forEach var="type" items="${types}" varStatus="status">
+																<c:choose>
+																	<c:when
+																		test="${type.id eq tableline[tableproperty.key]}">
+																		<option value="${type.id}" selected="selected">${type.name}</option>
+																	</c:when>
+																	<c:otherwise>
+																		<option value="${type.id}">${type.name}</option>
+																	</c:otherwise>
+																</c:choose>
+															</c:forEach>
+														</select>
+													</c:when>
+													<c:when test="${tableproperty.key eq 'payman'}">
+														<input id="${tableproperty.key}"
+															name="${tableproperty.key}" type="hidden" value="${tableline[tableproperty.key]}" />
 														<select class="form-control" id="choose${status.count-1}"
 															onchange="selectInput(this, '${tableproperty.key}')">
 															<option value="">必选</option>
-															<c:forEach var="type" items="${types}" varStatus="status">
-																<option value="${type.id}">${type.name}</option>
-															</c:forEach>
+															<c:forEach var="type" items="${paymentaccounts}"
+																varStatus="status">
+																<c:choose>
+																	<c:when
+																		test="${type.payaccount eq tableline[tableproperty.key]}">
+																		<option value="${type.payaccount}" selected="selected">${type.payaccount}</option>
+																	</c:when>
+																	<c:otherwise>
+																		<option value="${type.payaccount}">${type.payaccount}</option>
+																	</c:otherwise>
+																</c:choose>
+															</c:forEach>												
 														</select>
 													</c:when>
 													<c:when test="${tableproperty.key eq 'paydate'}">
 														<input type="date" class="form-control"
 															id="${tableproperty.key}" name="${tableproperty.key}"
-															value="${tableline[tableproperty.key]}">
+															value=<fmt:formatDate value="${tableline[tableproperty.key]}" pattern="yyyy-MM-dd" />>
 													</c:when>
 													<c:when test="${tableproperty.key eq 'note'}">
 														<textarea class="form-control" rows="10"
@@ -122,7 +200,7 @@
 													</c:when>
 													<c:when test="${tableproperty.key eq 'goodid'}">
 														<input id="${tableproperty.key}"
-															name="${tableproperty.key}" type="hidden" value="" />
+															name="${tableproperty.key}" type="hidden" value="${tableline[tableproperty.key]}" />
 														<select class="form-control" id="choose${status.count-1}"
 															onchange="selectInput(this, '${tableproperty.key}')">
 															<option value="">必选</option>
@@ -165,7 +243,7 @@
 													</c:when>
 													<c:when test="${tableproperty.key eq 'goodsortid'}">
 														<input id="${tableproperty.key}"
-															name="${tableproperty.key}" type="hidden" value="" />
+															name="${tableproperty.key}" type="hidden" value="${tableline[tableproperty.key]}" />
 														<select class="form-control"
 															id="choose${tableproperty.key}"
 															onchange="selectInput(this, '${tableproperty.key}')">

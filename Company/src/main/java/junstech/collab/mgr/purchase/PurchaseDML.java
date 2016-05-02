@@ -27,10 +27,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import junstech.collab.BaseController;
+import junstech.model.Customer;
+import junstech.model.Financetype;
+import junstech.model.Ledger;
+import junstech.model.Paymentaccount;
 import junstech.model.Purchase;
+import junstech.model.Supplier;
 import junstech.model.TableProperty;
 import junstech.model.User;
+import junstech.service.FinancereceivableService;
+import junstech.service.FinancetypeService;
 import junstech.service.GoodService;
+import junstech.service.PaymentaccountService;
 import junstech.service.PurchaseService;
 import junstech.service.SupplierService;
 import junstech.util.MetaData;
@@ -75,6 +83,63 @@ public class PurchaseDML extends BaseController{
 		this.purchaseService = purchaseService;
 	}
 
+	PaymentaccountService paymentaccountService;
+
+	FinancetypeService financetypeService;
+	
+	public PaymentaccountService getPaymentaccountService() {
+		return paymentaccountService;
+	}
+
+	@Autowired
+	public void setPaymentaccountService(PaymentaccountService paymentaccountService) {
+		this.paymentaccountService = paymentaccountService;
+	}
+	
+	public FinancetypeService getFinancetypeService() {
+		return financetypeService;
+	}
+
+	@Autowired
+	public void setFinancetypeService(FinancetypeService financetypeService) {
+		this.financetypeService = financetypeService;
+	}
+	
+	@RequestMapping(value = "/editPurchaseLedger", method = RequestMethod.GET)
+	public ModelAndView editLedger(@RequestParam("id") long id, HttpServletRequest request, HttpSession session)
+			throws Exception {
+		ModelAndView mv = new ModelAndView();
+		Ledger ledger = new Ledger();
+		ledger.setCompanytype("supplier");
+		ledger.setCompanyid(id);
+		String financeName = LanguageUtil.getString("FinanceTypeCost");
+		ledger.setFinancetype(financetypeService.selectFinancetype(financeName).getId());
+		List<TableProperty> tablepropertys = new ArrayList<TableProperty>();
+		List<Financetype> types = financetypeService.selectAllFinancetypes();
+		List<Supplier> suppliers = supplierService.selectAllSuppliers();
+		List<Paymentaccount> paymentaccounts = paymentaccountService.selectAllPaymentaccounts();
+		tablepropertys.add(new TableProperty("receiveid", LanguageUtil.getString("receiveid")));
+		tablepropertys.add(new TableProperty("financetype", LanguageUtil.getString("financetype")));
+		tablepropertys.add(new TableProperty("companytype", LanguageUtil.getString("companytype")));
+		tablepropertys.add(new TableProperty("companyid", LanguageUtil.getString("companyid")));
+		tablepropertys.add(new TableProperty("paydate", LanguageUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("payman", LanguageUtil.getString("payman")));
+		tablepropertys.add(new TableProperty("amount", LanguageUtil.getString("amount")));
+		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
+		
+		mv.addObject("disable", "disable='yes'");
+		mv.addObject("tablepropertys", tablepropertys);
+		mv.addObject("tableline", ledger);
+		mv.addObject("types", types);
+		mv.addObject("suppliers", suppliers);
+		mv.addObject("paymentaccounts", paymentaccounts);
+		mv.addObject("action", "editLedgerProcess");
+		mv.addObject("modelAttribute", "Ledger");
+		mv.setViewName("genEdit");
+		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
+		return this.outputView(session, mv);
+	}
+	
 	@RequestMapping(value = "/queryPurchases")
 	public ModelAndView querys(@RequestParam("id") String id, @RequestParam("key") String key,
 			@RequestParam("startdate") String startdate, @RequestParam("enddate") String enddate,

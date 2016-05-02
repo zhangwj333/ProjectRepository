@@ -15,6 +15,7 @@ import com.itextpdf.text.pdf.PdfPTableEvent;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import junstech.model.Financereceivable;
+import junstech.model.Paymentaccount;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -59,16 +60,21 @@ public class PDFReport {
 		file.getParentFile().mkdirs();
 		new PDFReport().createPdf(DEST);
 	}
-
-	public static String generateReport(Map<String, Double> financeSumMonth, Map<String, Double> financeSumYear,
-			List<Financereceivable> financereceivables) throws IOException, DocumentException {
+	
+	@SuppressWarnings("unchecked")
+	public static String generateReport(Map<String, Object> reportFactors) throws IOException, DocumentException {
+		Map<String, Double> financeSumMonth = (HashMap<String, Double>) reportFactors.get("financeSumMonth");
+		Map<String, Double> financeSumYear = (HashMap<String, Double>) reportFactors.get("financeSumYear");
+		List<Financereceivable> financereceivables = (List<Financereceivable>) reportFactors.get("financereceivables");
+		Map<String, Object> payaccounts = (Map<String, Object>) reportFactors.get("payaccounts");
+		List<Paymentaccount> paymentaccounts = (List<Paymentaccount>) reportFactors.get("paymentaccounts");
 		
 		String relativeName = "/baobiao" + df.format(new Date()) + ".pdf";
 		String fileName = MetaData.reportPath + relativeName;
 		File file = new File(fileName);
 		file.getParentFile().mkdirs();
 		new PDFReport().createSummaryPdf(fileName, getReportData(financeSumMonth), getReportData(financeSumYear),
-				financereceivables);
+				financereceivables, payaccounts, paymentaccounts);
 		return relativeName;
 	}
 
@@ -108,7 +114,7 @@ public class PDFReport {
 	}
 
 	public void createSummaryPdf(String path, List<String> financeSumMonth, List<String> financeSumYear,
-			List<Financereceivable> financereceivables) throws IOException, DocumentException {
+			List<Financereceivable> financereceivables, Map<String, Object> payaccounts, List<Paymentaccount> paymentaccounts) throws IOException, DocumentException {
 		Document document = new Document();
 		PdfWriter.getInstance(document, new FileOutputStream(path));
 		document.open();
@@ -122,10 +128,40 @@ public class PDFReport {
 				|| financereceivables.get(0).getId() != null) {
 			financeReceivableTotal = createPendingReport(document, financereceivables); 
 		}
+		createPayAccountBalanceReport(document, payaccounts, paymentaccounts);
 		createBalanceReport(document, yearEndProfit, financeReceivableTotal);
 		document.close();
 	}
 
+	public void createPayAccountBalanceReport(Document document, Map<String, Object> payaccounts, List<Paymentaccount> paymentaccounts)
+			throws IOException, DocumentException {
+		PdfPTable table = new PdfPTable(2);
+		table.setTotalWidth(500);
+		table.setLockedWidth(true);
+		BorderEvent event = new BorderEvent();
+		table.setTableEvent(event);
+		table.setWidthPercentage(100);
+		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		table.setSplitLate(false);
+		
+		PdfPCell cell = new PdfPCell(new Phrase(TEXT, fontBlack));
+		cell.setBorder(Rectangle.NO_BORDER);
+		document.add(new Phrase("\r\n\r\n交易账号余额:\r\n", fontBlack));
+		cell.setPhrase(new Phrase("账号", fontBlack));
+		table.addCell(cell);
+		cell.setPhrase(new Phrase("余额", fontBlack));
+		table.addCell(cell);
+		for (int i = 0; i < paymentaccounts.size(); i++) {
+			cell.setPhrase(new Phrase(paymentaccounts.get(i).getPayaccount(), fontBlack));
+			table.addCell(cell);
+			cell.setPhrase(new Phrase(String.valueOf(payaccounts.get(paymentaccounts.get(i).getPayaccount())),
+					fontBlack));
+			table.addCell(cell);
+		}
+		event.setRowCount(table.getRows().size());
+		document.add(table);
+	}
+	
 	public void createBalanceReport(Document document, double yearEndProfit, double financeReceivableTotal)
 			throws IOException, DocumentException {
 		double balance = MetaData.initfund + yearEndProfit - financeReceivableTotal;
@@ -219,11 +255,11 @@ public class PDFReport {
 		for (int i = 0; i < list.size(); i++) {
 			cell.setPhrase(new Phrase(list.get(i), fontBlack));
 			table.addCell(cell);
-			cell.setPhrase((new Phrase(financeSumMonth.get(i),
+			cell.setPhrase((new Phrase(financeSumMonth.get(i).replaceFirst("-", ""),
 					financeSumMonth.get(i).startsWith("-") ? fontRed : fontBlack)));
 			table.addCell(cell);
 			cell.setPhrase(
-					(new Phrase(financeSumYear.get(i), financeSumYear.get(i).startsWith("-") ? fontRed : fontBlack)));
+					(new Phrase(financeSumMonth.get(i).replaceFirst("-", ""), financeSumYear.get(i).startsWith("-") ? fontRed : fontBlack)));
 			table.addCell(cell);
 		}
 		event.setRowCount(table.getRows().size());

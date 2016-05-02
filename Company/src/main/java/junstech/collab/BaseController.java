@@ -20,7 +20,8 @@ import junstech.util.JacksonUtil;
 public class BaseController {
 
 	public ModelAndView outputView(HttpSession session, ModelAndView mv) throws Exception {
-		if (session.getAttribute("logintype").equals("web")) {
+		String logintype = (String) session.getAttribute("logintype");
+		if (logintype == null || logintype.equals("web")) {
 			return mv;
 		} else if (session.getAttribute("logintype").equals("android")) {
 			MappingJackson2JsonView json = new MappingJackson2JsonView();

@@ -24,6 +24,7 @@ junstech\dao\LedgerMapper.class
 junstech\dao\PurchaseMapper.class
 junstech\collab\mgr\purchase\PurchaseDML.class
 junstech\dao\SupplierMapper.class
+junstech\service\imp\PaymentaccountServiceImp.class
 junstech\service\CriteriaService.class
 junstech\util\ENVConfig.class
 junstech\aop\PurchaseMgrPrivilegeCheck.class
@@ -48,8 +49,8 @@ junstech\service\SalesubService.class
 junstech\util\PDFReport.class
 junstech\dao\SaleMapper.class
 junstech\model\Criteria.class
-junstech\model\Financereceivable.class
 junstech\service\PrivilegeService.class
+junstech\model\Financereceivable.class
 junstech\service\imp\PurchaseServiceImp.class
 junstech\service\imp\FinancereceivableServiceImp.class
 junstech\model\Product.class
@@ -61,6 +62,7 @@ junstech\exception\LoginException.class
 junstech\service\imp\LedgerServiceImp.class
 junstech\service\imp\CriteriaServiceImp.class
 junstech\util\LogUtil.class
+junstech\collab\mgr\finance\PaymentaccountDML.class
 junstech\dao\ReportMapper.class
 junstech\util\JacksonUtil.class
 junstech\collab\mgr\inventory\InventoryDML.class
@@ -68,12 +70,15 @@ junstech\collab\mgr\sale\SaleDML.class
 junstech\dao\InventoryMapper.class
 junstech\dao\FinancereceivableMapper.class
 junstech\service\imp\ProductServiceImp.class
+junstech\service\PaymentaccountService.class
 junstech\service\ProductService.class
+junstech\dao\PaymentaccountMapper.class
 junstech\collab\mgr\sale\CustomerDML.class
 junstech\service\CustomerService.class
 junstech\collab\mgr\purchase\GoodDML.class
 junstech\service\PurchaseService.class
 junstech\service\imp\UserServiceImp.class
+junstech\model\Paymentaccount.class
 junstech\collab\mgr\inventory\ProductDML.class
 junstech\util\FileUtil.class
 junstech\model\User.class

@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import junstech.model.Ledger;
+import junstech.model.Paymentaccount;
 import junstech.collab.BaseController;
 import junstech.model.Customer;
 import junstech.model.Financereceivable;
@@ -40,11 +41,13 @@ import junstech.model.Supplier;
 import junstech.model.TableProperty;
 import junstech.model.User;
 import junstech.service.LedgerService;
+import junstech.service.PaymentaccountService;
 import junstech.service.SupplierService;
 import junstech.service.CustomerService;
 import junstech.service.FinancereceivableService;
 import junstech.service.FinancetypeService;
 import junstech.service.LedgerService;
+import junstech.util.ENVConfig;
 import junstech.util.FileUtil;
 import junstech.util.MetaData;
 import junstech.util.LanguageUtil;
@@ -64,6 +67,17 @@ public class LedgerDML extends BaseController{
 	SupplierService supplierService;
 	
 	CustomerService customerService;
+	
+	PaymentaccountService paymentaccountService;
+
+	public PaymentaccountService getPaymentaccountService() {
+		return paymentaccountService;
+	}
+
+	@Autowired
+	public void setPaymentaccountService(PaymentaccountService paymentaccountService) {
+		this.paymentaccountService = paymentaccountService;
+	}
 	
 	public FinancereceivableService getFinancetypereceivableService() {
 		return financetypereceivableService;
@@ -114,7 +128,7 @@ public class LedgerDML extends BaseController{
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// true:���������ֵ��false:����Ϊ��ֵ
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));//
 	}
 	
 	
@@ -183,6 +197,7 @@ public class LedgerDML extends BaseController{
 		tablepropertys.add(new TableProperty("companytype", LanguageUtil.getString("companytype")));
 		tablepropertys.add(new TableProperty("companyid", LanguageUtil.getString("companyid")));
 		tablepropertys.add(new TableProperty("paydate", LanguageUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("payman", LanguageUtil.getString("payman")));
 		tablepropertys.add(new TableProperty("amount", LanguageUtil.getString("amount")));
 		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		mv.addObject("tablepropertys", tablepropertys);
@@ -226,7 +241,7 @@ public class LedgerDML extends BaseController{
 
 		try {
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;      
-	        // ����ļ���      
+	        //
 	        MultipartFile file = multipartRequest.getFile("img");  
 	        String path = "/" + df.format(new Date()) + FileUtil.getFileExtension(file.getOriginalFilename());
 	        FileUtil.save(file, MetaData.transactionPath + path);
@@ -259,12 +274,14 @@ public class LedgerDML extends BaseController{
 		List<Financetype> types = financetypeService.selectAllFinancetypes();
 		List<Supplier> suppliers = supplierService.selectAllSuppliers();
 		List<Customer> customers = customerService.selectAllCustomers();
+		List<Paymentaccount> paymentaccounts = paymentaccountService.selectAllPaymentaccounts();
 		tablepropertys.add(new TableProperty("id", LanguageUtil.getString("id")));
 		tablepropertys.add(new TableProperty("receiveid", LanguageUtil.getString("receiveid")));
 		tablepropertys.add(new TableProperty("financetype", LanguageUtil.getString("financetype")));
 		tablepropertys.add(new TableProperty("companytype", LanguageUtil.getString("companytype")));
 		tablepropertys.add(new TableProperty("companyid", LanguageUtil.getString("companyid")));
 		tablepropertys.add(new TableProperty("paydate", LanguageUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("payman", LanguageUtil.getString("payman")));
 		tablepropertys.add(new TableProperty("amount", LanguageUtil.getString("amount")));
 		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		
@@ -273,6 +290,7 @@ public class LedgerDML extends BaseController{
 		mv.addObject("types", types);
 		mv.addObject("suppliers", suppliers);
 		mv.addObject("customers", customers);
+		mv.addObject("paymentaccounts", paymentaccounts);
 		mv.addObject("action", "editLedgerProcess");
 		mv.addObject("modelAttribute", "Ledger");
 		mv.setViewName("genEdit");
@@ -286,7 +304,7 @@ public class LedgerDML extends BaseController{
 		ModelAndView mv = new ModelAndView();
 
 		try {
-			ledgerService.editLedger(ledger);
+			ledgerService.editLedger(checkLedger(ledger));
 			mv.addObject("message", LanguageUtil.getString("updateSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
@@ -312,6 +330,7 @@ public class LedgerDML extends BaseController{
 		tablepropertys.add(new TableProperty("companytype", LanguageUtil.getString("companytype")));
 		tablepropertys.add(new TableProperty("companyid", LanguageUtil.getString("companyid")));
 		tablepropertys.add(new TableProperty("paydate", LanguageUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("payman", LanguageUtil.getString("payman")));
 		tablepropertys.add(new TableProperty("amount", LanguageUtil.getString("amount")));
 		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 		
@@ -319,11 +338,13 @@ public class LedgerDML extends BaseController{
 		List<Financetype> types = financetypeService.selectAllFinancetypes();
 		List<Supplier> suppliers = supplierService.selectAllSuppliers();
 		List<Customer> customers = customerService.selectAllCustomers();
+		List<Paymentaccount> paymentaccounts = paymentaccountService.selectAllPaymentaccounts();
 		mv.addObject("tablepropertys", tablepropertys);
 		mv.addObject("tableline", ledger);
 		mv.addObject("types", types);
 		mv.addObject("suppliers", suppliers);
 		mv.addObject("customers", customers);
+		mv.addObject("paymentaccounts", paymentaccounts);
 		mv.addObject("action", "createLedgerProcess");
 		mv.addObject("modelAttribute", "ledger");
 		mv.setViewName("genCreate");
@@ -332,12 +353,12 @@ public class LedgerDML extends BaseController{
 	}
 
 	@RequestMapping(value = "/createLedgerProcess", method = RequestMethod.POST)
-	public ModelAndView createLedgerProcess(@ModelAttribute Ledger Ledger, HttpServletRequest request, HttpSession session)
+	public ModelAndView createLedgerProcess(@ModelAttribute Ledger ledger, HttpServletRequest request, HttpSession session)
 			throws Exception {
 		ModelAndView mv = new ModelAndView();
 
 		try {
-			ledgerService.createLedger(Ledger);
+			ledgerService.createLedger(checkLedger(ledger));
 			mv.addObject("message", LanguageUtil.getString("createSuccess"));
 			mv.addObject(MetaData.setNoteType, MetaData.cosmoSuccess);
 			mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
@@ -397,6 +418,7 @@ public class LedgerDML extends BaseController{
 		tablepropertys.add(new TableProperty("financetype", LanguageUtil.getString("financetype")));
 		tablepropertys.add(new TableProperty("companyid", LanguageUtil.getString("companyid")));
 		tablepropertys.add(new TableProperty("paydate", LanguageUtil.getString("paydate")));
+		tablepropertys.add(new TableProperty("payman", LanguageUtil.getString("payman")));
 		tablepropertys.add(new TableProperty("amount", LanguageUtil.getString("amount")));
 		tablepropertys.add(new TableProperty("note", LanguageUtil.getString("note")));
 
@@ -420,6 +442,21 @@ public class LedgerDML extends BaseController{
 		mv.setViewName("query");
 		mv.addObject(MetaData.ProcessResult, MetaData.ProcessSuccess);
 		return this.outputView(session, mv);
+	}
+	
+	private Ledger checkLedger(Ledger ledger) throws Exception{
+		Financetype financetype =  financetypeService.selectFinancetype(ledger.getFinancetype());
+		String metadata = FileUtil.getFileAsStringFromClassPath("LedgerMetadata.xml");
+		if(metadata.contains(financetype.getName())){
+			if(ledger.getAmount() >= 0){
+				ledger.setAmount(-ledger.getAmount());
+			}
+		}else{
+			if(ledger.getAmount() <= 0){
+				ledger.setAmount(-ledger.getAmount());
+			}
+		}
+		return ledger;
 	}
 	
 	private static SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");

@@ -42,6 +42,11 @@
 					+ "<c:forEach var='customer' items='${customers}' varStatus='status'>"
 					+ "<option value='${customer.id}'>${customer.name}</option>"
 					+ "</c:forEach>";
+		}else if (selected == 'payman') {
+			options = "<option value=''>必选</option>"
+				+ "<c:forEach var='payman' items='${paymentaccounts}' varStatus='status'>"
+				+ "<option value='${payman.payaccount}'>${payman.payaccount}</option>"
+				+ "</c:forEach>";
 		}
 		document.getElementById('choosecompanyid').innerHTML = options;
 	}
@@ -93,6 +98,17 @@
 													<option value="">必选</option>
 													<c:forEach var="type" items="${types}" varStatus="status">
 														<option value="${type.id}">${type.name}</option>
+													</c:forEach>
+												</select>
+											</c:when>
+											<c:when test="${tableproperty.key eq 'payman'}">
+												<input id="${tableproperty.key}" name="${tableproperty.key}"
+													type="hidden" value="" />
+												<select class="form-control" id="choose${status.count-1}"
+													onchange="selectInput(this, '${tableproperty.key}')">
+													<option value="">必选</option>
+													<c:forEach var="type" items="${paymentaccounts}" varStatus="status">
+														<option value="${type.payaccount}">${type.payaccount}</option>
 													</c:forEach>
 												</select>
 											</c:when>

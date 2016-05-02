@@ -27,10 +27,12 @@ import junstech.collab.BaseController;
 import junstech.model.Financereceivable;
 import junstech.model.Financetype;
 import junstech.model.Ledger;
+import junstech.model.Paymentaccount;
 import junstech.model.Report;
 import junstech.service.FinancereceivableService;
 import junstech.service.FinancetypeService;
 import junstech.service.LedgerService;
+import junstech.service.PaymentaccountService;
 import junstech.service.ReportService;
 import junstech.util.MetaData;
 import junstech.util.PDFReport;
@@ -47,6 +49,17 @@ public class ReportDML extends BaseController {
 
 	ReportService reportService;
 
+	PaymentaccountService paymentaccountService;
+
+	public PaymentaccountService getPaymentaccountService() {
+		return paymentaccountService;
+	}
+
+	@Autowired
+	public void setPaymentaccountService(PaymentaccountService paymentaccountService) {
+		this.paymentaccountService = paymentaccountService;
+	}
+	
 	public ReportService getReportService() {
 		return reportService;
 	}
@@ -113,7 +126,7 @@ public class ReportDML extends BaseController {
 
 	public ModelAndView GenerateReport(String targetDate, HttpServletRequest request,
 			HttpSession session) throws Exception {
-		
+		Map<String, Object> reportFactors = new HashMap<String, Object>();
 		ModelAndView mv = new ModelAndView();
 		try {
 			System.out.println(LanguageUtil.getString("generatingReport"));
@@ -162,12 +175,31 @@ public class ReportDML extends BaseController {
 					financeSumYear.put(financetype.getName(), ledger.get(0).getAmount());
 				}
 			}
+			
+			List<Paymentaccount> paymentaccounts = paymentaccountService.selectAllPaymentaccounts();
+			reportFactors.put("paymentaccounts", paymentaccounts);
+			Map<String, Object> payaccounts = new HashMap<String, Object>();
+			for (Paymentaccount paymentaccount : paymentaccounts) {
+				payaccounts.put("payman", paymentaccount.getPayaccount().toString());
+				List<Ledger> ledger = ledgerService.selectTotalByFields(payaccounts);
+				if (ledger.isEmpty() || ledger.get(0) == null || ledger.get(0).getAmount() == null) {
+					payaccounts.put(paymentaccount.getPayaccount(), Double.valueOf(0));
+				} else {
+					payaccounts.put(paymentaccount.getPayaccount(), ledger.get(0).getAmount());
+				}
+				
+			}
+			reportFactors.put("payaccounts", payaccounts);
 			Map<String, Object> conditionOfFinancereceivable = new HashMap<String, Object>();
 			conditionOfFinancereceivable.put("key", "");
 			conditionOfFinancereceivable.put("type", LanguageUtil.getString("statusPendingPayment"));
 			List<Financereceivable> financereceivables = financereceivableService
 					.selectSummary(conditionOfFinancereceivable);
-			String fileName = PDFReport.generateReport(financeSumMonth, financeSumYear, financereceivables);
+			
+			reportFactors.put("financeSumMonth", financeSumMonth);
+			reportFactors.put("financeSumYear", financeSumYear);
+			reportFactors.put("financereceivables", financereceivables);
+			String fileName = PDFReport.generateReport(reportFactors);
 			File file = new File(MetaData.reportPath + fileName);
 			if (!file.exists() || (file.getTotalSpace() == 0)) {
 				throw new Exception("Fail to create report");

@@ -21,6 +21,10 @@
 function reloadFrameHeight() {
 	
 	iFrameHeight(document.getElementById("contentFrame"));
+	ifm = document.getElementById("contentFrame");
+	if(ifm.height < 800){
+		ifm.height = 800;
+	}
 }
 setInterval("reloadFrameHeight()",100)
 </script>
