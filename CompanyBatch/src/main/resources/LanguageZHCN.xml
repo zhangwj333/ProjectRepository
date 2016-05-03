@@ -2,9 +2,13 @@
 
 <String key="logout">注销成功！</String>
 <String key="login">欢迎你,</String>
-
+<String key="loginfail">用户名与密码错误</String>
 
 <String key="id">ID</String>
+
+
+<String key="paymentAccountTitle">公司交易账号</String>
+<String key="payaccount">交易账号</String>
 
 <String key="ledgerTitle">财务条目</String>
 <String key="receiveid">入账编号</String>
@@ -12,6 +16,7 @@
 <String key="companytype">公司类型</String>
 <String key="companyid">供应商/客户</String>
 <String key="paydate">入账日期</String>
+<String key="payman">交易账号</String>
 <String key="amount">金额</String>
 <String key="ledgerType">状态</String>
 <String key="pendingTotalamount">未结总金额</String>
@@ -66,6 +71,7 @@
 <String key="verification">是否核销</String>
 
 <String key="userTitle">用户</String>
+<String key="username">用户名</String>
 <String key="password">密码</String>
 <String key="userTitle">用户</String>
 <String key="nickname">昵称</String>
@@ -107,16 +113,16 @@
 <String key="NoteHandleSale">执行销售订单: </String>
 <String key="NotePendingShipOut">待出库-库存已结算</String>
 <String key="NotePendingShipIn">待入库-库存已结算</String>
-<String key="NoteCompletePurchase">-采购单结束</String>
 <String key="title">结果</String>
 
 <String key="spot">现货</String>
 <String key="futures">期货</String>
 
 <String key="ExceptionTitle">出错啦!</String>
-<String key="BusinessException">系统错误，请联系维护人员！</String>
+<String key="BusinessException">业务逻辑，请联系维护人员！</String>
 <String key="LoginException">你未登录或未操作时间过长，请重新登录！</String>
 <String key="PrivilegeException">你没有权限进行该操作！</String>
 <String key="OtherException">未知系统错误，请联系维护人员！</String>
-BusinessException
+
+<String key="FinanceTypeCost">主营业务成本</String>
 </xml>
