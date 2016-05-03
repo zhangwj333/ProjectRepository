@@ -6,7 +6,7 @@ public class RedisUtil {
    private static String server = "localhost";
    
    public static Jedis getJedis(){
-	   if(jedis == null){
+	   if(jedis == null || (!jedis.isConnected())){
 		   jedis = new Jedis(RedisUtil.server);
 	   }
 	   return jedis;
