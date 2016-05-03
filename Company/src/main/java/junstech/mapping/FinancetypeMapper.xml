@@ -50,7 +50,7 @@
 			MyBatis Generator, do not modify. -->
 		select id, name
 		from financetype
-		where id = #{name,jdbcType=VARCHAR}
+		where name = #{name,jdbcType=VARCHAR}
 	</select>
 
 	<select id="selectByPage" resultMap="BaseResultMap"

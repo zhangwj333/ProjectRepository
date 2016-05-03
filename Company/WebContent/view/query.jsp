@@ -192,24 +192,28 @@ $(function ()
 							<c:otherwise>
 								<td><c:if
 										test="${user.superuser ne 'R' and (criteria eq 'Purchase' or criteria eq 'Sale')}">
-										<c:if
-											test="${tableline.status eq '已拒绝' or tableline.status eq '新开单'}">
-											<a
-												onClick="submitForNextStep('submit${criteria}.htm?id=${tableline.id}');"
-												target="contentFrame" class="btn btn-primary">提交</a>
-											<c:if test="${criteria eq 'Purchase'}">
+										<c:choose>
+											<c:when
+												test="${tableline.status eq '已拒绝' or tableline.status eq '新开单'}">
 												<a
-													onclick="showQueryModel('dialog','${title}', '${path}/editPurchaseLedger.htm?id=${tableline.id}');"
-													data-toggle="modal" data-target="#myModal"
-													class="btn btn-primary">采购入账记录</a>
-											</c:if>
-											<c:if test="${criteria eq 'Sale'}">
-												<a
-													onclick="showQueryModel('dialog','${title}', '${path}/editSaleLedger.htm?id=${tableline.id}');"
-													data-toggle="modal" data-target="#myModal"
-													class="btn btn-primary">销售入账记录</a>
-											</c:if>
-										</c:if>
+													onClick="submitForNextStep('submit${criteria}.htm?id=${tableline.id}');"
+													target="contentFrame" class="btn btn-primary">提交</a>
+											</c:when>
+											<c:otherwise>
+												<c:if test="${criteria eq 'Purchase'}">
+													<a
+														onclick="showQueryModel('dialog','${title}', '${path}/editPurchaseLedger.htm?id=${tableline.id}');"
+														data-toggle="modal" data-target="#myModal"
+														class="btn btn-primary">采购入账记录</a>
+												</c:if>
+												<c:if test="${criteria eq 'Sale'}">
+													<a
+														onclick="showQueryModel('dialog','${title}', '${path}/editSaleLedger.htm?id=${tableline.id}');"
+														data-toggle="modal" data-target="#myModal"
+														class="btn btn-primary">销售入账记录</a>
+												</c:if>
+											</c:otherwise>
+										</c:choose>
 									</c:if> <c:if
 										test="${user.superuser ne 'R' and criteria eq 'Inventory'}">
 										<c:if test="${tableline.status eq '运送中'}">

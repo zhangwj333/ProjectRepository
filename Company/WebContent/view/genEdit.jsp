@@ -271,7 +271,14 @@
 							<div class="form-group">
 								<div class="col-${screen}-10 col-xs-offset-2 pull-right">
 									<a onclick="closeModal();" class="btn btn-default">返回</a>
-									<button type="submit" class="btn btn-primary">修改</button>
+									<c:choose>
+									<c:when test="${action eq 'createPurchaseLedgerProcess' or action eq 'createSaleLedgerProcess'}">
+										<button type="submit" class="btn btn-success">创建财务记录</button>
+									</c:when>
+									<c:otherwise>
+										<button type="submit" class="btn btn-primary">修改</button>
+									</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
 						</fieldset>

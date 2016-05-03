@@ -23,6 +23,7 @@
 <String key="totalamount">未结总金额</String>
 <String key="nowpay">已收金额</String>
 <String key="needpay">剩余金额</String>
+<String key="proof">凭据</String>
 
 <String key="financeTypeTitle">财务条目</String>
 <String key="financeTypeName">科目类型</String>
@@ -125,4 +126,5 @@
 <String key="OtherException">未知系统错误，请联系维护人员！</String>
 
 <String key="FinanceTypeCost">主营业务成本</String>
+<String key="FinanceTypeIncome">主营业务收入</String>
 </xml>

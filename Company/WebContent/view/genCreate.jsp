@@ -29,7 +29,7 @@
 		document.getElementById(id).value = choose.options[choose.selectedIndex].value;
 	}
 	function selectType(choose, id) {
-		var selected =  choose.options[choose.selectedIndex].value;
+		var selected = choose.options[choose.selectedIndex].value;
 		document.getElementById(id).value = selected;
 		var options;
 		if (selected == 'supplier') {
@@ -42,11 +42,11 @@
 					+ "<c:forEach var='customer' items='${customers}' varStatus='status'>"
 					+ "<option value='${customer.id}'>${customer.name}</option>"
 					+ "</c:forEach>";
-		}else if (selected == 'payman') {
+		} else if (selected == 'payman') {
 			options = "<option value=''>必选</option>"
-				+ "<c:forEach var='payman' items='${paymentaccounts}' varStatus='status'>"
-				+ "<option value='${payman.payaccount}'>${payman.payaccount}</option>"
-				+ "</c:forEach>";
+					+ "<c:forEach var='payman' items='${paymentaccounts}' varStatus='status'>"
+					+ "<option value='${payman.payaccount}'>${payman.payaccount}</option>"
+					+ "</c:forEach>";
 		}
 		document.getElementById('choosecompanyid').innerHTML = options;
 	}
@@ -62,7 +62,7 @@
 				<div class="col-${screen}-8">
 					<form class="form-horizontal" id="${action}"
 						modelAttribute="${modelAttribute}" name="${action}" method="post"
-						action="${path}/${action}.htm">
+						action="${path}/${action}.htm" enctype="multipart/form-data">
 						<fieldset>
 							<c:forEach var="tableproperty" items="${tablepropertys}"
 								varStatus="status">
@@ -107,7 +107,8 @@
 												<select class="form-control" id="choose${status.count-1}"
 													onchange="selectInput(this, '${tableproperty.key}')">
 													<option value="">必选</option>
-													<c:forEach var="type" items="${paymentaccounts}" varStatus="status">
+													<c:forEach var="type" items="${paymentaccounts}"
+														varStatus="status">
 														<option value="${type.payaccount}">${type.payaccount}</option>
 													</c:forEach>
 												</select>
@@ -144,6 +145,21 @@
 														<option value="${Option}">${Option}</option>
 													</c:forEach>
 												</select>
+											</c:when>
+											<c:when test="${tableproperty.key eq 'proof'}">
+												<div class="col-${screen}-8">
+													<div class="input-group">
+														<input type="file" name="img" id="img"
+															class="form-control" style="display: none;"
+															onchange="imgPath.value=this.value"> <input
+															type="text" name="imgPath" id="imgPath"
+															class="form-control"> <span
+															class="input-group-btn">
+															<button class="btn btn-primary" type="button"
+																onclick="img.click();">上传照片</button>
+														</span>
+													</div>
+												</div>
 											</c:when>
 											<c:otherwise>
 												<input type="text" id="focusedInput" class="form-control"
