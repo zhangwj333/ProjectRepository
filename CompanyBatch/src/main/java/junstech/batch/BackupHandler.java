@@ -37,8 +37,9 @@ public class BackupHandler {
 
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 
-	@Scheduled(cron = "0 * *  * * ? ") // execute every minute
+	@Scheduled(cron = "0 0 13  * * ? ") // execute every minute
 	public void NewFinanceReceviableVerifyHandling() throws Exception{
+		System.out.println("Start backup database......");
 		InputStream is = BackupUtil.class.getClassLoader().getResourceAsStream("config.properties");
 		Properties properties = new Properties();
 		properties.load(is);
@@ -48,7 +49,7 @@ public class BackupHandler {
 		}else{
 			EmailUtil.sendMailToOwnCompany("Backup database for " + dateFormat.format(new Date()), "Please find the backup in the attachment", new File(DBBackup));
 		}
-		
+		System.out.println("Complete backup database......");
 	}
 
 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
