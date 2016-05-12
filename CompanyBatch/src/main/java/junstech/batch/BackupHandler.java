@@ -37,7 +37,7 @@ public class BackupHandler {
 
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 
-	@Scheduled(cron = "0 0/60 *  * * ? ") // execute every minute
+	@Scheduled(cron = "0 * *  * * ? ") // execute every minute
 	public void NewFinanceReceviableVerifyHandling() throws Exception{
 		InputStream is = BackupUtil.class.getClassLoader().getResourceAsStream("config.properties");
 		Properties properties = new Properties();
