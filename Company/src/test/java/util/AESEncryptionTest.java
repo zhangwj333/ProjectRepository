@@ -8,7 +8,7 @@ public class AESEncryptionTest {
 	
 	@Test
 	public void Test1() throws Exception{
-	String content = "81711484";  
+	String content = "19861025";  
 	String password = "JunstechCompany";  
 
 	System.out.println("加密前" + content);  

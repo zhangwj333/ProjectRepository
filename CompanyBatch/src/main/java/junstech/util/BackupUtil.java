@@ -21,20 +21,20 @@ public class BackupUtil {
 		//BackupUtil.importSql(properties);
 	}
 
-	public static void export(Properties properties) throws Exception {
+	public static String export(Properties properties) throws Exception {
 		String command = getExportCommand(properties);
+		String fileName = properties.getProperty("jdbc.exportPath") + "DBbackup" + dateFormat.format(new Date()) + ".sql";
 		Runtime rc = Runtime.getRuntime();
-		String[] commands = command.split(" ");
         try {  
         	Process p = rc.exec(command);  
 
             if (p.waitFor() != 0) {  
                 if (p.exitValue() == 1)//p.exitValue()==0表示正常结束，1：非正常结束  
                     System.err.println("命令执行失败!");  
-            }  
-            System.err.println(p.exitValue() + p.toString());  
-        } catch (IOException e) {  
-            e.printStackTrace();  
+            }
+            return fileName;
+        } catch (Exception e) {  
+            return null;
         }
 		
 	}
