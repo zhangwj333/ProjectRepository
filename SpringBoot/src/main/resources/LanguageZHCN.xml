@@ -1,0 +1,130 @@
+<xml version="1.0" encoding="UTF-8">
+
+<String key="logout">注销成功！</String>
+<String key="login">欢迎你,</String>
+<String key="loginfail">用户名与密码错误</String>
+
+<String key="id">ID</String>
+
+
+<String key="paymentAccountTitle">公司交易账号</String>
+<String key="payaccount">交易账号</String>
+
+<String key="ledgerTitle">财务条目</String>
+<String key="receiveid">入账编号</String>
+<String key="financetype">财务条目</String>
+<String key="companytype">公司类型</String>
+<String key="companyid">供应商/客户</String>
+<String key="paydate">入账日期</String>
+<String key="payman">交易账号</String>
+<String key="amount">金额</String>
+<String key="ledgerType">状态</String>
+<String key="pendingTotalamount">未结总金额</String>
+<String key="totalamount">未结总金额</String>
+<String key="nowpay">已收金额</String>
+<String key="needpay">剩余金额</String>
+<String key="proof">凭据</String>
+
+<String key="financeTypeTitle">财务条目</String>
+<String key="financeTypeName">科目类型</String>
+
+
+<String key="supplierTitle">供应商</String>
+<String key="supplier">供应商</String>
+
+<String key="customerTitle">客户</String>
+<String key="name">客户名</String>
+<String key="address">地址</String>
+<String key="phone">联系电话</String>
+<String key="name">客户名</String>
+<String key="email">电子邮箱</String>
+<String key="credit">等级</String>
+
+<String key="saleTitle">销售订单</String>
+<String key="salemanid">销售员</String>
+<String key="customerid">客户</String>
+<String key="saletime">开单时间</String>
+<String key="operman">操作人</String>
+<String key="total">销售总价</String>
+<String key="status">状态</String>
+<String key="note">说明</String>
+<String key="saleErrorMsg">销售单没有商品，请重新创建订单</String>
+
+<String key="inventoryTitle">存货单</String>
+<String key="inventoryqty">存货数量(吨)</String>
+<String key="type">种类</String>
+<String key="actionid">库存号</String>
+<String key="executedate">入库/送货时间</String>
+
+<String key="goodTitle">货物</String>
+<String key="goodname">商品</String>
+<String key="goodsortid">对应公司商品</String>
+
+<String key="purchaseTitle">采购订单</String>
+<String key="purchasename">订单</String>
+<String key="userid">采购操作人</String>
+<String key="price">采购价格</String>
+<String key="purchasedate">开单日期</String>
+<String key="goodid">商品</String>
+<String key="price">价格</String>
+<String key="goodqty">数量(吨)</String>
+<String key="opertime">送货时间</String>
+<String key="verification">是否核销</String>
+
+<String key="userTitle">用户</String>
+<String key="username">用户名</String>
+<String key="password">密码</String>
+<String key="userTitle">用户</String>
+<String key="nickname">昵称</String>
+<String key="createTime">创建时间</String>
+<String key="lastlogintime">上次登录时间</String>
+<String key="superuser">用户类型</String>
+
+<String key="programname">模块</String>
+<String key="privilege">权限</String>
+
+<String key="submitFail">提交失败</String>
+<String key="createSuccess">新建成功</String>
+<String key="createFail">新建失败</String>
+<String key="updateSuccess">更新成功</String>
+<String key="updateFail">更新失败</String>
+<String key="deleteSuccess">删除成功!</String>
+<String key="deleteFail">删除失败，请重新操作!</String>
+<String key="title">结果</String>
+
+<String key="generatingReport">开始生成上月报表.........</String>
+<String key="completeGeneratingReport">完成生成上月报表.........</String>
+
+<String key="statusNew">新开单</String>
+<String key="statusPendingVerification">待确认</String>
+<String key="statusUnderShipment">运送中</String>
+<String key="statusCompleteGoToInventory">已入库</String>
+<String key="statusPendingShipOutFromInventory">待出货</String>
+<String key="statusCompleteShipOutFromInventory">已出货</String>
+<String key="statusPendingCollectPayment">待收款</String>
+
+<String key="statusPendingPayment">未结清</String>
+<String key="statusCompletePayment">已结清</String>
+<String key="statusCompleteOrder">已完成</String>
+
+<String key="NoteLeftPayment">已结</String>
+<String key="NoteCompletePayment">已完成收款</String>
+<String key="NoteGenerationReceiveable">生成应收账</String>
+<String key="NoteHandlePurchase">执行销售订单: </String>
+<String key="NoteHandleSale">执行销售订单: </String>
+<String key="NotePendingShipOut">待出库-库存已结算</String>
+<String key="NotePendingShipIn">待入库-库存已结算</String>
+<String key="title">结果</String>
+
+<String key="spot">现货</String>
+<String key="futures">期货</String>
+
+<String key="ExceptionTitle">出错啦!</String>
+<String key="BusinessException">业务逻辑，请联系维护人员！</String>
+<String key="LoginException">你未登录或未操作时间过长，请重新登录！</String>
+<String key="PrivilegeException">你没有权限进行该操作！</String>
+<String key="OtherException">未知系统错误，请联系维护人员！</String>
+
+<String key="FinanceTypeCost">主营业务成本</String>
+<String key="FinanceTypeIncome">主营业务收入</String>
+</xml>
