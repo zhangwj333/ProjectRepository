@@ -45,7 +45,7 @@ public class ExceptionController extends BaseController implements HandlerExcept
 		else {
 			ex.printStackTrace();
 			LogUtil.logger.error(ex.getMessage());
-			mv.addObject("message", LanguageUtil.getString("OtherException") + "\r\n" + ex.getMessage());
+			mv.addObject("message", LanguageUtil.getString("OtherException") + "\r\n" + ex.getMessage() + ex.toString());
 			mv.addObject(MetaData.completeReturnPage, "redirect.htm?view=content");
 			mv.addObject(MetaData.setTargetFrame, MetaData.setTargetAsContentFrame);
 		}
