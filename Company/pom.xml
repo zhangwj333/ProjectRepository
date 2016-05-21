@@ -331,6 +331,9 @@
 				<password>KingCheung#33</password>
 				<deployUrl>http://localhost:30080/manager</deployUrl>
 			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
 		<profile>
 			<id>test</id>
